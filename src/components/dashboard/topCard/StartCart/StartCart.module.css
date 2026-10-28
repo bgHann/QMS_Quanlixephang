@@ -1,0 +1,77 @@
+.container {
+  width: 311px;
+  height: 96px;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--tailwind-colors-gray-200, #e5e7eb);
+  background-color: aquamarine;
+  box-sizing: border-box;
+  gap: 4px;
+  box-shadow: 0px 1px 2px 0px #0000000d;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 17px;
+  width: 287px;
+  color: white;
+  font-size: 14px;
+  line-height: 120%;
+}
+.value {
+  font-size: 30px;
+  color: white;
+  font-weight: 700;
+  margin: 0;
+  line-height: 100%;
+}
+.icon {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+.blue {
+  background: linear-gradient(130.14deg, #5fb4e9 -9.91%, #cee9f7 69.14%);
+}
+
+.orange {
+  background: linear-gradient(130.14deg, #ef6c2a -9.91%, #ffdd61 69.14%);
+}
+
+.green {
+  background: linear-gradient(130.14deg, #728156 -9.91%, #7ee48a 69.14%);
+}
+
+.purple {
+  background: linear-gradient(130.14deg, #9851b0 -9.91%, #dda8d6 69.14%);
+}
+/* Badge bo tròn hiển thị phần trăm */
+.badge {
+  width: 124;
+  height: 17;
+
+  opacity: 1;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: green/600;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 2px 8px;
+  border-radius: 1000px;
+  width: fit-content;
+  line-height: 1;
+  background: var(--tailwind-colors-green-100, #dcfce7);
+  margin: 0;
+}
+
+/* Icon mũi tên trong badge */
+.badgeIcon {
+  width: 10px;
+  height: 10px;
+}
