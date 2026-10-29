@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap");
+
+/* ==================== PAGE ==================== */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  max-width: 1542px;
+}
+
+/* ==================== FILTER ==================== */
+
+.filterArea {
+  display: flex;
+  /* align-items: flex-end; */
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.filterField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 220px;
+}
+
+.filterLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #282739;
+}
+
+.filterField :global(.ant-input-affix-wrapper),
+.filterField :global(.ant-select) {
+  width: 100%;
+}
+
+/* ==================== TABLE ==================== */
+
+.tableWrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Tiêu đề bảng */
+.tableWrapper :global(.ant-table-thead > tr > th) {
+  height: 48px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+
+  background-color: #f9fafb;
+
+  color: #ff7605;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: 0;
+
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Ẩn đường phân cách mặc định ở tiêu đề */
+
+.tableWrapper :global(.ant-table-thead > tr > th::before) {
+  display: none;
+}
+
+/* ==================== TABLE BODY ==================== */
+
+/* Các ô dữ liệu */
+
+/* Ô dữ liệu trong bảng thiết bị */
+.tableWrapper :global(.ant-table-tbody > tr > td.ant-table-cell) {
+  height: 48px;
+  padding: 8px 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+  box-sizing: border-box;
+}
+
+/* Nền dòng được chọn */
+
+.tableWrapper
+  :global(.ant-table-tbody > tr.ant-table-row-selected > td.ant-table-cell) {
+  background-color: #fff6ef !important;
+}
+
+/* Nền dòng được chọn khi hover */
+
+.tableWrapper
+  :global(
+    .ant-table-tbody > tr.ant-table-row-selected:hover > td.ant-table-cell
+  ) {
+  background-color: #ffe8d6 !important;
+}
+
+/* ==================== CHECKBOX ==================== */
+
+/* Checkbox chưa được chọn */
+.tableWrapper
+  :global(
+    .ant-checkbox:not(.ant-checkbox-checked):not(.ant-checkbox-indeterminate)
+  ) {
+  background-color: #ffffff;
+  border: 1px solid #ff7605 !important;
+  border-radius: 4px;
+}
+
+/* Checkbox được chọn */
+.tableWrapper :global(.ant-checkbox.ant-checkbox-checked) {
+  background-color: #ff7605 !important;
+  border-color: #ff7605 !important;
+}
+
+/* Checkbox khi hover */
+.tableWrapper :global(.ant-checkbox-wrapper:hover .ant-checkbox) {
+  border-color: #ff7605 !important;
+}
+
+/* Checkbox chọn một phần */
+.tableWrapper :global(.ant-checkbox.ant-checkbox-indeterminate::after) {
+  background-color: #ff7605 !important;
+}
+
+/* Căn giữa cột checkbox */
+.tableWrapper :global(.ant-table-thead > tr > th.ant-table-selection-column),
+.tableWrapper :global(.ant-table-tbody > tr > td.ant-table-selection-column) {
+  text-align: center;
+}
+
+/* Căn giữa cột Hành động */
+.tableWrapper :global(.ant-table-thead > tr > th:last-child),
+.tableWrapper :global(.ant-table-tbody > tr > td:last-child) {
+  text-align: center;
+}

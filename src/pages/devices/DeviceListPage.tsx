@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import styles from "./DeviceListPage.module.css";
+import PaginationBar from "../../components/common/PaginationBar";
 import type { Key } from "react";
 import { Table, Tooltip, message, Button, Space, Input, Select } from "antd";
 import {
@@ -34,6 +36,12 @@ export default function DeviceListPage() {
     DeviceAvailability | undefined
   >(undefined);
 
+  const [page, setPage] = useState(1);
+
+  const [pageSize, setPageSize] = useState(10);
+
+  const [total, setTotal] = useState(0);
+
   // Trạng thái tải dữ liệu
   const [loading, setLoading] = useState(false);
 
@@ -48,12 +56,15 @@ export default function DeviceListPage() {
 
         try {
           const response = await deviceService.getList({
+            page,
+            pageSize,
             keyword: searchText,
             availability: availabilityFilter,
           });
 
           if (active) {
             setDevices(response.items);
+            setTotal(response.total);
           }
         } catch (error) {
           if (active) {
@@ -73,7 +84,7 @@ export default function DeviceListPage() {
       active = false;
       window.clearTimeout(timer);
     };
-  }, [searchText, availabilityFilter]);
+  }, [searchText, availabilityFilter, page, pageSize]);
 
   // Khai báo các cột của bảng
   const columns: TableColumnsType<Device> = [
@@ -81,22 +92,26 @@ export default function DeviceListPage() {
       title: "Mã thiết bị",
       dataIndex: "deviceCode",
       key: "deviceCode",
+      width: 150,
     },
     {
       title: "Tên thiết bị",
       dataIndex: "deviceName",
       key: "deviceName",
+      width: 313,
     },
     {
       title: "Địa chỉ IP",
       dataIndex: "ipAddress",
       key: "ipAddress",
+      width: 109,
     },
 
     {
       title: "Trạng thái kết nối",
       dataIndex: "connectionStatus",
       key: "connectionStatus",
+      width: 139,
 
       render: (status: ConnectionStatus) => {
         const isConnected = status === "CONNECTED";
@@ -129,6 +144,7 @@ export default function DeviceListPage() {
       title: "Trạng thái khả dụng",
       dataIndex: "availability",
       key: "availability",
+      width: 156,
 
       render: (status: DeviceAvailability) => {
         const isAvailable = status === "AVAILABLE";
@@ -161,6 +177,7 @@ export default function DeviceListPage() {
       title: "Dịch vụ sử dụng",
       dataIndex: "serviceIds",
       key: "serviceIds",
+      width: 497,
 
       render: (serviceIds: string[]) => {
         const serviceNames = deviceService.getServiceNames(serviceIds);
@@ -188,7 +205,7 @@ export default function DeviceListPage() {
       title: "Hành động",
       key: "actions",
       align: "center",
-      width: 180,
+      width: 134,
 
       render: (_, record: Device) => (
         <Space size={4}>
@@ -233,31 +250,10 @@ export default function DeviceListPage() {
   ];
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          //   alignItems: "flex-end",
-          gap: 16,
-          marginBottom: 16,
-          flexWrap: "wrap",
-        }}
-      >
-        <div
-          style={{
-            marginBottom: 16,
-            width: 220,
-          }}
-        >
-          <div
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              marginBottom: 6,
-            }}
-          >
-            Tìm kiếm
-          </div>
+    <div className={styles.page}>
+      <div className={styles.filterArea}>
+        <div className={styles.filterField}>
+          <div className={styles.filterLabel}>Tìm kiếm</div>
 
           <Input
             placeholder="Tìm kiếm"
@@ -265,59 +261,60 @@ export default function DeviceListPage() {
             value={searchText}
             onChange={(event) => {
               setSearchText(event.target.value);
+              setPage(1);
             }}
             allowClear
           />
         </div>
-        <div
-          style={{
-            width: 220,
-          }}
-        >
-          <div
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              marginBottom: 6,
-            }}
-          >
-            Trạng thái hoạt động
-          </div>
+
+        <div className={styles.filterField}>
+          <div className={styles.filterLabel}>Trạng thái hoạt động</div>
 
           <Select
             placeholder="Tất cả trạng thái"
             value={availabilityFilter}
             onChange={(value: DeviceAvailability | undefined) => {
               setAvailabilityFilter(value);
+              setPage(1);
             }}
             allowClear
-            style={{
-              width: "100%",
-            }}
             options={[
               {
                 value: "AVAILABLE",
-                label: "Khả dụng",
+                label: DEVICE_AVAILABILITY_LABEL.AVAILABLE,
               },
               {
                 value: "UNAVAILABLE",
-                label: "Không khả dụng",
+                label: DEVICE_AVAILABILITY_LABEL.UNAVAILABLE,
               },
             ]}
           />
         </div>
       </div>
-      <Table<Device>
-        rowKey="deviceId"
-        columns={columns}
-        dataSource={devices}
-        loading={loading}
-        pagination={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (newSelectedRowKeys) => {
-            setSelectedRowKeys(newSelectedRowKeys);
-          },
+      <div className={styles.tableWrapper}>
+        <Table<Device>
+          rowKey="deviceId"
+          columns={columns}
+          dataSource={devices}
+          loading={loading}
+          pagination={false}
+          rowSelection={{
+            columnWidth: 44,
+            selectedRowKeys,
+            onChange: (newSelectedRowKeys) => {
+              setSelectedRowKeys(newSelectedRowKeys);
+            },
+          }}
+        />
+      </div>
+      <PaginationBar
+        page={page}
+        pageSize={pageSize}
+        total={total}
+        onPageChange={setPage}
+        onPageSizeChange={(size) => {
+          setPageSize(size);
+          setPage(1);
         }}
       />
     </div>

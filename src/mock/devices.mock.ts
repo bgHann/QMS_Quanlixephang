@@ -42,6 +42,29 @@ export const devicesMock: Device[] = [
   },
 ];
 
+// Dữ liệu bổ sung để kiểm thử phân trang
+// Chỉ sử dụng trong giai đoạn phát triển frontend
+
+const additionalDevices: Device[] = Array.from({ length: 12 }, (_, index) => {
+  const number = index + 4;
+
+  return {
+    deviceId: `mock-${number}`,
+    deviceCode: `KIO_${String(number).padStart(2, "0")}`,
+    deviceName: "Kiosk",
+    deviceType: "KIOSK",
+    availability: "AVAILABLE",
+    connectionStatus: "CONNECTED",
+    ipAddress: `192.168.1.${number + 10}`,
+    volume: 50,
+    showQueue: false,
+    serviceIds: ["SVC_01", "SVC_02"],
+    counterIds: [],
+  };
+});
+
+devicesMock.push(...additionalDevices);
+
 // Ánh xạ ID dịch vụ sang tên để hiển thị dữ liệu mock
 // Sẽ thay bằng dữ liệu từ serviceItemService khi tích hợp API
 
