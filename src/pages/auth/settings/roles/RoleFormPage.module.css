@@ -1,0 +1,70 @@
+.form {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.columns {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 48px;
+}
+
+.leftColumn {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.rightColumn {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff7506;
+    margin-bottom: 16px;
+}
+
+.permissionList {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.note {
+    color: #7e7d88;
+    font-size: 12px;
+}
+
+.asterisk {
+    color: #ff4747;
+}
+
+.footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+/* viết 2 class (.footer .cancelButton) để thắng style mặc định của Ant Design */
+.footer .cancelButton {
+    min-width: 120px;
+    border-color: #ff7506;
+    color: #ff7506;
+}
+
+.footer .submitButton {
+    min-width: 120px;
+}
+
+.leftColumn .textArea {
+    resize: none;
+}

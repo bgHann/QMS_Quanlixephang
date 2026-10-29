@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import styles from "./Login.module.css";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.css';
 import {
   LockKeyhole,
   User,
@@ -7,14 +8,22 @@ import {
   EyeOff,
   AlertTriangle,
   AlertCircle,
-} from "lucide-react";
-import AuthLayout from "../../../components/AuthLayout/AuthLayout";
+} from 'lucide-react';
+import AuthLayout from '../../../components/AuthLayout/AuthLayout';
+import { ROUTES } from '../../../constants/routes';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      navigate(ROUTES.DASHBOARD, { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,10 +34,8 @@ const Login = () => {
     }
 
     setError("");
-
-    // api
-    console.log("Username:", username);
-    console.log("Password đã được nhập");
+    localStorage.setItem('accessToken', `demo-token-${username.trim()}`);
+    navigate(ROUTES.DASHBOARD, { replace: true });
   };
 
   return (
