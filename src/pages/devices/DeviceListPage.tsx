@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
+import { Volume2, Router, SquarePen, Info } from "lucide-react";
 import styles from "./DeviceListPage.module.css";
 import PaginationBar from "../../components/common/PaginationBar";
 import type { Key } from "react";
 import { Table, Tooltip, message, Button, Space, Input, Select } from "antd";
-import {
-  SoundOutlined,
-  UserOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import type { TableColumnsType } from "antd";
 import type {
   ConnectionStatus,
@@ -212,36 +207,36 @@ export default function DeviceListPage() {
           <Tooltip title="Điều chỉnh âm lượng">
             <Button
               type="text"
-              icon={<SoundOutlined />}
+              icon={<Volume2 size={20} strokeWidth={2} />}
               aria-label={`Âm lượng ${record.deviceCode}`}
-              disabled
+              style={{ color: "#FF7605" }}
             />
           </Tooltip>
 
-          <Tooltip title="Mã đăng nhập">
+          <Tooltip title="Kết nối thiết bị">
             <Button
               type="text"
-              icon={<UserOutlined />}
-              aria-label={`Mã đăng nhập ${record.deviceCode}`}
-              disabled
+              icon={<Router size={20} strokeWidth={2} />}
+              aria-label={`Kết nối ${record.deviceCode}`}
+              style={{ color: "#FF7605" }}
             />
           </Tooltip>
 
           <Tooltip title="Chỉnh sửa thiết bị">
             <Button
               type="text"
-              icon={<EditOutlined />}
+              icon={<SquarePen size={20} strokeWidth={2} />}
               aria-label={`Sửa ${record.deviceCode}`}
-              disabled
+              style={{ color: "#FF7605" }}
             />
           </Tooltip>
 
           <Tooltip title="Thông tin thiết bị">
             <Button
               type="text"
-              icon={<InfoCircleOutlined />}
+              icon={<Info size={20} strokeWidth={2} />}
               aria-label={`Thông tin ${record.deviceCode}`}
-              disabled
+              style={{ color: "#FF7605" }}
             />
           </Tooltip>
         </Space>
