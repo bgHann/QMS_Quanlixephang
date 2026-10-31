@@ -19,11 +19,19 @@ import {
 import type { Device } from "../../types/device";
 import { deviceService } from "../../api/services/deviceService";
 
+import VolumeModal from "../../components/devices/VolumeModal";
+
 export default function DeviceListPage() {
   // Danh sách thiết bị
   const [devices, setDevices] = useState<Device[]>([]);
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+
+  // Trạng thái đóng/mở Popup Âm Lượng
+  const [volumeModalOpen, setVolumeModalOpen] = useState(false);
+
+  // Danh sách thiết bị sẽ được điều chỉnh âm lượng
+  const [volumeTargetDevices, setVolumeTargetDevices] = useState<Device[]>([]);
 
   const [searchText, setSearchText] = useState("");
 
@@ -39,6 +47,24 @@ export default function DeviceListPage() {
 
   // Trạng thái tải dữ liệu
   const [loading, setLoading] = useState(false);
+
+  // Mở Popup Âm Lượng
+  const handleOpenVolumeModal = (record: Device) => {
+    let targetDevices: Device[] = [];
+
+    if (selectedRowKeys.length > 0) {
+      // Có checkbox được chọn: lấy các thiết bị đã chọn
+      targetDevices = devices.filter((device) =>
+        selectedRowKeys.includes(device.deviceId),
+      );
+    } else {
+      // Không chọn checkbox: chỉ điều chỉnh thiết bị được nhấn
+      targetDevices = [record];
+    }
+
+    setVolumeTargetDevices(targetDevices);
+    setVolumeModalOpen(true);
+  };
 
   // Lấy dữ liệu thiết bị
 
@@ -210,6 +236,7 @@ export default function DeviceListPage() {
               icon={<Volume2 size={20} strokeWidth={2} />}
               aria-label={`Âm lượng ${record.deviceCode}`}
               style={{ color: "#FF7605" }}
+              onClick={() => handleOpenVolumeModal(record)}
             />
           </Tooltip>
 
@@ -310,6 +337,20 @@ export default function DeviceListPage() {
         onPageSizeChange={(size) => {
           setPageSize(size);
           setPage(1);
+        }}
+      />
+      <VolumeModal
+        open={volumeModalOpen}
+        deviceNames={volumeTargetDevices.map((device) => device.deviceCode)}
+        initialVolume={50}
+        onCancel={() => {
+          setVolumeModalOpen(false);
+        }}
+        onConfirm={(volume) => {
+          console.log("Thiết bị:", volumeTargetDevices);
+          console.log("Âm lượng được chọn:", volume);
+
+          setVolumeModalOpen(false);
         }}
       />
     </div>
