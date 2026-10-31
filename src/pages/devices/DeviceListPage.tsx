@@ -20,6 +20,8 @@ import type { Device } from "../../types/device";
 import { deviceService } from "../../api/services/deviceService";
 
 import VolumeModal from "../../components/devices/VolumeModal";
+import DeviceCodeModal from "../../components/devices/DeviceCodeModal";
+import LoginConfirmModal from "../../components/devices/LoginConfirmModal";
 
 export default function DeviceListPage() {
   // Danh sách thiết bị
@@ -32,6 +34,15 @@ export default function DeviceListPage() {
 
   // Danh sách thiết bị sẽ được điều chỉnh âm lượng
   const [volumeTargetDevices, setVolumeTargetDevices] = useState<Device[]>([]);
+
+  // Trạng thái đóng/mở Popup Nhập mã thiết bị
+  const [deviceCodeModalOpen, setDeviceCodeModalOpen] = useState(false);
+
+  // Lưu tạm âm lượng cho đến khi mã thiết bị được xác thực
+  const [pendingVolume, setPendingVolume] = useState<number | null>(null);
+
+  // Trạng thái đóng/mở Popup Xác nhận đăng nhập
+  const [loginConfirmModalOpen, setLoginConfirmModalOpen] = useState(false);
 
   const [searchText, setSearchText] = useState("");
 
@@ -347,10 +358,60 @@ export default function DeviceListPage() {
           setVolumeModalOpen(false);
         }}
         onConfirm={(volume) => {
-          console.log("Thiết bị:", volumeTargetDevices);
-          console.log("Âm lượng được chọn:", volume);
+          // Lưu tạm mức âm lượng người dùng đã chọn
+          setPendingVolume(volume);
 
+          // Đóng Popup Âm Lượng
           setVolumeModalOpen(false);
+
+          // Mở Popup Nhập mã thiết bị
+          setDeviceCodeModalOpen(true);
+        }}
+      />
+      <DeviceCodeModal
+        open={deviceCodeModalOpen}
+        onCancel={() => {
+          setDeviceCodeModalOpen(false);
+          setPendingVolume(null);
+        }}
+        onConfirm={(code) => {
+          // Chỉ chuyển popup để kiểm tra giao diện.
+          // TODO: Xác thực mã với API trước khi cho phép đăng nhập.
+          if (code.length !== 6) {
+            return;
+          }
+
+          // Đóng Popup Nhập mã thiết bị
+          setDeviceCodeModalOpen(false);
+
+          // Mở Popup Xác nhận đăng nhập
+          setLoginConfirmModalOpen(true);
+        }}
+      />
+      <LoginConfirmModal
+        open={loginConfirmModalOpen}
+        deviceName={volumeTargetDevices
+          .map((device) => device.deviceCode)
+          .join(", ")}
+        time={new Date().toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })}
+        location="Chưa có dữ liệu"
+        onCancel={() => {
+          setLoginConfirmModalOpen(false);
+          setPendingVolume(null);
+        }}
+        onReject={() => {
+          setLoginConfirmModalOpen(false);
+          setPendingVolume(null);
+        }}
+        onLogin={() => {
+          // TODO: Xử lý đăng nhập và áp dụng âm lượng sau khi xác thực.
+          window.alert("Chức năng đăng nhập chưa được kết nối.");
         }}
       />
     </div>
