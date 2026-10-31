@@ -46,6 +46,7 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
+  margin-right: 76px;
 }
 
 /* Tiêu đề bảng */
@@ -141,4 +142,36 @@
 .tableWrapper :global(.ant-table-thead > tr > th:last-child),
 .tableWrapper :global(.ant-table-tbody > tr > td:last-child) {
   text-align: center;
+}
+
+/* ===== THANH CÔNG CỤ BÊN PHẢI ===== */
+
+.toolbarWrapper {
+  position: absolute;
+
+  /* Căn gần hàng tiêu đề của bảng */
+  top: 96px;
+
+  /* Đặt thanh công cụ sát bên phải khu vực bảng */
+  right: 0px;
+
+  width: 64px;
+  height: 192px;
+
+  z-index: 10;
+}
+
+/* Không để thanh công cụ tràn màn hình nhỏ */
+@media (max-width: 1200px) {
+  .toolbarWrapper {
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbarWrapper {
+    top: 96px;
+    width: 48px;
+    height: 144px;
+  }
 }

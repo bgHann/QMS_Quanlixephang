@@ -16,12 +16,16 @@ import {
   DEVICE_AVAILABILITY_LABEL,
 } from "../../constants/enums";
 
+import DeviceToolbar from "../../components/devices/DeviceToolbar";
+
 import type { Device } from "../../types/device";
 import { deviceService } from "../../api/services/deviceService";
 
 import VolumeModal from "../../components/devices/VolumeModal";
 import DeviceCodeModal from "../../components/devices/DeviceCodeModal";
 import LoginConfirmModal from "../../components/devices/LoginConfirmModal";
+
+import AddDeviceModal from "../../components/devices/AddDeviceModal";
 
 export default function DeviceListPage() {
   // Danh sách thiết bị
@@ -43,6 +47,9 @@ export default function DeviceListPage() {
 
   // Trạng thái đóng/mở Popup Xác nhận đăng nhập
   const [loginConfirmModalOpen, setLoginConfirmModalOpen] = useState(false);
+
+  // Trạng thái đóng/mở Popup Thêm thiết bị
+  const [addDeviceModalOpen, setAddDeviceModalOpen] = useState(false);
 
   const [searchText, setSearchText] = useState("");
 
@@ -340,6 +347,27 @@ export default function DeviceListPage() {
           }}
         />
       </div>
+      <div className={styles.toolbarWrapper}>
+        <DeviceToolbar
+          onVolume={() => {
+            const selectedDevice = devices.find((device) =>
+              selectedRowKeys.includes(device.deviceId),
+            );
+
+            if (selectedDevice) {
+              handleOpenVolumeModal(selectedDevice);
+            }
+          }}
+          onAdd={() => {
+            setAddDeviceModalOpen(true);
+          }}
+          onDelete={() => {
+            // TODO: Triển khai chức năng xóa thiết bị
+          }}
+          volumeDisabled={selectedRowKeys.length === 0}
+          deleteDisabled
+        />
+      </div>
       <PaginationBar
         page={page}
         pageSize={pageSize}
@@ -412,6 +440,20 @@ export default function DeviceListPage() {
         onLogin={() => {
           // TODO: Xử lý đăng nhập và áp dụng âm lượng sau khi xác thực.
           window.alert("Chức năng đăng nhập chưa được kết nối.");
+        }}
+      />
+      <AddDeviceModal
+        open={addDeviceModalOpen}
+        onCancel={() => {
+          setAddDeviceModalOpen(false);
+        }}
+        onSubmit={(values) => {
+          // Tạm thời kiểm tra dữ liệu biểu mẫu
+          console.log("Dữ liệu thêm thiết bị:", values);
+
+          window.alert(
+            "Biểu mẫu hợp lệ. Chức năng lưu thiết bị chưa được kết nối.",
+          );
         }}
       />
     </div>

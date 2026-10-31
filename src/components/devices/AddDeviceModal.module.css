@@ -1,0 +1,231 @@
+/* ===== POPUP THÊM THIẾT BỊ ===== */
+
+.addDeviceModal {
+  max-width: calc(100vw - 32px);
+}
+
+/* Khung Popup thực tế của Ant Design */
+.addDeviceModal :global(.ant-modal-container) {
+  width: 100%;
+  max-height: calc(100vh - 48px);
+
+  padding: 24px 32px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Nút đóng */
+.addDeviceModal :global(.ant-modal-close) {
+  top: 12px;
+  right: 12px;
+  color: #282739;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  margin: 0 0 24px;
+  color: #ff7605;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 150%;
+  text-align: center;
+}
+
+/* ===== FORM ===== */
+
+.form {
+  width: 100%;
+  padding-bottom: 16px;
+  font-family: "Raleway", sans-serif;
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 0;
+}
+
+/* Nhãn của các trường */
+.form :global(.ant-form-item-label > label) {
+  color: #282739;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Dấu sao bắt buộc */
+.form :global(.ant-form-item-required::before) {
+  color: #ff3030 !important;
+}
+
+/* Ô Input và Select */
+.form :global(.ant-input),
+.form :global(.ant-select-selector) {
+  min-height: 40px;
+  border: 1px solid #e0e5ec;
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+/* Màu khi focus */
+.form :global(.ant-input:focus),
+.form :global(.ant-input-focused),
+.form :global(.ant-select-focused .ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: 0 0 0 2px rgba(255, 118, 5, 0.12) !important;
+}
+
+/* Hover */
+.form :global(.ant-input:hover),
+.form :global(.ant-select:hover .ant-select-selector) {
+  border-color: #ff7605;
+}
+
+/* ===== DỊCH VỤ SỬ DỤNG ===== */
+
+.serviceSection {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sectionLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #282739;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sectionLabel span {
+  color: #ff3030;
+}
+
+.servicePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 240px;
+
+  border: 1px dashed #e0e5ec;
+  border-radius: 6px;
+
+  color: #98a2b3;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+/* ===== MÔ TẢ ===== */
+
+.form :global(textarea.ant-input) {
+  min-height: 68px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+/* Ghi chú trường bắt buộc */
+.requiredNote {
+  margin: -8px 0 20px;
+  color: #98a2b3;
+  font-family: "Raleway", sans-serif;
+  font-size: 12px;
+}
+
+.requiredNote span {
+  color: #ff3030;
+}
+
+/* ===== NÚT HỦY BỎ / XÁC NHẬN ===== */
+
+.actions {
+  position: sticky;
+  bottom: -24px;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  margin-top: 12px;
+  padding: 16px 0 12px;
+
+  background-color: #ffffff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 140px;
+  height: 46px;
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Hủy bỏ */
+.cancelButton {
+  color: #ff7605;
+  background-color: #ffffff;
+  border: 1px solid #ff7605;
+}
+
+.cancelButton:hover {
+  color: #ff7605 !important;
+  background-color: #fff6ef !important;
+  border-color: #ff7605 !important;
+}
+
+/* Xác nhận */
+.confirmButton {
+  color: #ffffff;
+  background-color: #ff7605;
+  border: 1px solid #ff7605;
+}
+
+.confirmButton:hover {
+  color: #ffffff !important;
+  background-color: #e96b00 !important;
+  border-color: #e96b00 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .addDeviceModal :global(.ant-modal-content) {
+    padding: 24px 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    width: 120px;
+  }
+}

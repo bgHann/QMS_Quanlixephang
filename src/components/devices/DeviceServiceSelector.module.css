@@ -1,0 +1,336 @@
+/* ===== KHU VỰC DỊCH VỤ SỬ DỤNG ===== */
+
+.container {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 16px;
+
+  width: 100%;
+  height: 240px;
+  min-height: 0;
+
+  font-family: "Raleway", sans-serif;
+}
+/* ===== CỘT TRÁI: DỊCH VỤ CÓ SẴN ===== */
+
+.availableServices {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+
+  padding-right: 8px;
+  border-right: 1px solid #e0e5ec;
+}
+
+/* Dịch vụ chưa được chọn: màu cam */
+.serviceItem {
+  display: flex;
+  align-items: center;
+
+  min-height: 28px;
+  padding: 4px 8px;
+
+  border: 1px solid #ff7605;
+  border-radius: 20px;
+
+  color: #ff7605;
+  background-color: #fff6ef;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 150%;
+
+  white-space: nowrap;
+  cursor: grab;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* ===== CỘT GIỮA: DỊCH VỤ ĐÃ CHỌN ===== */
+
+.selectedServices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Dịch vụ xuất hiện ở cột giữa: màu cam */
+.selectedItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  min-height: 40px;
+  padding: 8px 12px;
+
+  border: 1px solid #ff7605;
+  border-radius: 20px;
+
+  color: #ff7605;
+  background-color: #fff6ef;
+
+  font-size: 13px;
+  line-height: 150%;
+}
+
+.selectedItem span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Nút xóa dịch vụ */
+.selectedItem button {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  color: #ff7605;
+
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.selectedItem button:hover {
+  color: #ff7605;
+}
+
+/* ===== CỘT PHẢI: KHU VỰC SẮP XẾP ===== */
+
+/* ===== CỘT PHẢI: KHU VỰC SẮP XẾP ===== */
+
+/* ===== CỘT PHẢI: DANH SÁCH VỊ TRÍ SẮP XẾP ===== */
+
+.sortArea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+
+  overflow-y: auto;
+  padding-right: 6px;
+
+  background-color: #ffffff;
+}
+
+/* Mỗi vị trí sắp xếp */
+.sortSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  width: 100%;
+  height: 40px;
+
+  border: 1px solid #e0e5ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+
+  box-sizing: border-box;
+}
+
+/* Nội dung ô trống */
+.sortPlaceholder {
+  color: #98a2b3;
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 150%;
+  text-align: center;
+}
+
+/* Ô đã chứa dịch vụ — dùng ở bước kéo thả */
+.sortSlotSelected {
+  border-color: #ff7605;
+}
+
+/* Thanh cuộn của cột phải */
+.sortArea::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sortArea::-webkit-scrollbar-thumb {
+  background-color: #d0d5dd;
+  border-radius: 10px;
+}
+
+/* ===== THANH CUỘN ===== */
+
+.availableServices::-webkit-scrollbar,
+.selectedServices::-webkit-scrollbar {
+  width: 5px;
+}
+
+.availableServices::-webkit-scrollbar-thumb,
+.selectedServices::-webkit-scrollbar-thumb {
+  background-color: #d0d5dd;
+  border-radius: 10px;
+}
+
+.availableServices::-webkit-scrollbar-track,
+.selectedServices::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 16px;
+
+    width: 100%;
+    height: 240px;
+    min-height: 0;
+
+    font-family: "Raleway", sans-serif;
+  }
+}
+
+/* Dịch vụ đã được chọn */
+.serviceItemSelected {
+  color: #98a2b3;
+  background-color: #f9fafb;
+  border-color: #e0e5ec;
+  cursor: default;
+}
+
+.serviceItemSelected:hover {
+  color: #98a2b3;
+  border-color: #e0e5ec;
+}
+
+/* ===== KHU VỰC SẮP XẾP DỊCH VỤ ===== */
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 40px;
+  gap: 8px;
+
+  width: 100%;
+  height: 240px;
+  min-width: 0;
+  min-height: 0;
+
+  overflow-y: auto;
+  padding-right: 6px;
+  box-sizing: border-box;
+}
+
+/* Ô dịch vụ mặc định */
+.serviceSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  height: 40px;
+
+  border: 1px solid #e0e5ec;
+  border-radius: 8px;
+  background-color: #ffffff;
+
+  box-sizing: border-box;
+}
+
+/* Ô đã có dịch vụ: chỉ viền cam */
+.serviceSlotFilled {
+  border-color: #ff7605;
+  background-color: #ffffff;
+}
+
+/* Nội dung ô đã chọn */
+.filledService {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  width: 100%;
+  min-width: 0;
+  padding: 0 12px;
+}
+
+/* Tên dịch vụ đã chọn */
+.serviceName {
+  color: #ff7605;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 150%;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Nút xóa */
+.removeButton {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  color: #ff7605;
+
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  color: #e96b00;
+}
+
+/* Placeholder */
+.slotPlaceholder {
+  color: #98a2b3;
+  font-family: "Raleway", sans-serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 150%;
+  text-align: center;
+}
+
+/* Thanh cuộn */
+.serviceGrid::-webkit-scrollbar {
+  width: 5px;
+}
+
+.serviceGrid::-webkit-scrollbar-thumb {
+  background-color: #d0d5dd;
+  border-radius: 10px;
+}
