@@ -1,0 +1,87 @@
+/* ===== Khung trang ===== */
+.page {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ===== Khu vực tìm kiếm ===== */
+.searchArea {
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
+
+.fieldLabel {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.searchIcon {
+    color: #a0a7b4;
+}
+
+/* viết 2 class để thắng style mặc định của Ant Design */
+.searchArea .searchInput {
+    width: 250px;
+    max-width: 100%;
+    height: 36px;
+    border-radius: 6px;
+}
+
+/* ===== Bảng ===== */
+.tableWrap {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tableWrap .editButton {
+    color: #ff7506;
+}
+
+/* ===== Thanh nút nổi bên phải ===== */
+.sideActions {
+    position: fixed;
+    top: 128px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 80px;
+    background: #ffffff;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    z-index: 100;
+}
+
+.sideActions .addButton {
+    flex: 1;
+    width: 100%;
+    border-radius: 0;
+    background: #fff7f0;
+    border-bottom: 1px solid #ffe2d0;
+}
+
+.sideActions .deleteButton {
+    flex: 1;
+    width: 100%;
+    border-radius: 0;
+    background: #fff1f0;
+}
+
+.addIcon {
+    font-size: 16px;
+    color: #ff7506;
+}
+
+.deleteIcon {
+    font-size: 16px;
+    color: #ff4d4f;
+}

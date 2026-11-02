@@ -1,0 +1,134 @@
+/* ===== Khung trang ===== */
+.page {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: 24px;
+}
+
+.loadingWrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff7506;
+    margin-bottom: 16px;
+}
+
+/* ===== Cột trái: thông tin vai trò ===== */
+.leftColumn {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #f0f0f0;
+    padding-right: 24px;
+}
+
+.leftContent {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.infoRow {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.permissionTitle {
+    font-weight: 700;
+    margin: 16px 0 8px;
+}
+
+/* viết 2 class để thắng style mặc định của Ant Design */
+.leftColumn .updateButton {
+    flex-shrink: 0;
+    margin-top: 16px;
+    border-color: #ff7506;
+    color: #ff7506;
+}
+
+/* ===== Cột phải: người dùng của vai trò ===== */
+.rightColumn {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.fieldLabel {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.searchIcon {
+    color: #a0a7b4;
+}
+
+.filters .searchInput {
+    width: 240px;
+}
+
+.filters .statusSelect {
+    width: 220px;
+}
+
+.tableWrap {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tableWrap .editButton {
+    color: #ff7506;
+}
+
+.statusActive {
+    color: #00a651;
+}
+
+.statusSuspended {
+    color: #e5484d;
+}
+
+/* ===== Nút xóa nổi bên phải ===== */
+.floatingDelete {
+    position: fixed;
+    top: 128px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    overflow: hidden;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+}
+
+.floatingDelete .deleteButton {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background: #fff1f0;
+}
+
+.deleteIcon {
+    font-size: 16px;
+    color: #ff4d4f;
+}

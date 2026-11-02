@@ -1,0 +1,114 @@
+/* Khung ngoài cùng: vừa khít một màn hình, không cuộn cả trang */
+.layout {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+.layout .sider {
+    position: relative;
+    border-right: 1px solid #f0f0f0;
+}
+
+.logoWrap {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 20px;
+    gap: 8px;
+    margin: 17px 0;
+}
+
+.logo {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Logo khi sidebar thu gọn */
+.logoCollapsed {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+}
+
+.layout .sider .toggleButton {
+    position: absolute;
+    top: 60px;
+    right: -12px;
+    z-index: 10;
+}
+
+/* Bỏ đường kẻ bên phải của Menu (Sider đã có đường kẻ rồi) */
+.layout .sider .menu:global(.ant-menu-root) {
+    border-inline-end: none;
+}
+
+/* ===== Vùng bên phải sidebar ===== */
+.layout .inner {
+    background: #fff;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* ===== Header ===== */
+.layout .header {
+    height: 104px;
+    line-height: normal;
+    background: #fff;
+    padding: 20px 88px 20px 40px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pageParent {
+    font-size: 12px;
+    color: #7e7d88;
+}
+
+.pageTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+.bellIcon {
+    font-size: 18px;
+}
+
+.userCard {
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
+.userInfo {
+    line-height: 1.2;
+}
+
+.userName {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.userRole {
+    font-size: 11px;
+    color: #7e7d88;
+}
+
+.userArrow {
+    color: #ff7506;
+}
+
+/* ===== Vùng nội dung (các trang hiện ở đây) ===== */
+.layout .content {
+    padding: 24px;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
