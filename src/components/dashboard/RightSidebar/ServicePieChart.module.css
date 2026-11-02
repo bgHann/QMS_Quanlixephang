@@ -1,0 +1,30 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ff7506;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+:global(.recharts-pie-label-text) {
+  font-size: 11px;
+  fill: #535261;
+  font-weight: 500;
+}
