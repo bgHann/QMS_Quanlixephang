@@ -1,0 +1,26 @@
+.container {
+  width: 330px;
+  height: 796px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-top-left-radius: 8px; /* Bo góc trên bên trái */
+
+  padding-top: 16px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  padding-left: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
