@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Key } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Modal, Table, message } from 'antd';
+import { Button, Input, Table, message } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { DeleteOutlined, EditOutlined, SearchOutlined, UserAddOutlined } from '@ant-design/icons';
-import { roleService } from '../../../../api/services/roleService';
-import PaginationBar from '../../../../components/common/PaginationBar';
-import { buildRoleDetailPath, ROUTES } from '../../../../constants/routes';
-import type { Role } from '../../../../types/role';
+import { roleService } from '../../../api/services/roleService';
+import PaginationBar from '../../../components/common/PaginationBar';
+import ConfirmDialog from '../../../components/common/ConfirmDialog';
+import { buildRoleDetailPath, ROUTES } from '../../../constants/routes';
+import type { Role } from '../../../types/role';
 import styles from './RoleListPage.module.css';
 
 export default function RoleListPage() {
@@ -21,6 +22,8 @@ export default function RoleListPage() {
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleAdd = () => navigate(ROUTES.ROLE_CREATE);
   const handleEdit = (role: Role) => navigate(buildRoleDetailPath(role.roleId));
@@ -61,24 +64,22 @@ export default function RoleListPage() {
       return;
     }
 
-    Modal.confirm({
-      title: 'Xác nhận xóa',
-      content: `Bạn có chắc muốn xóa ${selectedKeys.length} vai trò đã chọn?`,
-      okText: 'Xóa',
-      cancelText: 'Hủy',
-      okButtonProps: { danger: true },
+    setDeleteOpen(true);
+  };
 
-      onOk: async () => {
-        try {
-          await roleService.remove(selectedKeys as string[]);
-          message.success('Đã xóa vai trò');
-          setSelectedKeys([]);
-          await fetchData();
-        } catch (error) {
-          message.error(error instanceof Error ? error.message : 'Xóa thất bại');
-        }
-      },
-    });
+  const handleConfirmDelete = async () => {
+    setDeleting(true);
+    try {
+      await roleService.remove(selectedKeys.map(String));
+      message.success('Đã xóa vai trò');
+      setSelectedKeys([]);
+      setDeleteOpen(false);
+      await fetchData();
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : 'Xóa thất bại');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   // Cấu hình cột
@@ -161,6 +162,15 @@ export default function RoleListPage() {
           className={styles.deleteButton}
         />
       </div>
+
+      <ConfirmDialog
+        open={deleteOpen}
+        title="Xác nhận xóa vai trò?"
+        content={`Bạn có chắc muốn xóa ${selectedKeys.length} vai trò đã chọn? Hành động này không thể hoàn tác.`}
+        loading={deleting}
+        onOk={handleConfirmDelete}
+        onCancel={() => setDeleteOpen(false)}
+      />
     </div>
   );
 }

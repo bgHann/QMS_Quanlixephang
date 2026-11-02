@@ -1,4 +1,4 @@
-import type { PermissionGroup } from '../../../types/role';
+import type { PermissionGroup } from '../../types/role';
 
 interface PermissionSummaryProps {
   groups: PermissionGroup[];

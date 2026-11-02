@@ -1,5 +1,5 @@
 import { Checkbox, Collapse } from 'antd';
-import type { PermissionGroup } from '../../../types/role';
+import type { PermissionGroup } from '../../types/role';
 
 interface PermissionSelectorProps {
   groups: PermissionGroup[];
