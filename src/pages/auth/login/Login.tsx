@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './Login.module.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Login.module.css";
+import { login } from "../../../services/authService";
+import { Link } from "react-router-dom";
 import {
   LockKeyhole,
   User,
@@ -8,34 +10,47 @@ import {
   EyeOff,
   AlertTriangle,
   AlertCircle,
-} from 'lucide-react';
-import AuthLayout from '../../../components/AuthLayout/AuthLayout';
-import { ROUTES } from '../../../constants/routes';
+} from "lucide-react";
+import AuthLayout from "../../../components/AuthLayout/AuthLayout";
+import { ROUTES } from "../../../constants/routes";
+import { LoginFormValues } from "../../../types/auth";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [data, setData] = useState<LoginFormValues>({
+    username: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem("accessToken")) {
       navigate(ROUTES.DASHBOARD, { replace: true });
     }
   }, [navigate]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!username.trim() || !password) {
+    if (!data.username.trim() || !data.password) {
       setError("Tên đăng nhập hoặc mật khẩu không đúng");
       return;
     }
+    setIsLoading(true);
+    try {
+      const response = await login(data);
 
-    setError("");
-    localStorage.setItem('accessToken', `demo-token-${username.trim()}`);
-    navigate(ROUTES.DASHBOARD, { replace: true });
+      console.log("Login thành công:", response.data);
+
+      localStorage.setItem("accessToken", response.data.accessToken);
+      navigate(ROUTES.DASHBOARD, { replace: true });
+    } catch (error) {
+      setError("Đăng nhập thất bại");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,9 +77,9 @@ const Login = () => {
               type="text"
               placeholder="Nhập tên đăng nhập"
               autoComplete="username"
-              value={username}
+              value={data.username}
               onChange={(e) => {
-                setUsername(e.target.value);
+                setData({ ...data, username: e.target.value });
                 if (error) setError("");
               }}
             />
@@ -88,9 +103,9 @@ const Login = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Nhập mật khẩu..."
               autoComplete="current-password"
-              value={password}
+              value={data.password}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setData({ ...data, password: e.target.value });
                 if (error) setError("");
               }}
             />
@@ -116,14 +131,16 @@ const Login = () => {
           )}
 
           {/* Nút Đăng nhập */}
-          <button type="submit" className={styles.loginButton}>
-            Đăng nhập
+          <button
+            type="submit"
+            className={styles.loginButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
           </button>
 
           {/* Liên kết Quên mật khẩu */}
-          <p className={styles.foget}>
-            <a href="forgot-password">Quên mật khẩu</a>
-          </p>
+          <Link to="/forgot-password">Quên mật khẩu</Link>
         </form>
       </div>
     </AuthLayout>
