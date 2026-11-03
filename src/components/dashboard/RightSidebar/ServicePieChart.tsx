@@ -62,14 +62,14 @@ const ServicePieChart = ({ data = DEFAULT_DATA }: ServicePieChartProps) => {
       <h3 className={styles.title}>Tỷ lệ dịch vụ được sử dụng</h3>
 
       <div className={styles.chartWrapper}>
-        <ResponsiveContainer width="100%" height={210}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             {/* Lớp 1: Vẽ miếng bánh và chữ tên dịch vụ bên trong */}
             <Pie
               data={data}
               cx="50%"
               cy="55%"
-              outerRadius={70}
+              outerRadius="65%"
               innerRadius={0}
               dataKey="value"
               labelLine={false}
@@ -92,7 +92,7 @@ const ServicePieChart = ({ data = DEFAULT_DATA }: ServicePieChartProps) => {
               data={data}
               cx="50%"
               cy="55%"
-              outerRadius={70}
+              outerRadius="65%"
               innerRadius={0}
               dataKey="value"
               stroke="none"
