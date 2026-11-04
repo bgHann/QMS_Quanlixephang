@@ -7,6 +7,8 @@ import type { DeviceType, DeviceAvailability } from "../../constants/enums";
 
 import styles from "./AddDeviceModal.module.css";
 
+import DeviceTemplateSelector from "./DeviceTemplateSelector";
+
 const { TextArea } = Input;
 
 export interface AddDeviceFormValues {
@@ -16,6 +18,7 @@ export interface AddDeviceFormValues {
   availability: DeviceAvailability;
   serviceIds: string[];
   description?: string;
+  templateId?: string;
 }
 
 interface AddDeviceModalProps {
@@ -30,6 +33,7 @@ export default function AddDeviceModal({
   onSubmit,
 }: AddDeviceModalProps) {
   const [form] = Form.useForm<AddDeviceFormValues>();
+  const selectedDeviceType = Form.useWatch("deviceType", form);
 
   const handleCancel = () => {
     form.resetFields();
@@ -149,6 +153,7 @@ export default function AddDeviceModal({
 
           {/* ===== DỊCH VỤ SỬ DỤNG ===== */}
 
+          {/* {selectedDeviceType === DEVICE_TYPE.KIOSK && ( */}
           <div className={styles.serviceSection}>
             <label className={styles.sectionLabel}>
               Dịch vụ sử dụng <span>*</span>
@@ -174,6 +179,24 @@ export default function AddDeviceModal({
               <DeviceServiceSelector />
             </Form.Item>
           </div>
+          {/* )} */}
+
+          {/* ===== CHỌN GIAO DIỆN =====
+
+          {(selectedDeviceType === DEVICE_TYPE.MAIN_DISPLAY ||
+            selectedDeviceType === DEVICE_TYPE.COUNTER_DISPLAY) && (
+            <Form.Item
+              name="templateId"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn giao diện",
+                },
+              ]}
+            >
+              <DeviceTemplateSelector />
+            </Form.Item>
+          )} */}
 
           {/* ===== MÔ TẢ ===== */}
 

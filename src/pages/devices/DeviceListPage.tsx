@@ -27,6 +27,10 @@ import LoginConfirmModal from "../../components/devices/LoginConfirmModal";
 
 import AddDeviceModal from "../../components/devices/AddDeviceModal";
 
+import type { AddDeviceFormValues } from "../../components/devices/AddDeviceModal";
+
+import DeviceInfoModal from "../../components/devices/DeviceInfoModal";
+
 export default function DeviceListPage() {
   // Danh sách thiết bị
   const [devices, setDevices] = useState<Device[]>([]);
@@ -50,6 +54,11 @@ export default function DeviceListPage() {
 
   // Trạng thái đóng/mở Popup Thêm thiết bị
   const [addDeviceModalOpen, setAddDeviceModalOpen] = useState(false);
+
+  const [deviceInfoModalOpen, setDeviceInfoModalOpen] = useState(false);
+
+  const [newDeviceInfo, setNewDeviceInfo] =
+    useState<AddDeviceFormValues | null>(null);
 
   const [searchText, setSearchText] = useState("");
 
@@ -448,12 +457,24 @@ export default function DeviceListPage() {
           setAddDeviceModalOpen(false);
         }}
         onSubmit={(values) => {
-          // Tạm thời kiểm tra dữ liệu biểu mẫu
+          // Xử lý dữ liệu khi submit
           console.log("Dữ liệu thêm thiết bị:", values);
 
-          window.alert(
-            "Biểu mẫu hợp lệ. Chức năng lưu thiết bị chưa được kết nối.",
-          );
+          // Lưu tạm dữ liệu để hiển thị popup thông tin
+          setNewDeviceInfo(values);
+
+          // Đóng popup thêm thiết bị
+          setAddDeviceModalOpen(false);
+
+          // Mở popup thông tin thiết bị
+          setDeviceInfoModalOpen(true);
+        }}
+      />
+      <DeviceInfoModal
+        open={deviceInfoModalOpen}
+        device={newDeviceInfo}
+        onClose={() => {
+          setDeviceInfoModalOpen(false);
         }}
       />
     </div>
