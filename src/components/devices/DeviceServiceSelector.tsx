@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { deviceServiceNamesMock } from "../../mock/devices.mock";
 import styles from "./DeviceServiceSelector.module.css";
+import { Menu } from "lucide-react";
 
 export interface ServiceOption {
   id: string;
@@ -59,7 +60,8 @@ export default function DeviceServiceSelector({
                 event.dataTransfer.effectAllowed = "copy";
               }}
             >
-              {service.name}
+              <Menu size={14} strokeWidth={1.5} />
+              <span>{service.name}</span>
             </div>
           );
         })}
@@ -103,6 +105,7 @@ export default function DeviceServiceSelector({
             >
               {service ? (
                 <div className={styles.filledService}>
+                  <Menu size={14} strokeWidth={1.5} />
                   <span className={styles.serviceName}>{service.name}</span>
 
                   <button
@@ -118,6 +121,7 @@ export default function DeviceServiceSelector({
                 </div>
               ) : (
                 <span className={styles.slotPlaceholder}>
+                  <Menu size={14} strokeWidth={1.5} />
                   Kéo thả để sắp xếp
                 </span>
               )}

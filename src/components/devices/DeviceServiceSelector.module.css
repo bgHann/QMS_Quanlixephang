@@ -30,6 +30,7 @@
 .serviceItem {
   display: flex;
   align-items: center;
+  gap: 5px;
 
   min-height: 28px;
   padding: 4px 8px;
@@ -272,7 +273,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
 
   width: 100%;
   min-width: 0;
@@ -281,6 +282,8 @@
 
 /* Tên dịch vụ đã chọn */
 .serviceName {
+  flex: 1;
+  min-width: 0;
   color: #ff7605;
   font-size: 13px;
   font-weight: 400;
@@ -317,12 +320,12 @@
 
 /* Placeholder */
 .slotPlaceholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   color: #98a2b3;
-  font-family: "Raleway", sans-serif;
-  font-size: 13px;
   font-style: italic;
-  line-height: 150%;
-  text-align: center;
 }
 
 /* Thanh cuộn */
