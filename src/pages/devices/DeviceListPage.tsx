@@ -41,6 +41,7 @@ import type { AddDeviceFormValues } from "../../components/devices/AddDeviceModa
 
 import DeviceInfoModal from "../../components/devices/DeviceInfoModal";
 import DeleteDeviceModal from "../../components/devices/DeleteDeviceModal";
+import EditDeviceModal from "../../components/devices/EditDeviceModal";
 
 export default function DeviceListPage() {
   const navigate = useNavigate();
@@ -49,6 +50,10 @@ export default function DeviceListPage() {
   const [devices, setDevices] = useState<Device[]>([]);
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const [editingDevice, setEditingDevice] = useState<Device | null>(null);
 
   // Trạng thái đóng/mở Popup Âm Lượng
   const [volumeModalOpen, setVolumeModalOpen] = useState(false);
@@ -168,6 +173,11 @@ export default function DeviceListPage() {
 
     setDeleteTargetIds(selectedIds);
     setDeleteModalOpen(true);
+  };
+
+  const handleOpenEditModal = (record: Device) => {
+    setEditingDevice(record);
+    setEditModalOpen(true);
   };
 
   // Khai báo các cột của bảng
@@ -319,6 +329,7 @@ export default function DeviceListPage() {
               icon={<SquarePen size={20} strokeWidth={2} />}
               aria-label={`Sửa ${record.deviceCode}`}
               style={{ color: "#FF7605" }}
+              onClick={() => handleOpenEditModal(record)}
             />
           </Tooltip>
 
@@ -585,6 +596,55 @@ export default function DeviceListPage() {
           } catch (error) {
             console.error("Lỗi xóa thiết bị:", error);
             message.error("Không thể xóa thiết bị");
+          }
+        }}
+      />
+      <EditDeviceModal
+        open={editModalOpen}
+        device={editingDevice}
+        onCancel={() => {
+          setEditModalOpen(false);
+          setEditingDevice(null);
+        }}
+        onSubmit={async (values) => {
+          if (!editingDevice) {
+            message.error("Không tìm thấy thiết bị cần cập nhật");
+            return;
+          }
+
+          try {
+            const updatedDevice = await deviceService.updateById(
+              editingDevice.deviceId,
+              values,
+            );
+
+            if (!updatedDevice) {
+              message.error("Không thể cập nhật thiết bị");
+              return;
+            }
+
+            // Cập nhật thiết bị đang hiển thị trong bảng
+            setDevices((currentDevices) =>
+              currentDevices.map((device) =>
+                device.deviceId === updatedDevice.deviceId
+                  ? updatedDevice
+                  : device,
+              ),
+            );
+
+            // Đóng popup
+            setEditModalOpen(false);
+            setEditingDevice(null);
+
+            // Tải lại danh sách để áp dụng bộ lọc và phân trang
+            setRefreshKey((current) => current + 1);
+
+            message.success(
+              `Đã cập nhật thiết bị ${updatedDevice.deviceCode} trong dữ liệu mock`,
+            );
+          } catch (error) {
+            console.error("Lỗi cập nhật thiết bị:", error);
+            message.error("Có lỗi xảy ra khi cập nhật thiết bị");
           }
         }}
       />

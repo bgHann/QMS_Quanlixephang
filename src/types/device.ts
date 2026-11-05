@@ -24,6 +24,8 @@ export interface Device {
 
   serviceIds: string[];
   counterIds: string[];
+
+  description?: string;
 }
 
 export interface DeviceListParams extends ListParams {

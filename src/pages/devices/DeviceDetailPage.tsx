@@ -22,6 +22,8 @@ import LoginConfirmModal from "../../components/devices/LoginConfirmModal";
 
 import DeleteDeviceModal from "../../components/devices/DeleteDeviceModal";
 
+import EditDeviceModal from "../../components/devices/EditDeviceModal";
+
 const deviceTypeLabels: Record<string, string> = {
   [DEVICE_TYPE.KIOSK]: "Kiosk",
   [DEVICE_TYPE.MAIN_DISPLAY]: "Màn hình trung tâm",
@@ -40,6 +42,8 @@ export default function DeviceDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [volumeModalOpen, setVolumeModalOpen] = useState(false);
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   // Popup nhập mã thiết bị
   const [deviceCodeModalOpen, setDeviceCodeModalOpen] = useState(false);
@@ -196,6 +200,7 @@ export default function DeviceDetailPage() {
               <Button
                 icon={<SquarePen size={18} strokeWidth={1.8} />}
                 className={styles.actionButton}
+                onClick={() => setEditModalOpen(true)}
               >
                 Cập nhật
               </Button>
@@ -317,6 +322,44 @@ export default function DeviceDetailPage() {
           } catch (error) {
             console.error("Lỗi xóa thiết bị:", error);
             message.error("Không thể xóa thiết bị");
+          }
+        }}
+      />
+      <EditDeviceModal
+        open={editModalOpen}
+        device={device}
+        onCancel={() => {
+          setEditModalOpen(false);
+        }}
+        onSubmit={async (values) => {
+          if (!device) {
+            message.error("Không tìm thấy thiết bị cần cập nhật");
+            return;
+          }
+
+          try {
+            const updatedDevice = await deviceService.updateById(
+              device.deviceId,
+              values,
+            );
+
+            if (!updatedDevice) {
+              message.error("Không thể cập nhật thiết bị");
+              return;
+            }
+
+            // Cập nhật thông tin hiển thị ngay trên trang Chi tiết
+            setDevice(updatedDevice);
+
+            // Đóng popup
+            setEditModalOpen(false);
+
+            message.success(
+              `Đã cập nhật thiết bị ${updatedDevice.deviceCode} trong dữ liệu mock`,
+            );
+          } catch (error) {
+            console.error("Lỗi cập nhật thiết bị:", error);
+            message.error("Có lỗi xảy ra khi cập nhật thiết bị");
           }
         }}
       />
