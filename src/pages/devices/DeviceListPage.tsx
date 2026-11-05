@@ -520,18 +520,37 @@ export default function DeviceListPage() {
         onCancel={() => {
           setAddDeviceModalOpen(false);
         }}
-        onSubmit={(values) => {
-          // Xử lý dữ liệu khi submit
-          console.log("Dữ liệu thêm thiết bị:", values);
+        onSubmit={async (values) => {
+          try {
+            // 1. Lưu thiết bị mới
+            const createdDevice = await deviceService.create(values);
 
-          // Lưu tạm dữ liệu để hiển thị popup thông tin
-          setNewDeviceInfo(values);
+            // 2. Thông báo thành công
+            message.success(
+              `Đã thêm thiết bị ${createdDevice.deviceCode} thành công`,
+            );
 
-          // Đóng popup thêm thiết bị
-          setAddDeviceModalOpen(false);
+            // 3. Làm mới danh sách thiết bị
+            setSelectedRowKeys([]);
+            setPage(1);
+            setRefreshKey((prev) => prev + 1);
 
-          // Mở popup thông tin thiết bị
-          setDeviceInfoModalOpen(true);
+            // 4. Lưu thông tin để hiển thị popup hiện tại
+            setNewDeviceInfo(values);
+
+            // 5. Đóng popup thêm thiết bị
+            setAddDeviceModalOpen(false);
+
+            // 6. Mở popup thông tin thiết bị
+            setDeviceInfoModalOpen(true);
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error
+                ? error.message
+                : "Không thể thêm thiết bị. Vui lòng thử lại.";
+
+            message.error(errorMessage);
+          }
         }}
       />
       <DeviceInfoModal

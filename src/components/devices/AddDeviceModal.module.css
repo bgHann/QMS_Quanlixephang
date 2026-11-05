@@ -229,3 +229,52 @@
     width: 120px;
   }
 }
+
+/* ===== BỐ CỤC FORM VÀ XEM TRƯỚC ===== */
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  width: 100%;
+}
+
+.leftPanel {
+  min-width: 0;
+}
+
+.rightPanel {
+  min-width: 0;
+  position: sticky;
+  top: 0;
+
+  padding: 12px;
+
+  border: 1px solid #e0e5ec;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+/* ===== CHỌN GIAO DIỆN ===== */
+
+.templateSection {
+  margin-bottom: 20px;
+}
+
+.templateSection :global(.ant-form-item) {
+  margin-bottom: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1100px) {
+  .mainLayout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .rightPanel {
+    position: static;
+  }
+}

@@ -5,11 +5,23 @@ import { devicesMock, deviceServiceNamesMock } from "../../mock/devices.mock";
 
 const DELETED_DEVICES_KEY = "qms_deleted_device_ids";
 const UPDATED_DEVICES_KEY = "qms_updated_devices";
+const CREATED_DEVICES_KEY = "qms_created_devices";
 
 type DeviceUpdate = Pick<
   Device,
   "deviceName" | "deviceType" | "availability" | "serviceIds" | "description"
 >;
+type DeviceCreate = Pick<
+  Device,
+  | "deviceCode"
+  | "deviceName"
+  | "deviceType"
+  | "availability"
+  | "serviceIds"
+  | "description"
+> & {
+  templateId?: string;
+};
 
 type UpdatedDevices = Record<string, DeviceUpdate>;
 
@@ -51,7 +63,90 @@ const getUpdatedDevices = (): UpdatedDevices => {
     return {};
   }
 };
+const getCreatedDevices = (): Device[] => {
+  try {
+    const stored = localStorage.getItem(CREATED_DEVICES_KEY);
+
+    if (!stored) {
+      return [];
+    }
+
+    const parsed: unknown = JSON.parse(stored);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (device): device is Device =>
+        typeof device === "object" &&
+        device !== null &&
+        typeof device.deviceId === "string" &&
+        typeof device.deviceCode === "string" &&
+        typeof device.deviceName === "string" &&
+        Array.isArray(device.serviceIds),
+    );
+  } catch {
+    return [];
+  }
+};
 export const deviceService = {
+  create: async (values: DeviceCreate): Promise<Device> => {
+    const createdDevices = getCreatedDevices();
+
+    const deviceCode = values.deviceCode.trim();
+    const normalizedCode = deviceCode.toLowerCase();
+
+    if (!deviceCode) {
+      throw new Error("Mã thiết bị không được để trống");
+    }
+
+    if (!values.deviceName.trim()) {
+      throw new Error("Tên thiết bị không được để trống");
+    }
+
+    if (values.serviceIds.length === 0) {
+      throw new Error("Vui lòng chọn ít nhất một dịch vụ");
+    }
+
+    // Kiểm tra trùng mã trong dữ liệu mock và thiết bị đã thêm
+    const existingDevices = [...devicesMock, ...createdDevices];
+
+    const isDuplicate = existingDevices.some(
+      (device) => device.deviceCode.trim().toLowerCase() === normalizedCode,
+    );
+
+    if (isDuplicate) {
+      throw new Error(`Mã thiết bị "${deviceCode}" đã tồn tại`);
+    }
+
+    const newDevice: Device = {
+      deviceId: crypto.randomUUID(),
+
+      deviceCode,
+      deviceName: values.deviceName.trim(),
+      deviceType: values.deviceType,
+      availability: values.availability,
+
+      connectionStatus: "DISCONNECTED",
+
+      volume: 50,
+      showQueue: false,
+
+      serviceIds: [...values.serviceIds],
+      counterIds: [],
+
+      description: values.description?.trim(),
+      kioskTemplateId: values.templateId,
+    };
+
+    // Lưu thiết bị vừa tạo
+    const nextDevices = [...createdDevices, newDevice];
+
+    localStorage.setItem(CREATED_DEVICES_KEY, JSON.stringify(nextDevices));
+
+    return newDevice;
+  },
   getList: async (
     params: DeviceListParams = {},
   ): Promise<PageResult<Device>> => {
@@ -61,11 +156,16 @@ export const deviceService = {
 
     const deletedDeviceIds = new Set(getDeletedDeviceIds());
 
-    // Lấy thông tin thiết bị đã chỉnh sửa
     const updatedDevices = getUpdatedDevices();
 
-    // Kết hợp dữ liệu gốc với dữ liệu đã chỉnh sửa
-    const currentDevices = devicesMock.map((device) => ({
+    // Lấy danh sách thiết bị được thêm mới
+    const createdDevices = getCreatedDevices();
+
+    // Kết hợp thiết bị mock và thiết bị mới
+    const allDevices = [...createdDevices, ...devicesMock];
+
+    // Áp dụng những thay đổi đã lưu
+    const currentDevices = allDevices.map((device) => ({
       ...device,
       ...(updatedDevices[device.deviceId] ?? {}),
     }));
@@ -108,10 +208,13 @@ export const deviceService = {
       return null;
     }
 
-    const originalDevice = devicesMock.find(
+    const createdDevices = getCreatedDevices();
+
+    const allDevices = [...devicesMock, ...createdDevices];
+
+    const originalDevice = allDevices.find(
       (item) => item.deviceId === deviceId,
     );
-
     if (!originalDevice) {
       return null;
     }
@@ -132,7 +235,9 @@ export const deviceService = {
     values: DeviceUpdate,
   ): Promise<Device | null> => {
     // Tìm thiết bị gốc
-    const originalDevice = devicesMock.find(
+    const allDevices = [...devicesMock, ...getCreatedDevices()];
+
+    const originalDevice = allDevices.find(
       (item) => item.deviceId === deviceId,
     );
 
@@ -177,7 +282,9 @@ export const deviceService = {
     });
   },
   deleteById: async (deviceId: string): Promise<boolean> => {
-    const deviceExists = devicesMock.some(
+    const allDevices = [...devicesMock, ...getCreatedDevices()];
+
+    const deviceExists = allDevices.some(
       (device) => device.deviceId === deviceId,
     );
 

@@ -9,6 +9,7 @@ interface DeviceTemplate {
 interface DeviceTemplateSelectorProps {
   value?: string;
   onChange?: (value: string) => void;
+  mode?: "buttons" | "preview" | "all";
 }
 
 const templates: DeviceTemplate[] = [
@@ -37,43 +38,48 @@ const templates: DeviceTemplate[] = [
 export default function DeviceTemplateSelector({
   value,
   onChange,
+  mode = "all",
 }: DeviceTemplateSelectorProps) {
   const selectedTemplate = templates.find((template) => template.id === value);
 
   return (
     <div className={styles.container}>
-      <div className={styles.templateList}>
-        {templates.map((template) => (
-          <button
-            key={template.id}
-            type="button"
-            className={`${styles.templateButton} ${
-              value === template.id ? styles.selected : ""
-            }`}
-            onClick={() => onChange?.(template.id)}
-          >
-            {template.name}
-          </button>
-        ))}
-      </div>
-
-      <div className={styles.preview}>
-        <span className={styles.previewTitle}>Xem trước</span>
-
-        <div className={styles.previewContent}>
-          {selectedTemplate ? (
-            <img
-              src={selectedTemplate.preview}
-              alt={`Xem trước ${selectedTemplate.name}`}
-              className={styles.previewImage}
-            />
-          ) : (
-            <span className={styles.placeholder}>
-              Chọn một giao diện để xem trước
-            </span>
-          )}
+      {(mode === "buttons" || mode === "all") && (
+        <div className={styles.templateList}>
+          {templates.map((template) => (
+            <button
+              key={template.id}
+              type="button"
+              className={`${styles.templateButton} ${
+                value === template.id ? styles.selected : ""
+              }`}
+              onClick={() => onChange?.(template.id)}
+            >
+              {template.name}
+            </button>
+          ))}
         </div>
-      </div>
+      )}
+
+      {(mode === "preview" || mode === "all") && (
+        <div className={styles.preview}>
+          <span className={styles.previewTitle}>Xem trước</span>
+
+          <div className={styles.previewContent}>
+            {selectedTemplate ? (
+              <img
+                src={selectedTemplate.preview}
+                alt={`Xem trước ${selectedTemplate.name}`}
+                className={styles.previewImage}
+              />
+            ) : (
+              <span className={styles.placeholder}>
+                Chọn một giao diện để xem trước
+              </span>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
