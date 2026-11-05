@@ -40,6 +40,7 @@ import AddDeviceModal from "../../components/devices/AddDeviceModal";
 import type { AddDeviceFormValues } from "../../components/devices/AddDeviceModal";
 
 import DeviceInfoModal from "../../components/devices/DeviceInfoModal";
+import DeleteDeviceModal from "../../components/devices/DeleteDeviceModal";
 
 export default function DeviceListPage() {
   const navigate = useNavigate();
@@ -58,16 +59,21 @@ export default function DeviceListPage() {
   // Trạng thái đóng/mở Popup Nhập mã thiết bị
   const [deviceCodeModalOpen, setDeviceCodeModalOpen] = useState(false);
 
-  // Lưu tạm âm lượng cho đến khi mã thiết bị được xác thực
-  const [pendingVolume, setPendingVolume] = useState<number | null>(null);
-
   // Trạng thái đóng/mở Popup Xác nhận đăng nhập
   const [loginConfirmModalOpen, setLoginConfirmModalOpen] = useState(false);
+
+  const [loginTargetDevice, setLoginTargetDevice] = useState<Device | null>(
+    null,
+  );
 
   // Trạng thái đóng/mở Popup Thêm thiết bị
   const [addDeviceModalOpen, setAddDeviceModalOpen] = useState(false);
 
   const [deviceInfoModalOpen, setDeviceInfoModalOpen] = useState(false);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const [deleteTargetIds, setDeleteTargetIds] = useState<string[]>([]);
 
   const [newDeviceInfo, setNewDeviceInfo] =
     useState<AddDeviceFormValues | null>(null);
@@ -105,6 +111,11 @@ export default function DeviceListPage() {
 
     setVolumeTargetDevices(targetDevices);
     setVolumeModalOpen(true);
+  };
+
+  const handleOpenDeviceLogin = (record: Device) => {
+    setLoginTargetDevice(record);
+    setDeviceCodeModalOpen(true);
   };
 
   // Lấy dữ liệu thiết bị
@@ -155,54 +166,8 @@ export default function DeviceListPage() {
       return;
     }
 
-    Modal.confirm({
-      title: "Xác nhận xóa thiết bị",
-
-      content: (
-        <span>
-          Bạn có chắc chắn muốn xóa{" "}
-          <strong>{selectedIds.length} thiết bị</strong> đã chọn không?
-        </span>
-      ),
-
-      okText: "Xóa thiết bị",
-      okType: "danger",
-      cancelText: "Hủy bỏ",
-      centered: true,
-
-      onOk: async () => {
-        const results = await Promise.allSettled(
-          selectedIds.map((id) => deviceService.deleteById(id)),
-        );
-
-        const deletedIds = selectedIds.filter((_, index) => {
-          const result = results[index];
-
-          return result.status === "fulfilled" && result.value === true;
-        });
-
-        const failedCount = selectedIds.length - deletedIds.length;
-
-        if (deletedIds.length > 0) {
-          message.success(
-            `Đã xóa ${deletedIds.length} thiết bị khỏi dữ liệu mock`,
-          );
-
-          // Bỏ chọn các thiết bị đã xóa
-          setSelectedRowKeys((previousKeys) =>
-            previousKeys.filter((key) => !deletedIds.includes(String(key))),
-          );
-
-          // Trở về trang đầu và tải lại dữ liệu
-          setPage(1);
-          setRefreshKey((previous) => previous + 1);
-        }
-
-        if (failedCount > 0) {
-          message.error(`Có ${failedCount} thiết bị không thể xóa`);
-        }
-      },
-    });
+    setDeleteTargetIds(selectedIds);
+    setDeleteModalOpen(true);
   };
 
   // Khai báo các cột của bảng
@@ -338,12 +303,13 @@ export default function DeviceListPage() {
             />
           </Tooltip>
 
-          <Tooltip title="Kết nối thiết bị">
+          <Tooltip title="Đăng nhập thiết bị">
             <Button
               type="text"
               icon={<Router size={20} strokeWidth={2} />}
-              aria-label={`Kết nối ${record.deviceCode}`}
+              aria-label={`Đăng nhập ${record.deviceCode}`}
               style={{ color: "#FF7605" }}
+              onClick={() => handleOpenDeviceLogin(record)}
             />
           </Tooltip>
 
@@ -467,21 +433,25 @@ export default function DeviceListPage() {
           setVolumeModalOpen(false);
         }}
         onConfirm={(volume) => {
-          // Lưu tạm mức âm lượng người dùng đã chọn
-          setPendingVolume(volume);
+          console.log(
+            "Thiết bị điều chỉnh âm lượng:",
+            volumeTargetDevices.map((device) => device.deviceCode),
+          );
 
-          // Đóng Popup Âm Lượng
+          console.log("Mức âm lượng được chọn:", volume);
+
           setVolumeModalOpen(false);
 
-          // Mở Popup Nhập mã thiết bị
-          setDeviceCodeModalOpen(true);
+          message.info(
+            "Đã ghi nhận mức âm lượng. Chưa cập nhật lên thiết bị thật.",
+          );
         }}
       />
       <DeviceCodeModal
         open={deviceCodeModalOpen}
         onCancel={() => {
           setDeviceCodeModalOpen(false);
-          setPendingVolume(null);
+          setLoginTargetDevice(null);
         }}
         onConfirm={(code) => {
           // Chỉ chuyển popup để kiểm tra giao diện.
@@ -499,9 +469,7 @@ export default function DeviceListPage() {
       />
       <LoginConfirmModal
         open={loginConfirmModalOpen}
-        deviceName={volumeTargetDevices
-          .map((device) => device.deviceCode)
-          .join(", ")}
+        deviceName={loginTargetDevice?.deviceCode ?? ""}
         time={new Date().toLocaleString("vi-VN", {
           hour: "2-digit",
           minute: "2-digit",
@@ -512,27 +480,28 @@ export default function DeviceListPage() {
         location="Chưa có dữ liệu"
         onCancel={() => {
           setLoginConfirmModalOpen(false);
-          setPendingVolume(null);
+          setLoginTargetDevice(null);
         }}
         onReject={() => {
           setLoginConfirmModalOpen(false);
-          setPendingVolume(null);
+          setLoginTargetDevice(null);
         }}
         onLogin={() => {
-          if (pendingVolume === null) {
+          if (!loginTargetDevice) {
+            message.error("Không xác định được thiết bị cần đăng nhập");
             return;
           }
 
-          // Tạm thời kiểm tra âm lượng đang chờ xác thực
-          console.log("Âm lượng đang chờ xác thực:", pendingVolume);
-
-          // Chưa có API xác thực và cập nhật âm lượng
-          window.alert(
-            `Đã ghi nhận mức âm lượng ${pendingVolume}%. Chưa cập nhật lên thiết bị vì chưa kết nối API.`,
+          console.log(
+            "Yêu cầu đăng nhập thiết bị:",
+            loginTargetDevice.deviceId,
           );
 
+          // TODO: Kết nối API xác thực và đăng nhập thiết bị
+          message.info("Chức năng đăng nhập thiết bị chưa được kết nối API.");
+
           setLoginConfirmModalOpen(false);
-          setPendingVolume(null);
+          setLoginTargetDevice(null);
         }}
       />
       <AddDeviceModal
@@ -559,6 +528,64 @@ export default function DeviceListPage() {
         device={newDeviceInfo}
         onClose={() => {
           setDeviceInfoModalOpen(false);
+        }}
+      />
+      <DeleteDeviceModal
+        open={deleteModalOpen}
+        deviceNames={deleteTargetIds.map((id) => {
+          const device = devices.find((item) => item.deviceId === id);
+
+          return device?.deviceCode ?? id;
+        })}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setDeleteTargetIds([]);
+        }}
+        onConfirm={async () => {
+          if (deleteTargetIds.length === 0) return;
+
+          try {
+            const results = await Promise.allSettled(
+              deleteTargetIds.map((id) => deviceService.deleteById(id)),
+            );
+
+            const deletedIds = deleteTargetIds.filter((_, index) => {
+              const result = results[index];
+
+              return result.status === "fulfilled" && result.value === true;
+            });
+
+            if (deletedIds.length === 0) {
+              message.error("Không có thiết bị nào được xóa");
+              return;
+            }
+
+            // Bỏ chọn những thiết bị đã xóa thành công
+            setSelectedRowKeys((currentKeys) =>
+              currentKeys.filter((key) => !deletedIds.includes(String(key))),
+            );
+
+            // Đóng popup
+            setDeleteModalOpen(false);
+            setDeleteTargetIds([]);
+
+            // Quay về trang đầu và cập nhật danh sách
+            setPage(1);
+            setRefreshKey((current) => current + 1);
+
+            if (deletedIds.length === results.length) {
+              message.success(
+                `Đã xóa ${deletedIds.length} thiết bị khỏi dữ liệu mock`,
+              );
+            } else {
+              message.warning(
+                `Đã xóa ${deletedIds.length}/${results.length} thiết bị`,
+              );
+            }
+          } catch (error) {
+            console.error("Lỗi xóa thiết bị:", error);
+            message.error("Không thể xóa thiết bị");
+          }
         }}
       />
     </div>
