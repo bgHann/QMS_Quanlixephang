@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import { Volume2, Router, SquarePen, Info } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import styles from "./DeviceListPage.module.css";
 import PaginationBar from "../../components/common/PaginationBar";
 import type { Key } from "react";
-import { Table, Tooltip, message, Button, Space, Input, Select } from "antd";
+import {
+  Table,
+  Tooltip,
+  message,
+  Button,
+  Space,
+  Input,
+  Select,
+  Modal,
+} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type { TableColumnsType } from "antd";
 import type {
@@ -32,6 +42,8 @@ import type { AddDeviceFormValues } from "../../components/devices/AddDeviceModa
 import DeviceInfoModal from "../../components/devices/DeviceInfoModal";
 
 export default function DeviceListPage() {
+  const navigate = useNavigate();
+
   // Danh sách thiết bị
   const [devices, setDevices] = useState<Device[]>([]);
 
@@ -74,6 +86,8 @@ export default function DeviceListPage() {
 
   // Trạng thái tải dữ liệu
   const [loading, setLoading] = useState(false);
+
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // Mở Popup Âm Lượng
   const handleOpenVolumeModal = (record: Device) => {
@@ -132,7 +146,64 @@ export default function DeviceListPage() {
       active = false;
       window.clearTimeout(timer);
     };
-  }, [searchText, availabilityFilter, page, pageSize]);
+  }, [searchText, availabilityFilter, page, pageSize, refreshKey]);
+
+  const handleDeleteSelectedDevices = () => {
+    const selectedIds = selectedRowKeys.map(String);
+
+    if (selectedIds.length === 0) {
+      return;
+    }
+
+    Modal.confirm({
+      title: "Xác nhận xóa thiết bị",
+
+      content: (
+        <span>
+          Bạn có chắc chắn muốn xóa{" "}
+          <strong>{selectedIds.length} thiết bị</strong> đã chọn không?
+        </span>
+      ),
+
+      okText: "Xóa thiết bị",
+      okType: "danger",
+      cancelText: "Hủy bỏ",
+      centered: true,
+
+      onOk: async () => {
+        const results = await Promise.allSettled(
+          selectedIds.map((id) => deviceService.deleteById(id)),
+        );
+
+        const deletedIds = selectedIds.filter((_, index) => {
+          const result = results[index];
+
+          return result.status === "fulfilled" && result.value === true;
+        });
+
+        const failedCount = selectedIds.length - deletedIds.length;
+
+        if (deletedIds.length > 0) {
+          message.success(
+            `Đã xóa ${deletedIds.length} thiết bị khỏi dữ liệu mock`,
+          );
+
+          // Bỏ chọn các thiết bị đã xóa
+          setSelectedRowKeys((previousKeys) =>
+            previousKeys.filter((key) => !deletedIds.includes(String(key))),
+          );
+
+          // Trở về trang đầu và tải lại dữ liệu
+          setPage(1);
+          setRefreshKey((previous) => previous + 1);
+        }
+
+        if (failedCount > 0) {
+          message.error(`Có ${failedCount} thiết bị không thể xóa`);
+        }
+      },
+    });
+  };
 
   // Khai báo các cột của bảng
   const columns: TableColumnsType<Device> = [
@@ -291,6 +362,9 @@ export default function DeviceListPage() {
               icon={<Info size={20} strokeWidth={2} />}
               aria-label={`Thông tin ${record.deviceCode}`}
               style={{ color: "#FF7605" }}
+              onClick={() => {
+                navigate(`/devices/${encodeURIComponent(record.deviceId)}`);
+              }}
             />
           </Tooltip>
         </Space>
@@ -370,11 +444,9 @@ export default function DeviceListPage() {
           onAdd={() => {
             setAddDeviceModalOpen(true);
           }}
-          onDelete={() => {
-            // TODO: Triển khai chức năng xóa thiết bị
-          }}
+          onDelete={handleDeleteSelectedDevices}
           volumeDisabled={selectedRowKeys.length === 0}
-          deleteDisabled
+          deleteDisabled={selectedRowKeys.length === 0}
         />
       </div>
       <PaginationBar
@@ -447,8 +519,20 @@ export default function DeviceListPage() {
           setPendingVolume(null);
         }}
         onLogin={() => {
-          // TODO: Xử lý đăng nhập và áp dụng âm lượng sau khi xác thực.
-          window.alert("Chức năng đăng nhập chưa được kết nối.");
+          if (pendingVolume === null) {
+            return;
+          }
+
+          // Tạm thời kiểm tra âm lượng đang chờ xác thực
+          console.log("Âm lượng đang chờ xác thực:", pendingVolume);
+
+          // Chưa có API xác thực và cập nhật âm lượng
+          window.alert(
+            `Đã ghi nhận mức âm lượng ${pendingVolume}%. Chưa cập nhật lên thiết bị vì chưa kết nối API.`,
+          );
+
+          setLoginConfirmModalOpen(false);
+          setPendingVolume(null);
         }}
       />
       <AddDeviceModal
