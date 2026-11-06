@@ -5,6 +5,8 @@ export const ROUTES = {
   DEVICE_DETAIL: "/devices/:deviceId",
   SERVICES: "/services",
   SERVICE_CREATE: "/services/create",
+  SERVICE_DETAIL: "/services/:serviceId",
+  SERVICE_EDIT: "/services/:serviceId/edit",
   COUNTERS: "/counters",
   TICKETS: "/tickets",
   RATINGS: "/ratings",
@@ -74,12 +76,28 @@ export const PAGE_TITLES: PageTitle[] = [
     parent: "Dịch vụ / Danh sách dịch vụ",
     title: "Thêm dịch vụ",
   },
+  {
+    path: ROUTES.SERVICE_DETAIL,
+    parent: "Dịch vụ / Danh sách dịch vụ",
+    title: "Chi tiết",
+  },
+  {
+    path: ROUTES.SERVICE_EDIT,
+    parent: "Dịch vụ / Danh sách dịch vụ",
+    title: "Cập nhật dịch vụ",
+  },
 ];
 
 // Tạo đường dẫn chi tiết theo ID vai trò
 export const buildRoleDetailPath = (roleId: string) =>
   `/settings/roles/${encodeURIComponent(roleId)}`;
 
+export const buildServiceDetailPath = (serviceId: string) =>
+  `/services/${encodeURIComponent(serviceId)}`;
+
 // Tìm tiêu đề phù hợp với URL hiện tại
 export const findPageTitle = (pathname: string) =>
   PAGE_TITLES.find((p) => matchPath({ path: p.path, end: true }, pathname));
+
+export const buildServiceEditPath = (serviceId: string) =>
+  `/services/${encodeURIComponent(serviceId)}/edit`;

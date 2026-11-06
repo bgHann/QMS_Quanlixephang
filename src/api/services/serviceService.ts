@@ -16,6 +16,7 @@ export interface ServicePageResult {
 }
 
 const CREATED_SERVICES_KEY = "qms_created_services";
+const UPDATED_SERVICES_KEY = "qms_updated_services";
 
 export interface ServiceCreateValues {
   serviceCode: string;
@@ -59,6 +60,44 @@ const getCreatedServices = (): Service[] => {
   }
 };
 
+const getUpdatedServices = (): Service[] => {
+  try {
+    const stored = localStorage.getItem(UPDATED_SERVICES_KEY);
+
+    if (!stored) return [];
+
+    const parsed: unknown = JSON.parse(stored);
+
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter(
+      (service): service is Service =>
+        typeof service === "object" &&
+        service !== null &&
+        typeof service.serviceId === "string" &&
+        typeof service.serviceCode === "string" &&
+        typeof service.serviceName === "string" &&
+        typeof service.status === "string" &&
+        Array.isArray(service.counterIds),
+    );
+  } catch {
+    return [];
+  }
+};
+
+const getAllServices = (): Service[] => {
+  const originalServices = [...getCreatedServices(), ...servicesMock];
+  const updatedServices = getUpdatedServices();
+
+  const updatedMap = new Map(
+    updatedServices.map((service) => [service.serviceId, service]),
+  );
+
+  return originalServices.map(
+    (service) => updatedMap.get(service.serviceId) ?? service,
+  );
+};
+
 export const serviceService = {
   create: async (values: ServiceCreateValues): Promise<Service> => {
     const createdServices = getCreatedServices();
@@ -82,7 +121,7 @@ export const serviceService = {
     }
 
     // Kiểm tra trùng mã dịch vụ
-    const allServices = [...servicesMock, ...createdServices];
+    const allServices = getAllServices();
 
     const isDuplicate = allServices.some(
       (service) =>
@@ -120,6 +159,79 @@ export const serviceService = {
 
     return newService;
   },
+  update: async (
+    serviceId: string,
+    values: ServiceCreateValues,
+  ): Promise<Service> => {
+    const allServices = getAllServices();
+
+    const existingService = allServices.find(
+      (service) => service.serviceId === serviceId,
+    );
+
+    if (!existingService) {
+      throw new Error("Không tìm thấy dịch vụ cần cập nhật");
+    }
+
+    const serviceCode = existingService.serviceCode;
+    const serviceName = values.serviceName.trim();
+    const description = values.description.trim();
+
+    if (!serviceCode || !serviceName || !description) {
+      throw new Error("Vui lòng nhập đầy đủ thông tin bắt buộc");
+    }
+
+    const duplicateCode = allServices.some(
+      (service) =>
+        service.serviceId !== serviceId &&
+        service.serviceCode.trim().toLowerCase() === serviceCode.toLowerCase(),
+    );
+
+    if (duplicateCode) {
+      throw new Error(`Mã dịch vụ "${serviceCode}" đã tồn tại`);
+    }
+
+    const updatedService: Service = {
+      ...existingService,
+      serviceCode,
+      serviceName,
+      description,
+      assignmentMethod: values.assignmentMethod,
+      status: values.status,
+      schedule: values.schedule,
+      imageUrl: values.imageUrl ?? existingService.imageUrl,
+    };
+
+    const createdServices = getCreatedServices();
+
+    const isCreatedService = createdServices.some(
+      (service) => service.serviceId === serviceId,
+    );
+
+    if (isCreatedService) {
+      const nextCreatedServices = createdServices.map((service) =>
+        service.serviceId === serviceId ? updatedService : service,
+      );
+
+      localStorage.setItem(
+        CREATED_SERVICES_KEY,
+        JSON.stringify(nextCreatedServices),
+      );
+
+      return updatedService;
+    }
+
+    const updatedServices = getUpdatedServices().filter(
+      (service) => service.serviceId !== serviceId,
+    );
+
+    localStorage.setItem(
+      UPDATED_SERVICES_KEY,
+      JSON.stringify([...updatedServices, updatedService]),
+    );
+
+    return updatedService;
+  },
   getList: async (
     params: ServiceListParams = {},
   ): Promise<ServicePageResult> => {
@@ -134,11 +246,7 @@ export const serviceService = {
 
     const searchValue = keyword.trim().toLowerCase();
 
-    // Lấy dịch vụ đã thêm từ localStorage
-    const createdServices = getCreatedServices();
-
-    // Gộp dịch vụ mới và dữ liệu mock
-    const allServices = [...createdServices, ...servicesMock];
+    const allServices = getAllServices();
 
     // Bước 1: Lọc danh sách
     const filteredServices = allServices.filter((service) => {
@@ -179,15 +287,12 @@ export const serviceService = {
 
   // Lấy thông tin chi tiết dịch vụ
   getById: async (serviceId: string): Promise<Service | null> => {
-    const createdServices = getCreatedServices();
+    const allServices = getAllServices();
 
-    const allServices = [...createdServices, ...servicesMock];
-
-    const service = allServices.find((item) => item.serviceId === serviceId);
-
-    return service ?? null;
+    return (
+      allServices.find((service) => service.serviceId === serviceId) ?? null
+    );
   },
-
   // Chuyển danh sách mã quầy thành tên quầy
   getCounterNames: (counterIds: string[]): string[] => {
     return counterIds.map((counterId) => countersMock[counterId] ?? counterId);

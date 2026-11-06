@@ -1,0 +1,293 @@
+/* ===== KHUNG LỊCH SỬ ===== */
+
+.history {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+
+  font-family: "Raleway", sans-serif;
+  color: #505b6e;
+}
+
+/* ===== BỘ LỌC ===== */
+
+.filterArea {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filterField,
+.dateFilter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  gap: 8px;
+}
+
+.filterField {
+  width: 180px;
+}
+
+.dateFilter {
+  width: 260px;
+}
+
+.filterLabel {
+  display: block;
+  margin: 0;
+
+  color: #282739;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+/* ===== INPUT TÌM KIẾM ===== */
+
+.filterField :global(.ant-input-affix-wrapper) {
+  height: 40px;
+  padding: 8px 12px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 8px;
+
+  font-family: "Raleway", sans-serif;
+  box-shadow: none;
+}
+
+.filterField :global(.ant-input-affix-wrapper:hover),
+.filterField :global(.ant-input-affix-wrapper-focused) {
+  border-color: #ff7605;
+  box-shadow: none;
+}
+
+.filterField :global(.ant-input-prefix) {
+  color: #98a2b3;
+}
+
+/* ===== SELECT TRẠNG THÁI ===== */
+
+.statusSelect {
+  width: 100%;
+  height: 40px;
+}
+
+.statusSelect :global(.ant-select-selector) {
+  height: 40px !important;
+  min-height: 40px !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  padding: 0 12px !important;
+
+  border: 1px solid #d9dfe8 !important;
+  border-radius: 8px !important;
+
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.statusSelect:hover :global(.ant-select-selector),
+.statusSelect:global(.ant-select-focused) :global(.ant-select-selector),
+.statusSelect:global(.ant-select-open) :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+.statusSelect :global(.ant-select-selection-item) {
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+.statusSelect :global(.ant-select-arrow) {
+  color: #ff7605 !important;
+}
+
+/* ===== CHỌN THỜI GIAN ===== */
+
+.dateFilter :global(.ant-picker) {
+  height: 40px;
+  min-height: 40px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 8px;
+
+  box-shadow: none;
+}
+
+.dateFilter :global(.ant-picker:hover),
+.dateFilter :global(.ant-picker-focused) {
+  border-color: #ff7605;
+  box-shadow: none;
+}
+
+.dateFilter :global(.ant-picker-suffix) {
+  color: #ff7605;
+}
+
+.dateFilter :global(.ant-picker-range-separator) {
+  color: #98a2b3;
+}
+
+/* ===== BẢNG LỊCH SỬ ===== */
+
+.tableWrapper {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+
+  overflow: auto;
+}
+
+/* Toàn bộ bảng */
+
+.tableWrapper :global(.ant-table) {
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  color: #505b6e;
+}
+
+/* Header bảng */
+
+.tableWrapper :global(.ant-table-thead > tr > th) {
+  height: 48px;
+
+  padding: 8px 12px !important;
+
+  background: #fafafa !important;
+  color: #ff7605 !important;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  border-bottom: 1px solid #d9dfe8 !important;
+}
+
+/* Bỏ dấu hiệu sắp xếp mặc định ở đầu cột */
+
+.tableWrapper :global(.ant-table-thead > tr > th::before) {
+  background-color: #e7eaf0 !important;
+}
+
+/* Dòng dữ liệu */
+
+.tableWrapper :global(.ant-table-tbody > tr > td) {
+  height: 48px;
+
+  padding: 8px 12px !important;
+
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+
+  border-bottom: 1px solid #e7eaf0 !important;
+}
+
+/* Hover từng dòng */
+
+.tableWrapper :global(.ant-table-tbody > tr:hover > td) {
+  background: #fff7f0 !important;
+}
+
+/* ===== TRẠNG THÁI ===== */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+  white-space: nowrap;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+.statusDot {
+  flex-shrink: 0;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+  .filterField {
+    width: 160px;
+  }
+
+  .dateFilter {
+    width: 240px;
+  }
+}
+/* ===== DROPDOWN TRẠNG THÁI ===== */
+
+.statusDropdown {
+  padding: 0 !important;
+  overflow: hidden;
+
+  border-radius: 8px !important;
+  background: #ffffff !important;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+}
+
+.statusDropdown :global(.ant-select-item-option) {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 44px;
+  padding: 10px 16px !important;
+
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+
+  border-radius: 0 !important;
+}
+
+.statusDropdown :global(.ant-select-item-option-active) {
+  background: #f5f5f5 !important;
+}
+
+.statusDropdown :global(.ant-select-item-option-selected) {
+  color: #ff7605 !important;
+  background: #f5f5f5 !important;
+
+  font-weight: 500;
+}
+
+.statusDropdown :global(.ant-select-item-option-selected::before) {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 4px;
+  background: #ff7605;
+}

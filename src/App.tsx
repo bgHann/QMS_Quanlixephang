@@ -16,6 +16,7 @@ import DeviceListPage from "./pages/devices/DeviceListPage";
 import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
 import ServiceListPage from "./pages/services/ServiceListPage";
 import AddServicePage from "./pages/services/AddServicePage";
+import ServiceDetailPage from "./pages/services/ServiceDetailPage";
 
 function ProtectedRoutes() {
   const accessToken = localStorage.getItem("accessToken");
@@ -48,6 +49,11 @@ function App() {
             <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
             <Route path={ROUTES.SERVICES} element={<ServiceListPage />} />
             <Route path={ROUTES.SERVICE_CREATE} element={<AddServicePage />} />
+            <Route path={ROUTES.SERVICE_EDIT} element={<AddServicePage />} />
+            <Route
+              path={ROUTES.SERVICE_DETAIL}
+              element={<ServiceDetailPage />}
+            />
             <Route
               path="*"
               element={<Navigate to={ROUTES.DASHBOARD} replace />}

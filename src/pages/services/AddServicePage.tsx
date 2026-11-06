@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Form, Input, Radio, Select, Upload, message } from "antd";
 import type { UploadFile } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { ROUTES } from "../../constants/routes";
 import { SERVICE_STATUS } from "../../types/service";
@@ -11,10 +11,15 @@ import styles from "./AddServicePage.module.css";
 import ServiceScheduleFields from "../../components/services/ServiceScheduleFields";
 
 import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 import { serviceService } from "../../api/services/serviceService";
 
 import type { ServiceSchedule } from "../../types/service";
+
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 const { TextArea } = Input;
 
@@ -60,6 +65,12 @@ const fileToBase64 = (file: File): Promise<string> => {
 
 export default function AddServicePage() {
   const navigate = useNavigate();
+  const { serviceId } = useParams<{ serviceId: string }>();
+
+  const isEditMode = Boolean(serviceId);
+
+  const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
+  const [loadingService, setLoadingService] = useState(false);
 
   const [form] = Form.useForm<AddServiceFormValues>();
   const [imageFiles, setImageFiles] = useState<UploadFile[]>([]);
@@ -67,7 +78,7 @@ export default function AddServicePage() {
 
   const handleFinish = async (values: AddServiceFormValues) => {
     try {
-      // Chuyển dữ liệu lịch xử lý sang định dạng lưu trữ
+      // ===== CHUẨN HÓA LỊCH XỬ LÝ =====
       const schedule: ServiceSchedule = {};
 
       for (const [dayKey, day] of Object.entries(values.schedule ?? {})) {
@@ -82,17 +93,14 @@ export default function AddServicePage() {
 
         schedule[dayKey] = {
           enabled: true,
-
           startTime: day.startTime?.format("HH:mm"),
           endTime: day.endTime?.format("HH:mm"),
-
           shiftIds: [...(day.shiftIds ?? [])],
         };
       }
 
-      // Lưu dịch vụ mới
-      // Chuyển ảnh đã chọn sang Base64
-      let imageUrl: string | undefined;
+      // ===== XỬ LÝ HÌNH ẢNH =====
+      let imageUrl: string | undefined = existingImageUrl ?? undefined;
 
       const selectedFile = imageFiles[0]?.originFileObj;
 
@@ -100,8 +108,8 @@ export default function AddServicePage() {
         imageUrl = await fileToBase64(selectedFile);
       }
 
-      // Lưu dịch vụ mới
-      const createdService = await serviceService.create({
+      // ===== DỮ LIỆU BIỂU MẪU =====
+      const serviceValues = {
         serviceCode: values.serviceCode,
         serviceName: values.serviceName,
         description: values.description,
@@ -109,23 +117,103 @@ export default function AddServicePage() {
         status: values.status,
         schedule,
         imageUrl,
-      });
+      };
+
+      // ===== CHẾ ĐỘ CẬP NHẬT =====
+      if (isEditMode && serviceId) {
+        const updatedService = await serviceService.update(
+          serviceId,
+          serviceValues,
+        );
+
+        message.success(
+          `Đã cập nhật dịch vụ ${updatedService.serviceCode} thành công`,
+        );
+
+        navigate(`/services/${encodeURIComponent(updatedService.serviceId)}`);
+
+        return;
+      }
+
+      // ===== CHẾ ĐỘ THÊM MỚI =====
+      const createdService = await serviceService.create(serviceValues);
 
       message.success(
         `Đã thêm dịch vụ ${createdService.serviceCode} thành công`,
       );
 
-      // Quay về trang danh sách
       navigate(ROUTES.SERVICES);
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : "Không thể thêm dịch vụ. Vui lòng thử lại.";
+          : isEditMode
+            ? "Không thể cập nhật dịch vụ. Vui lòng thử lại."
+            : "Không thể thêm dịch vụ. Vui lòng thử lại.";
 
       message.error(errorMessage);
     }
   };
+
+  useEffect(() => {
+    if (!serviceId) return;
+
+    let active = true;
+
+    const loadService = async () => {
+      setLoadingService(true);
+
+      try {
+        const service = await serviceService.getById(serviceId);
+
+        if (!active) return;
+
+        if (!service) {
+          message.error("Không tìm thấy dịch vụ");
+          navigate(ROUTES.SERVICES, { replace: true });
+          return;
+        }
+
+        const schedule: Record<string, ServiceScheduleFormDay> = {};
+
+        for (const [dayKey, day] of Object.entries(service.schedule ?? {})) {
+          schedule[dayKey] = {
+            enabled: day.enabled,
+            startTime: day.startTime
+              ? dayjs(day.startTime, "HH:mm")
+              : undefined,
+            endTime: day.endTime ? dayjs(day.endTime, "HH:mm") : undefined,
+            shiftIds: day.shiftIds ?? [],
+          };
+        }
+
+        form.setFieldsValue({
+          serviceCode: service.serviceCode,
+          serviceName: service.serviceName,
+          description: service.description ?? "",
+          assignmentMethod: service.assignmentMethod ?? "ASSIGN_ON_ISSUE",
+          status: service.status,
+          schedule,
+        });
+
+        setExistingImageUrl(service.imageUrl ?? null);
+      } catch {
+        if (active) {
+          message.error("Không thể tải thông tin dịch vụ");
+        }
+      } finally {
+        if (active) {
+          setLoadingService(false);
+        }
+      }
+    };
+
+    void loadService();
+
+    return () => {
+      active = false;
+    };
+  }, [serviceId, form, navigate]);
 
   useEffect(() => {
     const selectedFile = imageFiles[0]?.originFileObj;
@@ -148,6 +236,7 @@ export default function AddServicePage() {
     <div className={styles.page}>
       <Form
         form={form}
+        disabled={loadingService}
         layout="vertical"
         onFinish={handleFinish}
         initialValues={{
@@ -171,7 +260,7 @@ export default function AddServicePage() {
                 },
               ]}
             >
-              <Input placeholder="Mã dịch vụ" />
+              <Input placeholder="Mã dịch vụ" disabled={isEditMode} />
             </Form.Item>
 
             <Form.Item
@@ -251,10 +340,10 @@ export default function AddServicePage() {
                   Chọn ảnh tải lên
                 </Button>
               </Upload>
-              {previewUrl && (
+              {(previewUrl || existingImageUrl) && (
                 <div className={styles.imagePreview}>
                   <img
-                    src={previewUrl}
+                    src={previewUrl || existingImageUrl || ""}
                     alt="Xem trước hình ảnh dịch vụ"
                     className={styles.previewImage}
                   />
@@ -341,7 +430,13 @@ export default function AddServicePage() {
           <Button
             htmlType="button"
             className={styles.cancelButton}
-            onClick={() => navigate(ROUTES.SERVICES)}
+            onClick={() =>
+              navigate(
+                isEditMode && serviceId
+                  ? `/services/${encodeURIComponent(serviceId)}`
+                  : ROUTES.SERVICES,
+              )
+            }
           >
             Hủy bỏ
           </Button>

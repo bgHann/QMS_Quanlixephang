@@ -27,7 +27,11 @@ import styles from "./ServiceListPage.module.css";
 
 import ServiceToolbar from "../../components/services/ServiceToolbar";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../constants/routes";
+import {
+  ROUTES,
+  buildServiceDetailPath,
+  buildServiceEditPath,
+} from "../../constants/routes";
 
 const { RangePicker } = DatePicker;
 
@@ -168,7 +172,7 @@ export default function ServiceListPage() {
               icon={<Info size={18} />}
               aria-label={`Thông tin ${record.serviceCode}`}
               onClick={() => {
-                console.log("Xem dịch vụ:", record);
+                navigate(buildServiceDetailPath(record.serviceId));
               }}
             />
           </Tooltip>
@@ -179,7 +183,7 @@ export default function ServiceListPage() {
               icon={<SquarePen size={18} />}
               aria-label={`Chỉnh sửa ${record.serviceCode}`}
               onClick={() => {
-                console.log("Chỉnh sửa dịch vụ:", record);
+                navigate(buildServiceEditPath(record.serviceId));
               }}
             />
           </Tooltip>
