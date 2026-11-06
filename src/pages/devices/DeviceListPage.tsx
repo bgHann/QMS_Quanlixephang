@@ -89,6 +89,10 @@ export default function DeviceListPage() {
     DeviceAvailability | undefined
   >(undefined);
 
+  const [connectionFilter, setConnectionFilter] = useState<
+    ConnectionStatus | undefined
+  >(undefined);
+
   const [page, setPage] = useState(1);
 
   const [pageSize, setPageSize] = useState(10);
@@ -138,6 +142,7 @@ export default function DeviceListPage() {
             pageSize,
             keyword: searchText,
             availability: availabilityFilter,
+            connectionStatus: connectionFilter,
           });
 
           if (active) {
@@ -162,7 +167,14 @@ export default function DeviceListPage() {
       active = false;
       window.clearTimeout(timer);
     };
-  }, [searchText, availabilityFilter, page, pageSize, refreshKey]);
+  }, [
+    searchText,
+    availabilityFilter,
+    connectionFilter,
+    page,
+    pageSize,
+    refreshKey,
+  ]);
 
   const handleDeleteSelectedDevices = () => {
     const selectedIds = selectedRowKeys.map(String);
@@ -368,17 +380,27 @@ export default function DeviceListPage() {
         </div>
 
         <div className={styles.filterField}>
-          <div className={styles.filterLabel}>Trạng thái hoạt động</div>
+          <div className={styles.filterLabel}>Trạng thái khả dụng</div>
 
           <Select
-            placeholder="Tất cả trạng thái"
-            value={availabilityFilter}
-            onChange={(value: DeviceAvailability | undefined) => {
-              setAvailabilityFilter(value);
+            className={styles.statusSelect}
+            classNames={{
+              popup: {
+                root: styles.statusDropdown,
+              },
+            }}
+            value={availabilityFilter ?? "ALL"}
+            onChange={(value) => {
+              setAvailabilityFilter(
+                value === "ALL" ? undefined : (value as DeviceAvailability),
+              );
               setPage(1);
             }}
-            allowClear
             options={[
+              {
+                value: "ALL",
+                label: "Tất cả",
+              },
               {
                 value: "AVAILABLE",
                 label: DEVICE_AVAILABILITY_LABEL.AVAILABLE,
@@ -386,6 +408,39 @@ export default function DeviceListPage() {
               {
                 value: "UNAVAILABLE",
                 label: DEVICE_AVAILABILITY_LABEL.UNAVAILABLE,
+              },
+            ]}
+          />
+        </div>
+        <div className={styles.filterField}>
+          <div className={styles.filterLabel}>Trạng thái kết nối</div>
+
+          <Select
+            className={styles.statusSelect}
+            classNames={{
+              popup: {
+                root: styles.statusDropdown,
+              },
+            }}
+            value={connectionFilter ?? "ALL"}
+            onChange={(value) => {
+              setConnectionFilter(
+                value === "ALL" ? undefined : (value as ConnectionStatus),
+              );
+              setPage(1);
+            }}
+            options={[
+              {
+                value: "ALL",
+                label: "Tất cả",
+              },
+              {
+                value: "CONNECTED",
+                label: CONNECTION_STATUS_LABEL.CONNECTED,
+              },
+              {
+                value: "DISCONNECTED",
+                label: CONNECTION_STATUS_LABEL.DISCONNECTED,
               },
             ]}
           />

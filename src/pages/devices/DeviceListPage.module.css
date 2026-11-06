@@ -175,3 +175,208 @@
     height: 144px;
   }
 }
+/* =========================================
+   SELECT TRẠNG THÁI - QMS
+========================================= */
+
+.statusSelect {
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+}
+
+/* ===== Ô SELECT ===== */
+
+.statusSelect :global(.ant-select-selector) {
+  min-height: 48px !important;
+  padding: 8px 16px !important;
+
+  border: 1px solid #d9dfe8 !important;
+  border-radius: 8px !important;
+
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* ===== HOVER - VIỀN CAM ===== */
+
+.statusSelect:hover :global(.ant-select-selector),
+.statusSelect:global(.ant-select-outlined):hover :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* ===== FOCUS - VIỀN CAM ===== */
+
+.statusSelect:focus-within :global(.ant-select-selector),
+.statusSelect:global(.ant-select-focused) :global(.ant-select-selector),
+.statusSelect:global(.ant-select-outlined.ant-select-focused)
+  :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* ===== DROPDOWN ĐANG MỞ ===== */
+
+.statusSelect:global(.ant-select-open) :global(.ant-select-selector),
+.statusSelect:global(.ant-select-outlined.ant-select-open)
+  :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* ===== GIÁ TRỊ ĐƯỢC CHỌN ===== */
+
+.statusSelect :global(.ant-select-selection-item) {
+  color: #505b6e !important;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  line-height: 30px !important;
+}
+
+/* ===== PLACEHOLDER ===== */
+
+.statusSelect :global(.ant-select-selection-placeholder) {
+  color: #98a2b3;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+}
+
+/* =========================================
+   MŨI TÊN DROPDOWN
+========================================= */
+
+.statusSelect :global(.ant-select-arrow) {
+  color: #ff7605 !important;
+  font-size: 16px;
+
+  transition: transform 0.2s ease;
+}
+
+/* SVG mũi tên */
+
+.statusSelect :global(.ant-select-arrow svg) {
+  color: #ff7605 !important;
+  stroke: #ff7605 !important;
+}
+
+/* Xoay mũi tên khi mở dropdown */
+
+.statusSelect:global(.ant-select-open) :global(.ant-select-arrow) {
+  transform: rotate(180deg);
+}
+
+/* =========================================
+   DANH SÁCH DROPDOWN
+========================================= */
+
+.statusDropdown {
+  padding: 0 !important;
+
+  border: 1px solid #e0e5ec !important;
+  border-radius: 8px !important;
+
+  background-color: #ffffff !important;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+
+  overflow: hidden;
+}
+
+/* ===== TỪNG OPTION ===== */
+
+.statusDropdown :global(.ant-select-item-option) {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 52px;
+  padding: 12px 20px !important;
+
+  border-radius: 0 !important;
+
+  color: #505b6e !important;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  background-color: #ffffff;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* ===== RÊ CHUỘT VÀO OPTION ===== */
+
+.statusDropdown :global(.ant-select-item-option-active),
+.statusDropdown :global(.ant-select-item-option:hover) {
+  background-color: #f5f5f5 !important;
+}
+
+/* ===== OPTION ĐƯỢC CHỌN ===== */
+
+.statusDropdown :global(.ant-select-item-option-selected) {
+  color: #ff7605 !important;
+
+  background-color: #f5f5f5 !important;
+
+  font-weight: 500 !important;
+}
+
+/* Chữ bên trong option đang được chọn */
+
+.statusDropdown
+  :global(.ant-select-item-option-selected)
+  :global(.ant-select-item-option-content) {
+  color: #ff7605 !important;
+}
+
+/* ===== THANH CAM BÊN TRÁI OPTION ===== */
+
+.statusDropdown :global(.ant-select-item-option-selected)::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 4px;
+
+  background-color: #ff7605;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .statusSelect :global(.ant-select-selector) {
+    min-height: 42px !important;
+    padding: 6px 12px !important;
+  }
+
+  .statusSelect :global(.ant-select-selection-item) {
+    font-size: 14px;
+  }
+
+  .statusDropdown :global(.ant-select-item-option) {
+    min-height: 44px;
+    padding: 10px 14px !important;
+    font-size: 14px;
+  }
+}

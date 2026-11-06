@@ -30,4 +30,5 @@ export interface Device {
 
 export interface DeviceListParams extends ListParams {
   availability?: DeviceAvailability;
+  connectionStatus?: ConnectionStatus;
 }

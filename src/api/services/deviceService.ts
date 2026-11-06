@@ -150,7 +150,13 @@ export const deviceService = {
   getList: async (
     params: DeviceListParams = {},
   ): Promise<PageResult<Device>> => {
-    const { page = 1, pageSize = 10, keyword = "", availability } = params;
+    const {
+      page = 1,
+      pageSize = 10,
+      keyword = "",
+      availability,
+      connectionStatus,
+    } = params;
 
     const searchValue = keyword.trim().toLowerCase();
 
@@ -183,7 +189,11 @@ export const deviceService = {
       const matchesAvailability =
         availability === undefined || device.availability === availability;
 
-      return matchesKeyword && matchesAvailability;
+      const matchesConnection =
+        connectionStatus === undefined ||
+        device.connectionStatus === connectionStatus;
+
+      return matchesKeyword && matchesAvailability && matchesConnection;
     });
 
     // Phân trang sau khi lọc
