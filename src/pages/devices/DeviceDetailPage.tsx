@@ -225,10 +225,6 @@ export default function DeviceDetailPage() {
             </div>
           </>
         ) : null}
-
-        <Button onClick={() => navigate(ROUTES.DEVICES)}>
-          Quay lại danh sách
-        </Button>
       </div>
       <VolumeModal
         open={volumeModalOpen}
