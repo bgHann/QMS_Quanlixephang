@@ -12,6 +12,7 @@ export const ROUTES = {
   PROFILE: '/profile',
   ROLES: '/settings/roles',
   ROLE_DETAIL: '/settings/roles/:roleId',
+  LOGO: '/settings/logo',
 } as const;
 
 type PageTitle = {
@@ -32,6 +33,7 @@ export const PAGE_TITLES: PageTitle[] = [
     parent: 'Cài đặt hệ thống',
     title: 'Quản lý vai trò',
   },
+  { path: ROUTES.LOGO, parent: 'Cài đặt hệ thống', title: 'Thiết lập giao diện' },
   {
     path: ROUTES.ROLE_CREATE,
     parent: 'Cài đặt hệ thống / Quản lý vai trò',

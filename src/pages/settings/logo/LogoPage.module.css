@@ -1,0 +1,40 @@
+.page {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Thanh tab hình viên thuốc: nền xám, tab đang chọn màu cam */
+.page .tabs:global(.ant-segmented) {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    padding: 4px;
+    background: #f3f4f6;
+    border-radius: 999px;
+}
+
+.page .tabs :global(.ant-segmented-item) {
+    border-radius: 999px;
+}
+
+.page .tabs :global(.ant-segmented-item-label) {
+    padding: 2px 28px;
+}
+
+.page .tabs :global(.ant-segmented-thumb),
+.page .tabs :global(.ant-segmented-item-selected) {
+    background: #ff7506;
+    border-radius: 999px;
+}
+
+.page .tabs :global(.ant-segmented-item-selected) {
+    color: #ffffff;
+}
+
+.content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}

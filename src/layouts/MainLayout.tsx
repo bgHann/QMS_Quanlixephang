@@ -26,6 +26,7 @@ const menuItems: MenuProps['items'] = [
     children: [
       { key: ROUTES.ROLES, label: 'Quản lý vai trò' },
       { key: ROUTES.ACCOUNTS, label: 'Quản lý tài khoản' },
+      { key: ROUTES.LOGO, label: 'Logo' },
     ],
   },
 ];

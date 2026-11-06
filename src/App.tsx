@@ -7,6 +7,7 @@ import RoleDetailPage from './pages/settings/roles/RoleDetailPage';
 import RoleFormPage from './pages/settings/roles/RoleFormPage';
 import { ROUTES } from './constants/routes';
 import AccountListPage from './pages/settings/accounts/AccountListPage';
+import LogoPage from './pages/settings/logo/LogoPage';
 function ProtectedRoutes() {
   const accessToken = localStorage.getItem('accessToken');
 
@@ -36,6 +37,7 @@ function App() {
             <Route path={ROUTES.ROLE_DETAIL} element={<RoleDetailPage />} />
             <Route path={ROUTES.ACCOUNTS} element={<AccountListPage />} />
             <Route path="*" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+            <Route path={ROUTES.LOGO} element={<LogoPage />} />
           </Route>
         </Route>
       </Routes>
