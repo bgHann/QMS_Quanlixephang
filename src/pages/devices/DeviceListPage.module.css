@@ -34,10 +34,10 @@
   font-weight: 600;
   color: #282739;
 }
-
-.filterField :global(.ant-input-affix-wrapper),
-.filterField :global(.ant-select) {
-  width: 100%;
+.filterField :global(.ant-input-affix-wrapper:hover),
+.filterField :global(.ant-input-affix-wrapper-focused) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
 }
 
 /* ==================== TABLE ==================== */

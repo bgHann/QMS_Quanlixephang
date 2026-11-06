@@ -110,12 +110,6 @@ export default function DeviceDetailPage() {
   };
   return (
     <div className={styles.page}>
-      <div className={styles.breadcrumb}>
-        Cài đặt hệ thống / Danh sách thiết bị
-      </div>
-
-      <h1 className={styles.pageTitle}>Chi tiết</h1>
-
       <div className={styles.content}>
         <h2 className={styles.deviceTitle}>
           Thông tin thiết bị {device?.deviceCode ?? ""}
