@@ -17,6 +17,7 @@ export interface ServicePageResult {
 
 const CREATED_SERVICES_KEY = "qms_created_services";
 const UPDATED_SERVICES_KEY = "qms_updated_services";
+const DELETED_SERVICES_KEY = "qms_deleted_services";
 
 export interface ServiceCreateValues {
   serviceCode: string;
@@ -85,17 +86,40 @@ const getUpdatedServices = (): Service[] => {
   }
 };
 
+const getDeletedServiceIds = (): string[] => {
+  try {
+    const stored = localStorage.getItem(DELETED_SERVICES_KEY);
+
+    if (!stored) {
+      return [];
+    }
+
+    const parsed: unknown = JSON.parse(stored);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter((id): id is string => typeof id === "string");
+  } catch {
+    return [];
+  }
+};
+
 const getAllServices = (): Service[] => {
   const originalServices = [...getCreatedServices(), ...servicesMock];
+
   const updatedServices = getUpdatedServices();
+
+  const deletedIds = new Set(getDeletedServiceIds());
 
   const updatedMap = new Map(
     updatedServices.map((service) => [service.serviceId, service]),
   );
 
-  return originalServices.map(
-    (service) => updatedMap.get(service.serviceId) ?? service,
-  );
+  return originalServices
+    .filter((service) => !deletedIds.has(service.serviceId))
+    .map((service) => updatedMap.get(service.serviceId) ?? service);
 };
 
 export const serviceService = {
@@ -293,6 +317,58 @@ export const serviceService = {
       allServices.find((service) => service.serviceId === serviceId) ?? null
     );
   },
+  deleteMany: async (serviceIds: string[]): Promise<number> => {
+    // Loại bỏ ID trùng lặp
+    const uniqueIds = Array.from(new Set(serviceIds));
+
+    if (uniqueIds.length === 0) {
+      throw new Error("Vui lòng chọn ít nhất một dịch vụ");
+    }
+
+    const existingIds = new Set(
+      getAllServices().map((service) => service.serviceId),
+    );
+
+    // Chỉ xử lý những ID đang tồn tại
+    const validIds = uniqueIds.filter((id) => existingIds.has(id));
+
+    if (validIds.length === 0) {
+      throw new Error("Không tìm thấy dịch vụ cần xóa");
+    }
+
+    const idsToDelete = new Set(validIds);
+
+    // Xóa dịch vụ do người dùng tạo
+    const remainingCreatedServices = getCreatedServices().filter(
+      (service) => !idsToDelete.has(service.serviceId),
+    );
+
+    localStorage.setItem(
+      CREATED_SERVICES_KEY,
+      JSON.stringify(remainingCreatedServices),
+    );
+
+    // Loại bỏ bản cập nhật của những dịch vụ đã xóa
+    const remainingUpdatedServices = getUpdatedServices().filter(
+      (service) => !idsToDelete.has(service.serviceId),
+    );
+
+    localStorage.setItem(
+      UPDATED_SERVICES_KEY,
+      JSON.stringify(remainingUpdatedServices),
+    );
+
+    // Ghi nhớ ID đã xóa để dịch vụ mock không xuất hiện lại
+    const deletedIds = new Set([...getDeletedServiceIds(), ...validIds]);
+
+    localStorage.setItem(
+      DELETED_SERVICES_KEY,
+      JSON.stringify(Array.from(deletedIds)),
+    );
+
+    return validIds.length;
+  },
+
   // Chuyển danh sách mã quầy thành tên quầy
   getCounterNames: (counterIds: string[]): string[] => {
     return counterIds.map((counterId) => countersMock[counterId] ?? counterId);

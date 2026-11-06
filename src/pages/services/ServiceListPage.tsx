@@ -33,6 +33,8 @@ import {
   buildServiceEditPath,
 } from "../../constants/routes";
 
+import DeleteServiceModal from "../../components/services/DeleteServiceModal";
+
 const { RangePicker } = DatePicker;
 
 export default function ServiceListPage() {
@@ -60,6 +62,10 @@ export default function ServiceListPage() {
 
   // Loading
   const [loading, setLoading] = useState(false);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // Lấy danh sách dịch vụ
   useEffect(() => {
@@ -98,8 +104,47 @@ export default function ServiceListPage() {
     return () => {
       active = false;
     };
-  }, [page, pageSize, searchText, statusFilter, fromDate, toDate]);
+  }, [page, pageSize, searchText, statusFilter, fromDate, toDate, refreshKey]);
 
+  const handleDeleteServices = async () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning("Vui lòng chọn ít nhất một dịch vụ");
+      return;
+    }
+
+    setDeleting(true);
+
+    try {
+      const deletedCount = await serviceService.deleteMany(
+        selectedRowKeys.map(String),
+      );
+
+      message.success(`Đã xóa ${deletedCount} dịch vụ thành công`);
+
+      // Bỏ lựa chọn sau khi xóa
+      setSelectedRowKeys([]);
+
+      // Đóng popup
+      setDeleteModalOpen(false);
+
+      // Điều chỉnh trang nếu trang hiện tại không còn dữ liệu
+      const remainingTotal = Math.max(0, total - deletedCount);
+      const lastPage = Math.max(1, Math.ceil(remainingTotal / pageSize));
+
+      setPage((currentPage) => Math.min(currentPage, lastPage));
+
+      // Tải lại danh sách
+      setRefreshKey((current) => current + 1);
+    } catch (error) {
+      message.error(
+        error instanceof Error
+          ? error.message
+          : "Không thể xóa dịch vụ. Vui lòng thử lại.",
+      );
+    } finally {
+      setDeleting(false);
+    }
+  };
   // Cấu hình các cột
   const columns: TableColumnsType<Service> = [
     {
@@ -191,6 +236,12 @@ export default function ServiceListPage() {
       ),
     },
   ];
+
+  const selectedServiceCodes = selectedRowKeys.map((key) => {
+    const service = services.find((item) => item.serviceId === String(key));
+
+    return service?.serviceCode ?? String(key);
+  });
 
   return (
     <div className={styles.page}>
@@ -290,7 +341,7 @@ export default function ServiceListPage() {
               navigate(ROUTES.SERVICE_CREATE);
             }}
             onDelete={() => {
-              message.info(`Đã chọn ${selectedRowKeys.length} dịch vụ để xóa`);
+              setDeleteModalOpen(true);
             }}
             deleteDisabled={selectedRowKeys.length === 0}
           />
@@ -306,6 +357,17 @@ export default function ServiceListPage() {
           setPageSize(size);
           setPage(1);
         }}
+      />
+      <DeleteServiceModal
+        open={deleteModalOpen}
+        serviceNames={selectedServiceCodes}
+        loading={deleting}
+        onCancel={() => {
+          if (!deleting) {
+            setDeleteModalOpen(false);
+          }
+        }}
+        onConfirm={() => void handleDeleteServices()}
       />
     </div>
   );
