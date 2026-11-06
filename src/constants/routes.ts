@@ -4,6 +4,7 @@ export const ROUTES = {
   DEVICES: "/devices",
   DEVICE_DETAIL: "/devices/:deviceId",
   SERVICES: "/services",
+  SERVICE_CREATE: "/services/create",
   COUNTERS: "/counters",
   TICKETS: "/tickets",
   RATINGS: "/ratings",
@@ -52,6 +53,26 @@ export const PAGE_TITLES: PageTitle[] = [
     path: ROUTES.PROFILE,
     parent: "",
     title: "Hồ sơ cá nhân",
+  },
+  {
+    path: ROUTES.DEVICES,
+    parent: "Cài đặt hệ thống",
+    title: "Danh sách thiết bị",
+  },
+  {
+    path: ROUTES.DEVICE_DETAIL,
+    parent: "Cài đặt hệ thống / Danh sách thiết bị",
+    title: "Chi tiết",
+  },
+  {
+    path: ROUTES.SERVICES,
+    parent: "Dịch vụ",
+    title: "Danh sách dịch vụ",
+  },
+  {
+    path: ROUTES.SERVICE_CREATE,
+    parent: "Dịch vụ / Danh sách dịch vụ",
+    title: "Thêm dịch vụ",
   },
 ];
 

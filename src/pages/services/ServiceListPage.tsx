@@ -26,10 +26,13 @@ import type { Service, ServiceStatus } from "../../types/service";
 import styles from "./ServiceListPage.module.css";
 
 import ServiceToolbar from "../../components/services/ServiceToolbar";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 const { RangePicker } = DatePicker;
 
 export default function ServiceListPage() {
+  const navigate = useNavigate();
   // Danh sách dịch vụ
   const [services, setServices] = useState<Service[]>([]);
 
@@ -211,6 +214,11 @@ export default function ServiceListPage() {
 
           <Select
             className={styles.statusSelect}
+            classNames={{
+              popup: {
+                root: styles.statusDropdown,
+              },
+            }}
             value={statusFilter ?? "ALL"}
             onChange={(value) => {
               setStatusFilter(
@@ -275,9 +283,7 @@ export default function ServiceListPage() {
         <div className={styles.toolbarWrapper}>
           <ServiceToolbar
             onAdd={() => {
-              message.info(
-                "Chức năng thêm dịch vụ sẽ được triển khai tiếp theo",
-              );
+              navigate(ROUTES.SERVICE_CREATE);
             }}
             onDelete={() => {
               message.info(`Đã chọn ${selectedRowKeys.length} dịch vụ để xóa`);

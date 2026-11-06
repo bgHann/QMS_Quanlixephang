@@ -14,26 +14,224 @@
   font-family: "Raleway", sans-serif;
 }
 
+/* =========================================
+   FILTER - SERVICE LIST
+========================================= */
+
 .filterArea {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: flex-start;
+
   gap: 16px;
+  margin-bottom: 12px;
 }
+/* Ô tìm kiếm và trạng thái */
 
 .filterField {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  gap: 6px;
   width: 220px;
 }
 
+/* Nhãn bộ lọc */
+
 .filterLabel {
   color: #282739;
+
+  font-family: "Raleway", sans-serif;
   font-size: 14px;
   font-weight: 600;
+
+  line-height: 150%;
 }
 
+/* =========================================
+   INPUT TÌM KIẾM
+========================================= */
+
+.filterField :global(.ant-input-affix-wrapper) {
+  width: 100%;
+  height: 48px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  box-shadow: none;
+
+  font-family: "Raleway", sans-serif;
+}
+
+/* Hover và focus */
+
+.filterField :global(.ant-input-affix-wrapper:hover),
+.filterField :global(.ant-input-affix-wrapper-focused) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* Chữ trong ô tìm kiếm */
+
+.filterField :global(.ant-input) {
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+/* Placeholder */
+
+.filterField :global(.ant-input::placeholder) {
+  color: #98a2b3;
+}
+
+/* Icon tìm kiếm */
+
+.filterField :global(.ant-input-prefix) {
+  color: #98a2b3;
+  margin-right: 8px;
+}
+
+/* =========================================
+   SELECT TRẠNG THÁI
+========================================= */
+
+.statusSelect {
+  width: 100%;
+  height: 48px;
+
+  font-family: "Raleway", sans-serif;
+}
+
+.statusSelect :global(.ant-select-selector) {
+  height: 48px !important;
+  min-height: 48px !important;
+
+  padding: 8px 12px !important;
+
+  border: 1px solid #d9dfe8 !important;
+  border-radius: 6px !important;
+
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* Hover */
+
+.statusSelect:hover :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+}
+
+/* Focus và mở dropdown */
+
+.statusSelect:global(.ant-select-focused) :global(.ant-select-selector),
+.statusSelect:global(.ant-select-open) :global(.ant-select-selector) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* Giá trị được chọn */
+
+.statusSelect :global(.ant-select-selection-item) {
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+/* Mũi tên */
+
+.statusSelect :global(.ant-select-arrow) {
+  color: #ff7605 !important;
+}
+
+/* =========================================
+   BỘ LỌC THỜI GIAN
+========================================= */
+
+.dateFilter {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+  width: 320px;
+}
+
+/* RangePicker */
+
+.dateFilter :global(.ant-picker) {
+  width: 100%;
+  height: 48px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 6px;
+
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+/* Hover */
+
+.dateFilter :global(.ant-picker:hover) {
+  border-color: #ff7605 !important;
+}
+
+/* Focus */
+
+.dateFilter :global(.ant-picker-focused) {
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* Ngày đã chọn */
+
+.dateFilter :global(.ant-picker-input > input) {
+  color: #505b6e;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+}
+
+/* Placeholder ngày */
+
+.dateFilter :global(.ant-picker-input > input::placeholder) {
+  color: #98a2b3;
+}
+
+/* Icon lịch */
+
+.dateFilter :global(.ant-picker-suffix) {
+  color: #ff7605 !important;
+}
+
+/* Dấu phân cách hai ngày */
+
+.dateFilter :global(.ant-picker-separator) {
+  color: #98a2b3;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .filterArea {
+    gap: 12px;
+  }
+
+  .filterField,
+  .dateFilter {
+    width: 100%;
+  }
+}
 .statusSelect {
   width: 100%;
 }
@@ -196,4 +394,85 @@
   min-width: 0;
 
   width: 100%;
+}
+
+/* =========================================
+   STATUS SELECT DROPDOWN
+========================================= */
+
+.statusDropdown {
+  padding: 0 !important;
+
+  border: 1px solid #e0e5ec !important;
+  border-radius: 8px !important;
+
+  background-color: #ffffff !important;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+
+  overflow: hidden;
+}
+
+/* Từng lựa chọn */
+
+.statusDropdown :global(.ant-select-item-option) {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 48px;
+
+  padding: 10px 16px !important;
+
+  color: #505b6e !important;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+
+  background-color: #ffffff;
+
+  border-radius: 0 !important;
+}
+
+/* Rê chuột vào lựa chọn */
+
+.statusDropdown :global(.ant-select-item-option-active),
+.statusDropdown :global(.ant-select-item-option:hover) {
+  background-color: #f5f5f5 !important;
+}
+
+/* Lựa chọn được chọn */
+
+.statusDropdown :global(.ant-select-item-option-selected) {
+  color: #ff7605 !important;
+
+  background-color: #f5f5f5 !important;
+
+  font-weight: 500 !important;
+}
+
+/* Chữ của lựa chọn được chọn */
+
+.statusDropdown
+  :global(.ant-select-item-option-selected)
+  :global(.ant-select-item-option-content) {
+  color: #ff7605 !important;
+}
+
+/* Thanh cam bên trái */
+
+.statusDropdown :global(.ant-select-item-option-selected)::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 4px;
+
+  background-color: #ff7605;
 }
