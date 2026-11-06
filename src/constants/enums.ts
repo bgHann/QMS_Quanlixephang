@@ -1,3 +1,5 @@
+import { TicketStatus } from '../types/ticket';
+
 export const ACCOUNT_STATUS = { ACTIVE: 'ACTIVE', SUSPENDED: 'SUSPENDED' } as const;
 export type AccountStatus = (typeof ACCOUNT_STATUS)[keyof typeof ACCOUNT_STATUS];
 
@@ -5,10 +7,13 @@ export const ACCOUNT_STATUS_LABEL: Record<AccountStatus, string> = {
   ACTIVE: 'Hoạt động',
   SUSPENDED: 'Ngưng hoạt động',
 };
+
+// ===== Thiết lập giao diện =====
 export const THEME_COLORS = [
   '#4D8F8B', '#5B9A28', '#1E5B3A', '#2BB3A6', '#2E7DB8',
   '#6F4BB8', '#FF7506', '#E5484D', '#D6336C', '#7A5C3E',
 ] as const;
+
 export const VOICE_OPTIONS = [
   { value: 'south', label: 'Miền Nam' },
   { value: 'north', label: 'Miền Bắc' },
@@ -27,3 +32,18 @@ export const SAMPLE_TEMPLATES = [
   'Xin mời số thứ tự {soThuTu} đến quầy {quayTen}',
   'Quý khách mang số {soThuTu}, vui lòng di chuyển đến quầy {quayTen} để tiếp tục giao dịch.',
 ];
+
+// ===== Cấp số (nhóm) =====
+export const TICKET_STATUS_LABELS: Record<TicketStatus, string> = {
+  WAITING: 'Đang chờ',
+  PROCESSING: 'Đang sử dụng',
+  COMPLETED: 'Đã sử dụng',
+  SKIPPED: 'Bỏ qua',
+};
+
+export const TICKET_STATUS_COLORS: Record<TicketStatus, string> = {
+  WAITING: '#faad14',
+  PROCESSING: '#1677ff',
+  COMPLETED: '#16a34a',
+  SKIPPED: '#ef4444',
+};
