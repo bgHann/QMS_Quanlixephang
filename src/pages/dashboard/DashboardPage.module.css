@@ -28,6 +28,25 @@
   flex-shrink: 0;
   overflow: hidden;
 }
+/* hàng chứa 2 biểu đồ */
+.chartsRow {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* biểu đồ đường chiếm khoảng 58-60% */
+.lineCol {
+  flex: 1.4;
+  min-width: 0;
+}
+
+/* biểu đồ cột chiếm phần còn lại */
+.barCol {
+  flex: 1;
+  min-width: 0;
+}
 
 @media (max-height: 700px) {
   .container {
