@@ -14,6 +14,7 @@ import RoleFormPage from "./pages/auth/settings/roles/RoleFormPage";
 import { ROUTES } from "./constants/routes";
 import DeviceListPage from "./pages/devices/DeviceListPage";
 import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
+import ServiceListPage from "./pages/services/ServiceListPage";
 
 function ProtectedRoutes() {
   const accessToken = localStorage.getItem("accessToken");
@@ -44,6 +45,7 @@ function App() {
             <Route path={ROUTES.ROLE_DETAIL} element={<RoleDetailPage />} />
             <Route path={ROUTES.DEVICES} element={<DeviceListPage />} />
             <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
+            <Route path={ROUTES.SERVICES} element={<ServiceListPage />} />
             <Route
               path="*"
               element={<Navigate to={ROUTES.DASHBOARD} replace />}
