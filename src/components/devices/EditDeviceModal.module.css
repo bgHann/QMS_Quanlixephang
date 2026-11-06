@@ -1,0 +1,209 @@
+/* ===== MODAL ===== */
+
+.editDeviceModal {
+  max-width: calc(100vw - 32px);
+  font-family: "Raleway", sans-serif;
+}
+
+.editDeviceModal :global(.ant-modal-container) {
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.editDeviceModal :global(.ant-modal-body) {
+  padding: 0;
+}
+
+.editDeviceModal :global(.ant-modal-close) {
+  top: 12px;
+  right: 12px;
+  color: #282739;
+  z-index: 2;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 64px);
+  padding: 24px 32px 0;
+  overflow-y: auto;
+}
+
+.title {
+  margin: 0 32px 24px;
+  color: #ff7605;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ===== FORM ===== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+  row-gap: 4px;
+}
+
+.form :global(.ant-form-item) {
+  margin-bottom: 16px;
+}
+
+.form :global(.ant-form-item-label) {
+  padding-bottom: 6px;
+}
+
+.form :global(.ant-form-item-label > label) {
+  color: #282739;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form :global(.ant-form-item-required::before) {
+  color: #ff4d4f !important;
+}
+
+.form :global(.ant-input),
+.form :global(.ant-select-selector) {
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+}
+
+.form :global(.ant-input:not(textarea)),
+.form :global(.ant-select-single .ant-select-selector) {
+  min-height: 40px;
+}
+
+.form :global(.ant-input:disabled) {
+  background: #e9e9e9;
+  color: #667085;
+  cursor: not-allowed;
+}
+
+.form :global(.ant-input:focus),
+.form :global(.ant-input-focused) {
+  border-color: #ff7605;
+}
+
+.form :global(.ant-select-focused .ant-select-selector) {
+  border-color: #ff7605 !important;
+}
+
+/* ===== DỊCH VỤ SỬ DỤNG ===== */
+
+.serviceSection {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.sectionLabel {
+  margin-bottom: 8px;
+  color: #282739;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sectionLabel span,
+.requiredNote span {
+  color: #ff4d4f;
+}
+
+.serviceSection :global(.ant-form-item) {
+  margin-bottom: 16px;
+}
+
+/* ===== GHI CHÚ ===== */
+
+.requiredNote {
+  margin: 0 0 16px;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+/* ===== NÚT THAO TÁC ===== */
+
+.actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0 20px;
+  background: #fff;
+  z-index: 1;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 168px;
+  height: 48px;
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cancelButton {
+  border: 1px solid #ff7605;
+  background: #fff;
+  color: #ff7605;
+}
+
+.cancelButton:hover {
+  border-color: #ff7605 !important;
+  background: #fff7f0 !important;
+  color: #ff7605 !important;
+}
+
+.confirmButton {
+  border: 1px solid #ff7605;
+  background: #ff7605;
+  color: #fff;
+}
+
+.confirmButton:hover {
+  border-color: #e86b00 !important;
+  background: #e86b00 !important;
+  color: #fff !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 680px) {
+  .content {
+    padding: 20px 16px 0;
+  }
+
+  .title {
+    font-size: 21px;
+    margin-bottom: 20px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+}

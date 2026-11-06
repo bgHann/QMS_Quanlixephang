@@ -1,0 +1,126 @@
+/* ===== POPUP XÁC NHẬN ĐĂNG NHẬP ===== */
+
+.loginConfirmModal :global(.ant-modal-content) {
+  width: 500px;
+  min-height: 356px;
+  padding: 40px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Nút đóng popup */
+.loginConfirmModal :global(.ant-modal-close) {
+  top: 12px;
+  right: 12px;
+  color: #282739;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+/* Tiêu đề */
+.title {
+  margin: 0;
+  color: #ff7605;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 150%;
+  text-align: center;
+}
+
+/* ===== THÔNG TIN THIẾT BỊ ===== */
+
+.information {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Dòng cuối không có đường kẻ */
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+/* Nhãn thông tin */
+.infoLabel {
+  flex-shrink: 0;
+  color: #282739;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+/* Giá trị */
+.infoValue {
+  color: #667085;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  overflow-wrap: anywhere;
+  font-variant-numeric: lining-nums;
+}
+
+/* ===== NÚT TỪ CHỐI / ĐĂNG NHẬP ===== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.rejectButton,
+.loginButton {
+  width: 168px;
+  height: 56px;
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Nút Từ chối */
+.rejectButton {
+  color: #ff3030;
+  background: #ffffff;
+  border: 1px solid #ff3030;
+}
+
+.rejectButton:hover {
+  color: #ff3030 !important;
+  border-color: #ff3030 !important;
+  background: #fff5f5 !important;
+}
+
+/* Nút Đăng nhập */
+.loginButton {
+  color: #ffffff;
+  background: #ff7605;
+  border: 1px solid #ff7605;
+}
+
+.loginButton:hover {
+  color: #ffffff !important;
+  background: #e96b00 !important;
+  border-color: #e96b00 !important;
+}

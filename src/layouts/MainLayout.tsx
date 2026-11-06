@@ -78,20 +78,10 @@ const menuItems: MenuProps['items'] = [
     icon: <SettingOutlined />,
     label: 'Cài đặt hệ thống',
     children: [
-<<<<<<< HEAD
       { key: ROUTES.ROLES, label: 'Quản lý vai trò' },
       { key: ROUTES.ACCOUNTS, label: 'Quản lý tài khoản' },
       { key: ROUTES.LOGO, label: 'Logo' },
-=======
-      {
-        key: ROUTES.ROLES,
-        label: 'Quản lý vai trò',
-      },
-      {
-        key: ROUTES.ACCOUNTS,
-        label: 'Quản lý tài khoản',
-      },
->>>>>>> origin/feature/sequence
+
     ],
   },
 ];
@@ -184,7 +174,11 @@ export default function MainLayout() {
           selectedKeys={[
             pathname.startsWith(ROUTES.ROLES)
               ? ROUTES.ROLES
-              : pathname,
+              : pathname.startsWith(ROUTES.TICKETS)
+                ? ROUTES.TICKETS
+                : pathname.startsWith(ROUTES.DEVICES)
+                  ? ROUTES.DEVICES
+                  : pathname,
           ]}
           defaultOpenKeys={
             pathname.startsWith('/settings')

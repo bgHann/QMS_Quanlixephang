@@ -1,23 +1,33 @@
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import Login from './pages/auth/login/Login';
-import ForgotPassword from './pages/auth/forgot/ForgotPassword';
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
+import Login from "./pages/auth/login/Login";
+import ForgotPassword from "./pages/auth/forgot/ForgotPassword";
 
-import MainLayout from './layouts/MainLayout';
+import MainLayout from "./layouts/MainLayout";
 
-import RoleListPage from './pages/settings/roles/RoleListPage';
-import RoleDetailPage from './pages/settings/roles/RoleDetailPage';
-import RoleFormPage from './pages/settings/roles/RoleFormPage';
-import AccountListPage from './pages/settings/accounts/AccountListPage';
-import LogoPage from './pages/settings/logo/LogoPage';
+import RoleListPage from "./pages/settings/roles/RoleListPage";
+import RoleDetailPage from "./pages/settings/roles/RoleDetailPage";
+import RoleFormPage from "./pages/settings/roles/RoleFormPage";
+import AccountListPage from "./pages/settings/accounts/AccountListPage";
+import LogoPage from "./pages/settings/logo/LogoPage";
 
-// Module Cấp số (nhóm)
-import TicketListPage from './pages/tickets/TicketListPage';
-import TicketRulePage from './pages/tickets/TicketRulePage';
+// Module Cấp số
+import TicketListPage from "./pages/tickets/TicketListPage";
+import TicketRulePage from "./pages/tickets/TicketRulePage";
 
-import { ROUTES } from './constants/routes';
+// Module Thiết bị
+import DeviceListPage from "./pages/devices/DeviceListPage";
+import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
+
+import { ROUTES } from "./constants/routes";
 
 function ProtectedRoutes() {
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
     return <Navigate to={ROUTES.LOGIN} replace />;
@@ -49,12 +59,19 @@ function App() {
             <Route path={ROUTES.ACCOUNTS} element={<AccountListPage />} />
             <Route path={ROUTES.LOGO} element={<LogoPage />} />
 
+            {/* Thiết bị */}
+            <Route path={ROUTES.DEVICES} element={<DeviceListPage />} />
+            <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
+
             {/* Cấp số */}
-            <Route path="/tickets" element={<TicketListPage />} />
-            <Route path="/tickets/rules" element={<TicketRulePage />} />
+            <Route path={ROUTES.TICKETS} element={<TicketListPage />} />
+            <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
 
             {/* Luôn để cuối cùng */}
-            <Route path="*" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+            <Route
+              path="*"
+              element={<Navigate to={ROUTES.DASHBOARD} replace />}
+            />
           </Route>
         </Route>
       </Routes>
