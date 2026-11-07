@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: calc(100vh - 128px);
+  max-height: calc(100vh - 128px);
+  min-height: 0;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.leftCol {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.rightCol {
+  width: 330px;
+  height: min(796px, 100%);
+  min-height: 0;
+  align-self: flex-start;
+  margin-right: -24px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+/* hàng chứa 2 biểu đồ */
+.chartsRow {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* biểu đồ đường chiếm khoảng 58-60% */
+.lineCol {
+  flex: 1.4;
+  min-width: 0;
+}
+
+/* biểu đồ cột chiếm phần còn lại */
+.barCol {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-height: 700px) {
+  .container {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    gap: 20px;
+  }
+
+  .leftCol {
+    height: auto;
+    overflow: visible;
+  }
+
+  .rightCol {
+    width: 100%;
+    height: min(796px, 75vh);
+    margin-right: 0;
+    align-self: stretch;
+    overflow: visible;
+  }
+}

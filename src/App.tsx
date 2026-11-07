@@ -24,6 +24,9 @@ import TicketRulePage from "./pages/tickets/TicketRulePage";
 import DeviceListPage from "./pages/devices/DeviceListPage";
 import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
 
+// Dashboard
+import DashboardPage from "./pages/dashboard/DashboardPage";
+
 import { ROUTES } from "./constants/routes";
 
 function ProtectedRoutes() {
@@ -34,10 +37,6 @@ function ProtectedRoutes() {
   }
 
   return <Outlet />;
-}
-
-function DashboardPage() {
-  return <div>Chào mừng bạn đến với hệ thống QMS</div>;
 }
 
 function App() {

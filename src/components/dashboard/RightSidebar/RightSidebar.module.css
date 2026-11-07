@@ -1,0 +1,85 @@
+.container {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-bottom: 0;
+  border-top-left-radius: 8px;
+
+  padding: 8px 40px 40px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 253.33px;
+  flex: 0 0 253.33px;
+  min-height: 253.33px;
+  padding-top: 0;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+@media (max-height: 800px) {
+  .container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    gap: 8px;
+  }
+
+  .cardList {
+    height: 202px;
+    flex-basis: 202px;
+    min-height: 202px;
+    padding-block: 0;
+    gap: 8px;
+  }
+}
+
+@media (max-height: 700px) {
+  .container {
+    padding-top: 8px;
+    padding-bottom: 6px;
+    gap: 6px;
+  }
+
+  .cardList {
+    height: 190px;
+    flex-basis: 190px;
+    min-height: 190px;
+  }
+}
+
+@media (max-height: 650px) {
+  .cardList {
+    height: 178px;
+    flex-basis: 178px;
+    min-height: 178px;
+  }
+}
+
+@media (max-height: 620px) {
+  .container {
+    padding-top: 8px;
+    padding-bottom: 4px;
+    gap: 4px;
+  }
+
+  .cardList {
+    height: 160px;
+    flex-basis: 160px;
+    min-height: 160px;
+    gap: 6px;
+  }
+}
