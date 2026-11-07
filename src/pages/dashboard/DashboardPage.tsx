@@ -4,6 +4,8 @@ import StartOverView from "../../components/dashboard/topCard/StartOverView/Star
 import RightSidebar from "../../components/dashboard/RightSidebar/RightSidebar";
 import LineChartSection from "../../components/dashboard/second/LineChartSection";
 import BarChartSection from "../../components/dashboard/second/BarChartSection";
+import TicketDetailModal from "../../components/tickets/TicketDetailModal";
+import TicketListPage from "../tickets/TicketListPage";
 export default function DashboardPage() {
   return (
     <div className={styles.container}>
