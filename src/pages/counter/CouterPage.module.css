@@ -1,0 +1,59 @@
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+/* trạng thái đang tải */
+.message {
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+  color: #667085;
+  font-size: 14px;
+}
+
+/* không có dữ liệu */
+.empty {
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+  color: #667085;
+  font-size: 14px;
+}
+
+/* trạng thái lỗi */
+.error {
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* màn hình nhỏ hơn */
+@media screen and (max-width: 1400px) {
+  .container {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
