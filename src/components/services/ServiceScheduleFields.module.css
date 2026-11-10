@@ -1,0 +1,184 @@
+.schedule {
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+}
+
+/* ===== TIÊU ĐỀ ===== */
+
+.scheduleHeader {
+  display: grid;
+
+  grid-template-columns:
+    75px
+    40px
+    minmax(70px, 90px)
+    12px
+    minmax(70px, 90px)
+    minmax(140px, 1fr);
+
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 12px;
+
+  color: #282739;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Thời gian áp dụng */
+.scheduleHeader span:first-child {
+  grid-column: 1 / 6;
+  text-align: left;
+}
+
+/* Thời gian xử lý */
+.scheduleHeader span:last-child {
+  grid-column: 6;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .scheduleHeader {
+    grid-template-columns:
+      65px
+      36px
+      minmax(60px, 1fr)
+      12px
+      minmax(60px, 1fr);
+  }
+
+  .scheduleHeader span:last-child {
+    grid-column: 3 / -1;
+    text-align: center;
+  }
+}
+
+/* ===== DANH SÁCH NGÀY ===== */
+
+.scheduleRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ===== TỪNG DÒNG ===== */
+
+.scheduleRow {
+  display: grid;
+
+  grid-template-columns:
+    75px
+    40px
+    minmax(70px, 90px)
+    12px
+    minmax(70px, 90px)
+    minmax(140px, 1fr);
+
+  align-items: center;
+  gap: 8px;
+
+  min-height: 36px;
+}
+
+/* Tên ngày */
+
+.dayLabel {
+  color: #505b6e;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Form item */
+
+.fieldItem {
+  margin-bottom: 0 !important;
+}
+
+/* ===== SWITCH ===== */
+
+.scheduleRow :global(.ant-switch-checked) {
+  background-color: #ff7605 !important;
+}
+
+/* ===== TIME PICKER ===== */
+
+.timePicker {
+  width: 100%;
+}
+
+.timePicker :global(.ant-picker-input > input) {
+  font-size: 12px;
+}
+
+.timePicker :global(.ant-picker-suffix) {
+  display: none;
+}
+
+.timeSeparator {
+  color: #98a2b3;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* ===== CHỌN CA ===== */
+
+.shiftSelect {
+  width: 100%;
+}
+
+.shiftSelect :global(.ant-select-selector) {
+  min-height: 34px !important;
+  border-radius: 6px !important;
+}
+
+.shiftSelect :global(.ant-select-selection-item) {
+  font-size: 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+  .scheduleRow {
+    grid-template-columns:
+      65px
+      36px
+      minmax(60px, 1fr)
+      12px
+      minmax(60px, 1fr);
+  }
+
+  .scheduleRow .fieldItem:last-child {
+    grid-column: 3 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .scheduleRow {
+    grid-template-columns:
+      72px
+      40px
+      minmax(0, 1fr)
+      12px
+      minmax(0, 1fr);
+  }
+}
+/* Thu gọn các ô thời gian */
+
+.scheduleRow :global(.ant-picker) {
+  height: 34px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Thu gọn ô chọn ca */
+
+.shiftSelect {
+  width: 100%;
+  min-height: 34px;
+}
+
+.shiftSelect :global(.ant-select-selector) {
+  min-height: 34px !important;
+  border-radius: 6px !important;
+}

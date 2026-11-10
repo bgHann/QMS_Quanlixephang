@@ -1,0 +1,138 @@
+.page {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  gap: 16px;
+
+  font-family: "Raleway", sans-serif;
+  color: #505b6e;
+}
+
+.infoPanel {
+  flex: 0 0 26%;
+  min-width: 260px;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 16px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.infoTitle {
+  margin: 0 0 24px;
+  color: #ff7605;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.infoLabel {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: #282739;
+}
+
+.infoValue {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.serviceImage {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.emptyImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  height: 120px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  color: #98a2b3;
+}
+
+.updateButton {
+  margin-top: auto;
+  width: 100%;
+  min-height: 40px;
+  color: #ff7605;
+  border: 1px solid #ff7605;
+  border-radius: 8px;
+  background: #fff;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+}
+
+.updateButton:hover {
+  background: #fff7f0;
+}
+
+.historyPanel {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 16px;
+
+  border: 1px solid #d9dfe8;
+  border-radius: 8px;
+  background: #ffffff;
+}
+/* ===== THỜI GIAN HOẠT ĐỘNG ===== */
+
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #505b6e;
+  line-height: 1.5;
+}
+
+.scheduleItem {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.scheduleItem span:first-child {
+  white-space: nowrap;
+}
+
+.scheduleItem span:last-child {
+  white-space: nowrap;
+}
