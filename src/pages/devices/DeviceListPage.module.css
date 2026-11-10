@@ -188,7 +188,7 @@
 /* ===== Ô SELECT ===== */
 
 .statusSelect :global(.ant-select-selector) {
-  min-height: 48px !important;
+  min-height: 33px !important;
   padding: 8px 16px !important;
 
   border: 1px solid #d9dfe8 !important;
