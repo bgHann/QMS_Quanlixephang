@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import type { Counter } from "../../types/serviceCounter";
 import { counterService } from "../../api/services/counterService";
-import ServiceCounterCard from "../../components/ServiceCounter/ServiceCounterCard";
+import ServiceCounterCard from "../../components/ServiceCounter/couterPage/ServiceCounterCard";
 import style from "./CouterPage.module.css";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 const CounterPage: React.FC = () => {
+  const navigate = useNavigate();
   const [counters, setCounters] = useState<Counter[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-
+  // click
+  const handleClick = (counter: Counter) => {
+    navigate(ROUTES.COUNTERS_DETAIL, {
+      state: counter, // dùng state để lưu thông tin đẻ dùng sang trang khác
+    });
+  };
   useEffect(() => {
     const fetchCounters = async () => {
       try {
@@ -45,7 +53,11 @@ const CounterPage: React.FC = () => {
         <div className={style.empty}>Chưa có quầy dịch vụ nào.</div>
       ) : (
         counters.map((counter) => (
-          <ServiceCounterCard key={counter.id} counter={counter} />
+          <ServiceCounterCard
+            key={counter.id}
+            counter={counter}
+            onClick={handleClick}
+          />
         ))
       )}
     </div>
