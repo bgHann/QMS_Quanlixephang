@@ -1,11 +1,12 @@
+
 import React, { useMemo, useState } from "react";
+
 import {
   Button,
   Card,
   DatePicker,
   Input,
   Select,
-  Table,
   Tooltip,
 } from "antd";
 
@@ -16,16 +17,15 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 
-import type { ColumnsType } from "antd/es/table";
 import type { Dayjs } from "dayjs";
 
-import { Ticket, TicketFilter } from "../../types/ticket";
+import type { Ticket, TicketFilter } from "../../types/ticket";
 import { ticketService } from "../../api/services/ticketService";
 
-import StatusTag from "../../components/common/StatusTag";
 import IssueTicketModal from "../../components/tickets/IssueTicketModal";
 import TicketDetailModal from "../../components/tickets/TicketDetailModal";
 import ResetRangeModal from "../../components/tickets/ResetRangeModal";
+import TicketListModal from "../../components/tickets/TicketListModal";
 
 import styles from "./TicketListPage.module.css";
 
@@ -41,8 +41,6 @@ const serviceOptions = [
 
 const TicketListPage: React.FC = () => {
   const [filters, setFilters] = useState<TicketFilter>({});
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
   const [issueOpen, setIssueOpen] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
@@ -51,32 +49,21 @@ const TicketListPage: React.FC = () => {
     useState<Ticket | null>(null);
 
   const [detailOpen, setDetailOpen] = useState(false);
+
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const tickets = useMemo(
-    () => ticketService.search(filters),
-    [filters, refreshKey]
-  );
-
+  // Lấy dữ liệu thống kê
   const statistics = useMemo(
     () => ticketService.getStatistics(),
     [refreshKey]
   );
 
-  const pagedTickets = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return tickets.slice(start, start + pageSize);
-  }, [tickets, page, pageSize]);
-
-  const totalPages = Math.max(
-    1,
-    Math.ceil(tickets.length / pageSize)
-  );
-
+  // Làm mới dữ liệu
   const refresh = () => {
     setRefreshKey((prev) => prev + 1);
   };
 
+  // Lọc theo thời gian
   const handleDateChange = (
     dates: [Dayjs | null, Dayjs | null] | null
   ) => {
@@ -85,82 +72,31 @@ const TicketListPage: React.FC = () => {
       startDate: dates?.[0]?.format("YYYY-MM-DD"),
       endDate: dates?.[1]?.format("YYYY-MM-DD"),
     }));
-
-    setPage(1);
   };
 
+  // Tìm kiếm
   const handleSearch = (keyword: string) => {
     setFilters((prev) => ({
       ...prev,
       keyword,
     }));
-
-    setPage(1);
   };
 
+  // Lọc theo dịch vụ
   const handleServiceChange = (serviceName?: string) => {
     setFilters((prev) => ({
       ...prev,
       serviceName,
     }));
-
-    setPage(1);
   };
 
+  // Lọc theo trạng thái
   const handleStatusChange = (status?: string) => {
     setFilters((prev) => ({
       ...prev,
       status: status as TicketFilter["status"],
     }));
-
-    setPage(1);
   };
-
-  const columns: ColumnsType<Ticket> = [
-    {
-      title: "Số thứ tự",
-      dataIndex: "ticketNumber",
-      key: "ticketNumber",
-      width: 100,
-    },
-    {
-      title: "Tên dịch vụ",
-      dataIndex: "serviceName",
-      key: "serviceName",
-      width: 190,
-    },
-    {
-      title: "Thời gian cấp",
-      dataIndex: "issueTime",
-      key: "issueTime",
-      width: 145,
-    },
-    {
-      title: "Thời gian sử dụng",
-      dataIndex: "useTime",
-      key: "useTime",
-      width: 145,
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
-      width: 125,
-      render: (status) => <StatusTag status={status} />,
-    },
-    {
-      title: "Người thực hiện",
-      dataIndex: "staffName",
-      key: "staffName",
-      width: 140,
-    },
-    {
-      title: "Quầy dịch vụ",
-      dataIndex: "counterName",
-      key: "counterName",
-      width: 120,
-    },
-  ];
 
   return (
     <div className={styles.page}>
@@ -312,65 +248,11 @@ const TicketListPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Table */}
-      <div className={styles.tableContainer}>
-        <Table<Ticket>
-          columns={columns}
-          dataSource={pagedTickets}
-          rowKey="id"
-          size="small"
-          pagination={false}
-          scroll={{ x: 1100 }}
-          rowClassName={(record) =>
-            record.status === "PROCESSING"
-              ? styles.highlightRow
-              : ""
-          }
-        />
-      </div>
-
-      {/* Footer */}
-      <div className={styles.tableFooter}>
-        <div className={styles.pageSize}>
-          <span>Đang hiển thị</span>
-
-          <Select
-            value={pageSize}
-            options={[
-              { label: "10", value: 10 },
-              { label: "20", value: 20 },
-              { label: "50", value: 50 },
-            ]}
-            onChange={(value) => {
-              setPageSize(value);
-              setPage(1);
-            }}
-            style={{ width: 60 }}
-          />
-
-          <span>kết quả</span>
-        </div>
-
-        <div className={styles.pagination}>
-          <Button
-            disabled={page === 1}
-            onClick={() => setPage((prev) => prev - 1)}
-          >
-            ‹ Trước
-          </Button>
-
-          <span>
-            {page} / {totalPages}
-          </span>
-
-          <Button
-            disabled={page >= totalPages}
-            onClick={() => setPage((prev) => prev + 1)}
-          >
-            Sau ›
-          </Button>
-        </div>
-      </div>
+      {/* Table danh sách cấp số */}
+      <TicketListModal
+        filters={filters}
+        refreshKey={refreshKey}
+      />
 
       {/* Floating actions */}
       <div className={styles.actionButtons}>
