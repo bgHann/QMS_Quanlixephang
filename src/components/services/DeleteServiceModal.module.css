@@ -1,0 +1,129 @@
+/* ===== MODAL ===== */
+
+.deleteServiceModal {
+  max-width: calc(100vw - 32px);
+  font-family: "Raleway", sans-serif;
+}
+
+.deleteServiceModal :global(.ant-modal-container) {
+  border-radius: 20px;
+  padding: 28px 32px 24px;
+}
+
+.deleteServiceModal :global(.ant-modal-body) {
+  padding: 0;
+}
+
+.deleteServiceModal :global(.ant-modal-close) {
+  top: 16px;
+  right: 16px;
+  color: #282739;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  color: #ff7605;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.description {
+  margin: 0;
+  color: #667085;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.serviceNames {
+  color: #667085;
+  font-weight: 700;
+}
+
+/* ===== NÚT THAO TÁC ===== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 168px;
+  height: 56px;
+  border-radius: 7px;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cancelButton {
+  border: 1px solid #ff7605;
+  background: #fff;
+  color: #ff7605;
+}
+
+.cancelButton:hover {
+  border-color: #ff7605 !important;
+  background: #fff7f0 !important;
+  color: #ff7605 !important;
+}
+
+.confirmButton {
+  border: 1px solid #ff7605;
+  background: #ff7605;
+  color: #fff;
+}
+
+.confirmButton:hover {
+  border-color: #e86b00 !important;
+  background: #e86b00 !important;
+  color: #fff !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 520px) {
+  .deleteServiceModal :global(.ant-modal-container) {
+    padding: 28px 20px 24px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    height: 48px;
+    font-size: 16px;
+  }
+}

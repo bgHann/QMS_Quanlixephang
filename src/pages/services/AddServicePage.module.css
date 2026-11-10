@@ -1,0 +1,241 @@
+.page {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  min-height: 0;
+
+  width: 100%;
+  max-width: 1542px;
+
+  font-family: "Raleway", sans-serif;
+}
+
+/* ===== BỐ CỤC HAI CỘT ===== */
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+
+  gap: 32px;
+  width: 100%;
+}
+
+/* ===== CỘT TRÁI VÀ PHẢI ===== */
+
+.leftColumn,
+.rightColumn {
+  min-width: 0;
+}
+
+/* ===== TIÊU ĐỀ TỪNG PHẦN ===== */
+
+.sectionTitle {
+  margin: 0 0 16px;
+
+  color: #ff7605;
+
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+/* ===== NÚT THAO TÁC ===== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 16px;
+  margin-top: auto;
+  padding: 24px 0;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 120px;
+  height: 44px;
+
+  border-radius: 6px;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Hủy bỏ */
+
+.cancelButton {
+  color: #ff7605;
+  border: 1px solid #ff7605;
+  background: #ffffff;
+}
+
+/* Xác nhận */
+
+.confirmButton {
+  color: #ffffff;
+  border: 1px solid #ff7605;
+  background: #ff7605;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ===== FORM ===== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.leftColumn :global(.ant-form-item) {
+  margin-bottom: 10px;
+}
+
+.leftColumn :global(.ant-form-item-label > label) {
+  color: #282739;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.leftColumn :global(.ant-form-item-required::before) {
+  color: #ff3030 !important;
+}
+
+.leftColumn :global(.ant-input),
+.leftColumn :global(.ant-select-selector) {
+  min-height: 36px;
+  border-radius: 6px;
+}
+.leftColumn :global(.ant-input:hover),
+.leftColumn :global(.ant-input:focus) {
+  border-color: #ff7605;
+  box-shadow: none;
+}
+
+/* ===== HÌNH ẢNH ===== */
+
+.imageSection {
+  margin-bottom: 16px;
+}
+
+.fieldLabel {
+  margin-bottom: 8px;
+  color: #282739;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fieldHint {
+  color: #667085;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.uploadButton {
+  min-height: 40px;
+  color: #ff7605;
+  border-color: #ff7605;
+}
+
+/* ===== HÌNH THỨC PHÂN QUẦY ===== */
+
+.assignmentGroup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.assignmentOption {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: auto !important;
+  min-height: 76px;
+
+  padding: 12px !important;
+  border: 1px solid #e0e5ec !important;
+  border-radius: 8px !important;
+
+  text-align: center;
+  white-space: normal;
+}
+
+.assignmentOption::before {
+  display: none !important;
+}
+
+.assignmentOption strong {
+  display: block;
+  color: inherit;
+  font-size: 13px;
+}
+
+.assignmentOption span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.assignmentOption:global(.ant-radio-button-wrapper-checked) {
+  color: #ff7605 !important;
+  background: #fff6ef !important;
+  border-color: #ff7605 !important;
+  box-shadow: none !important;
+}
+
+/* ===== GHI CHÚ ===== */
+
+.requiredNote {
+  margin: 0;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.requiredNote span {
+  color: #ff3030;
+}
+/* ===== XEM TRƯỚC ẢNH DỊCH VỤ ===== */
+
+.imagePreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 220px;
+  height: 140px;
+
+  margin-top: 12px;
+  padding: 8px;
+
+  border: 1px solid #e0e5ec;
+  border-radius: 8px;
+
+  background-color: #f8f9fa;
+
+  overflow: hidden;
+}
+
+.previewImage {
+  display: block;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+  border-radius: 4px;
+}
