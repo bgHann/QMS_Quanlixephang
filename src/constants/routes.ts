@@ -6,6 +6,7 @@ export const ROUTES = {
   DEVICE_DETAIL: "/devices/:deviceId",
   SERVICES: "/services",
   COUNTERS: "/counters",
+  COUNTERS_DETAIL: "/counters/detail",
   TICKETS: "/tickets",
   TICKET_RULES: "/tickets/rules",
   RATINGS: "/ratings",

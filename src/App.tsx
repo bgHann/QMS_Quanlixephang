@@ -29,6 +29,7 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 
 import { ROUTES } from "./constants/routes";
 import CounterPage from "./pages/counter/CouterPage";
+import CounterDetail from "./pages/counter/CounterDetail";
 
 function ProtectedRoutes() {
   const accessToken = localStorage.getItem("accessToken");
@@ -68,6 +69,7 @@ function App() {
             <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
             {/* quần dv */}
             <Route path={ROUTES.COUNTERS} element={<CounterPage />} />
+            <Route path={ROUTES.COUNTERS_DETAIL} element={<CounterDetail />} />
             {/* Luôn để cuối cùng */}
             <Route
               path="*"
