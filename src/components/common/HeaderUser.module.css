@@ -1,0 +1,28 @@
+.bellIcon {
+  font-size: 18px;
+}
+
+.userCard {
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.userInfo {
+  line-height: 1.2;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.userRole {
+  font-size: 11px;
+  color: #7e7d88;
+}
+
+.userArrow {
+  color: #ff7506;
+}

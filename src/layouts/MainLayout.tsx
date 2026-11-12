@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import {
-  Avatar,
   Button,
-  Dropdown,
   Layout,
   Menu,
-  Select,
-  Space,
-  message,
 } from 'antd';
 
 import type { MenuProps } from 'antd';
@@ -20,11 +15,9 @@ import {
 
 import {
   BankOutlined,
-  BellOutlined,
   CommentOutlined,
   DashboardOutlined,
   DesktopOutlined,
-  DownOutlined,
   FileTextOutlined,
   LeftOutlined,
   MessageOutlined,
@@ -38,6 +31,7 @@ import {
 } from '../constants/routes';
 
 import logo from '../assets/images/Logo.png';
+import HeaderUser from '../components/common/HeaderUser';
 import styles from './MainLayout.module.css';
 
 const { Sider, Header, Content } = Layout;
@@ -109,30 +103,6 @@ export default function MainLayout() {
     ? 'Cấp số'
     : page?.parent;
 
-  const handleLogout = () => {
-    try {
-      localStorage.removeItem('accessToken');
-    } catch {
-      // Trình duyệt chặn localStorage thì bỏ qua
-    }
-
-    message.success('Đã đăng xuất');
-
-    navigate(ROUTES.LOGIN, {
-      replace: true,
-    });
-  };
-
-  const handleUserMenu: MenuProps['onClick'] = ({ key }) => {
-    if (key === 'profile') {
-      navigate(ROUTES.PROFILE);
-    }
-
-    if (key === 'logout') {
-      handleLogout();
-    }
-  };
-
   return (
     <Layout className={styles.layout}>
       {/* Sidebar */}
@@ -195,75 +165,11 @@ export default function MainLayout() {
         {/* Header */}
         <Header className={styles.header}>
           <div className={styles.headerTitleWrap}>
-            {headerParent && (
-              <div className={styles.pageParent}>
-                {headerParent}
-              </div>
-            )}
-
-            <div className={styles.pageTitle}>
-              {headerTitle}
-            </div>
+            {headerParent && <div className={styles.pageParent}>{headerParent}</div>}
+            <div className={styles.pageTitle}>{headerTitle}</div>
           </div>
 
-          {/* User information */}
-          <Space size={20}>
-            <Select
-              defaultValue="vi"
-              variant="borderless"
-              options={[
-                {
-                  value: 'vi',
-                  label: '🇻🇳 VIE',
-                },
-                {
-                  value: 'en',
-                  label: '🇬🇧 ENG',
-                },
-              ]}
-            />
-
-            <BellOutlined
-              className={styles.bellIcon}
-            />
-
-            <Dropdown
-              trigger={['click']}
-              placement="bottomRight"
-              menu={{
-                items: [
-                  {
-                    key: 'profile',
-                    label: 'Xem Hồ Sơ',
-                  },
-                  {
-                    key: 'logout',
-                    label: 'Đăng Xuất',
-                    danger: true,
-                  },
-                ],
-                onClick: handleUserMenu,
-              }}
-            >
-              <Space className={styles.userCard}>
-                <Avatar>H</Avatar>
-
-                <div className={styles.userInfo}>
-                  <div className={styles.userName}>
-                    Nguyễn Lê Bảo Hoàng Hà
-                  </div>
-
-                  <div className={styles.userRole}>
-                    Admin
-                  </div>
-                </div>
-
-                <DownOutlined
-                  className={styles.userArrow}
-                />
-              </Space>
-            </Dropdown>
-          </Space>
+          <HeaderUser />
         </Header>
 
         {/* Page content */}

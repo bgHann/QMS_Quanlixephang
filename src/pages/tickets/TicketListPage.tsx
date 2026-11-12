@@ -1,6 +1,6 @@
 
 import React, { useMemo, useState } from "react";
-
+import { ClipboardList } from "lucide-react";
 import {
   Button,
   Card,
@@ -29,6 +29,7 @@ import TicketListModal from "../../components/tickets/TicketListModal";
 
 import styles from "./TicketListPage.module.css";
 
+import StartCart from "../../components/dashboard/topCard/StartCart/StartCart";
 const { RangePicker } = DatePicker;
 
 const serviceOptions = [
@@ -118,61 +119,14 @@ const TicketListPage: React.FC = () => {
 
       {/* Statistics */}
       <div className={styles.statistics}>
-        <Card className={`${styles.statCard} ${styles.statBlue}`}>
-          <div className={styles.statLabel}>
-            Số thứ tự đã cấp
-          </div>
-
-          <div className={styles.statValue}>
-            {statistics.totalIssued.toLocaleString("vi-VN")}
-          </div>
-
-          <div className={styles.statFooter}>
-            <span>↑ 10%</span> so với kỳ trước
-          </div>
-        </Card>
-
-        <Card className={`${styles.statCard} ${styles.statYellow}`}>
-          <div className={styles.statLabel}>
-            Số thứ tự đang chờ
-          </div>
-
-          <div className={styles.statValue}>
-            {statistics.waiting.toLocaleString("vi-VN")}
-          </div>
-
-          <div className={styles.statFooter}>
-            <span>↓ 10%</span> so với kỳ trước
-          </div>
-        </Card>
-
-        <Card className={`${styles.statCard} ${styles.statGreen}`}>
-          <div className={styles.statLabel}>
-            Số thứ tự đã sử dụng
-          </div>
-
-          <div className={styles.statValue}>
-            {statistics.inUse.toLocaleString("vi-VN")}
-          </div>
-
-          <div className={styles.statFooter}>
-            <span>↑ 10%</span> so với kỳ trước
-          </div>
-        </Card>
-
-        <Card className={`${styles.statCard} ${styles.statPurple}`}>
-          <div className={styles.statLabel}>
-            Số thứ tự bỏ qua
-          </div>
-
-          <div className={styles.statValue}>
-            {statistics.skipped.toLocaleString("vi-VN")}
-          </div>
-
-          <div className={styles.statFooter}>
-            <span>↑ 10%</span> so với kỳ trước
-          </div>
-        </Card>
+        <StartCart title="Số thứ tự đã cấp" iconRight={ClipboardList}
+          value={statistics.totalIssued} percent={10} colorVariant="blue" />
+        <StartCart title="Số thứ tự đang chờ" iconRight={ClipboardList}
+          value={statistics.waiting} percent={-10} colorVariant="orange" />
+        <StartCart title="Số thứ tự đã sử dụng" iconRight={ClipboardList}
+          value={statistics.inUse} percent={10} colorVariant="green" />
+        <StartCart title="Số thứ tự bỏ qua" iconRight={ClipboardList}
+          value={statistics.skipped} percent={10} colorVariant="purple" />
       </div>
 
       {/* Filters */}

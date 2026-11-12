@@ -1,0 +1,86 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+.title {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.filterItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filterTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.filters .search {
+    width: 240px;
+}
+
+.filters .select {
+    width: 180px;
+}
+
+.tableWrap {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.tableWrap :global(.ant-table-thead > tr > th) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff3e8;
+    color: #ff7506;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.actions {
+    display: inline-flex;
+    gap: 12px;
+    font-size: 16px;
+    color: #ff7506;
+    cursor: pointer;
+}
+
+.pager {
+    padding-top: 10px;
+}

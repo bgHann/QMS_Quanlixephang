@@ -1,0 +1,96 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+}
+
+.card:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.card.inUse {
+    border-color: #ff7506;
+}
+
+/* Phần đầu: ảnh máy tính mờ dần sang trái */
+.head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 46px;
+    padding: 0 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.photo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.head::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, #fff 35%, rgba(255, 255, 255, 0) 80%);
+}
+
+.card.inUse .head::before {
+    background: linear-gradient(90deg, #ff7506 35%, rgba(255, 117, 6, 0.25) 90%);
+}
+
+.headText {
+    position: relative;
+    z-index: 2;
+}
+
+.nameRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+.card.inUse .nameRow {
+    color: #fff;
+}
+
+.code {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.card.inUse .code {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Danh sách dịch vụ */
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 6px;
+    min-height: 96px;
+    padding: 10px;
+}
+
+.tag {
+    padding: 2px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 11px;
+    color: #4b5563;
+    white-space: nowrap;
+}

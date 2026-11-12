@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Login from "./pages/auth/login/Login";
 import ForgotPassword from "./pages/auth/forgot/ForgotPassword";
-
 import MainLayout from "./layouts/MainLayout";
 
 import RoleListPage from "./pages/settings/roles/RoleListPage";
@@ -23,9 +22,15 @@ import TicketRulePage from "./pages/tickets/TicketRulePage";
 // Module Thiết bị
 import DeviceListPage from "./pages/devices/DeviceListPage";
 import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
+
+// Module Dịch vụ
 import ServiceListPage from "./pages/services/ServiceListPage";
 import AddServicePage from "./pages/services/AddServicePage";
 import ServiceDetailPage from "./pages/services/ServiceDetailPage";
+
+// Module Quầy dịch vụ
+import CounterSelectPage from "./pages/counters/CounterSelectPage";
+import CounterWorkPage from "./pages/counters/CounterWorkPage";
 
 // Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -51,6 +56,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route element={<ProtectedRoutes />}>
+          {/* Các trang có sidebar + header chung */}
           <Route element={<MainLayout />}>
             <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
 
@@ -65,12 +71,7 @@ function App() {
             <Route path={ROUTES.DEVICES} element={<DeviceListPage />} />
             <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
 
-            {/* Cấp số */}
-            <Route path={ROUTES.TICKETS} element={<TicketListPage />} />
-            <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
-
-            {/* Luôn để cuối cùng */}
-
+            {/* Dịch vụ */}
             <Route path={ROUTES.SERVICES} element={<ServiceListPage />} />
             <Route path={ROUTES.SERVICE_CREATE} element={<AddServicePage />} />
             <Route path={ROUTES.SERVICE_EDIT} element={<AddServicePage />} />
@@ -79,11 +80,22 @@ function App() {
               element={<ServiceDetailPage />}
             />
 
+            {/* Quầy dịch vụ: chỉ trang chọn quầy */}
+            <Route path={ROUTES.COUNTERS} element={<CounterSelectPage />} />
+
+            {/* Cấp số */}
+            <Route path={ROUTES.TICKETS} element={<TicketListPage />} />
+            <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
+
+            {/* Luôn để cuối cùng */}
             <Route
               path="*"
               element={<Navigate to={ROUTES.DASHBOARD} replace />}
             />
           </Route>
+
+          {/* Màn làm việc của quầy: KHÔNG dùng MainLayout */}
+          <Route path={ROUTES.COUNTER_WORK} element={<CounterWorkPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

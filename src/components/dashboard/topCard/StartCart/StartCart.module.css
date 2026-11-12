@@ -13,6 +13,7 @@
   justify-content: center;
   padding-left: 10px;
 }
+
 .header {
   display: flex;
   flex-direction: row;
@@ -24,6 +25,7 @@
   font-size: 14px;
   line-height: 120%;
 }
+
 .value {
   font-size: 30px;
   color: white;
@@ -31,11 +33,13 @@
   margin: 0;
   line-height: 100%;
 }
+
 .icon {
   width: 16px;
   height: 16px;
   color: white;
 }
+
 .blue {
   background: linear-gradient(130.14deg, #5fb4e9 -9.91%, #cee9f7 69.14%);
 }
@@ -51,6 +55,7 @@
 .purple {
   background: linear-gradient(130.14deg, #9851b0 -9.91%, #dda8d6 69.14%);
 }
+
 /* Badge bo tròn hiển thị phần trăm */
 .badge {
   width: 124;
@@ -76,4 +81,13 @@
 .badgeIcon {
   width: 10px;
   height: 10px;
+}
+
+.red {
+  background: linear-gradient(135deg, #ff8a8a, #e5484d);
+}
+
+.badgeDown {
+  background: #ffe3e3;
+  color: #e5484d;
 }

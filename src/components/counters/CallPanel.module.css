@@ -1,0 +1,262 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.waiting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.waitingCount {
+    min-width: 56px;
+    padding: 2px 14px;
+    border-radius: 16px;
+    background: #f3f4f6;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff7506;
+    text-align: center;
+}
+
+.clock {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.clockTime {
+    margin-left: 8px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+.topButtons {
+    display: flex;
+    gap: 8px;
+}
+
+.panel .outlineOrange {
+    border-color: #ff7506;
+    color: #ff7506;
+}
+
+.actionRow {
+    display: flex;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.panel .multiBtn {
+    border-color: #16a34a;
+    color: #16a34a;
+}
+
+.panel .stopBtn {
+    border-color: #e5484d;
+    color: #e5484d;
+}
+
+.panel .closeBtn {
+    background: #e5484d;
+    border-color: #e5484d;
+    color: #fff;
+}
+
+.callBox {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    min-height: 220px;
+    max-height: 300px;
+    border: 1px solid #ffb27a;
+    border-radius: 12px;
+    background: #fffaf5;
+}
+
+.callHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 28px;
+    padding: 10px 12px 0;
+}
+
+.callTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+.callBody {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+}
+
+.hint {
+    margin: auto;
+    font-size: 13px;
+    color: #374151;
+    text-align: center;
+}
+
+.hintStrong {
+    font-weight: 700;
+    color: #16a34a;
+}
+
+/* Lưới các số đang xử lý */
+.ticketGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.ticketCard {
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #ffd2ad;
+    border-radius: 6px;
+}
+
+.ticketDone {
+    opacity: 0.65;
+}
+
+.ticketTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticketNumber {
+    font-size: 16px;
+    font-weight: 800;
+    color: #ff7506;
+}
+
+.ticketResult {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.ticketService {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* Nút "Gọi nhiều số" */
+.multiCount {
+    margin: 0 6px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.batchEditor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.callButtons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 10px;
+}
+
+.callButtons .callBtn {
+    height: 40px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.callButtons .callMain {
+    background: #16a34a;
+    border-color: #16a34a;
+}
+
+.historyTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4b5563;
+}
+
+.history {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.historyRow {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 90px 76px;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.historyNum {
+    margin-right: 6px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.result {
+    font-weight: 700;
+    text-align: right;
+}
+
+.history .recallBtn {
+    background: #ff7506;
+    border-color: #ff7506;
+    color: #fff;
+}
+
+.single {
+    margin: auto;
+    text-align: center;
+}
+
+.currentNumber {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    color: #ff7506;
+}
+
+.currentService {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.single .ticketResult {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+}

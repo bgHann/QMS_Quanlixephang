@@ -19,6 +19,7 @@ export const ROUTES = {
   ROLES: "/settings/roles",
   ROLE_DETAIL: "/settings/roles/:roleId",
   LOGO: "/settings/logo",
+  COUNTER_WORK: "/counters/:counterId/work",
 } as const;
 
 type PageTitle = {
@@ -114,6 +115,11 @@ export const PAGE_TITLES: PageTitle[] = [
     parent: "Dịch vụ / Danh sách dịch vụ",
     title: "Cập nhật dịch vụ",
   },
+  {
+    path: ROUTES.COUNTERS,
+    parent: "Quầy dịch vụ",
+    title: "Chọn quầy dịch vụ",
+  },
 ];
 
 // Tạo đường dẫn chi tiết theo ID vai trò
@@ -129,3 +135,5 @@ export const findPageTitle = (pathname: string) =>
 
 export const buildServiceEditPath = (serviceId: string) =>
   `/services/${encodeURIComponent(serviceId)}/edit`;
+export const buildCounterWorkPath = (counterId: string) =>
+  `/counters/${encodeURIComponent(counterId)}/work`;
