@@ -5,12 +5,12 @@
   height: calc(100vh - 128px);
   max-height: calc(100vh - 128px);
   min-height: 0;
-  overflow: visible;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
 .leftCol {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
   height: 100%;
   display: flex;
@@ -20,58 +20,148 @@
 }
 
 .rightCol {
-  width: 330px;
-  height: min(796px, 100%);
+  width: clamp(240px, 25vw, 330px);
+  height: 100%;
   min-height: 0;
   align-self: flex-start;
   margin-right: -24px;
   flex-shrink: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 /* hàng chứa 2 biểu đồ */
 .chartsRow {
   display: flex;
   gap: 16px;
   width: 100%;
   box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* main  */
+.main {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
 }
 
 /* biểu đồ đường chiếm khoảng 58-60% */
 .lineCol {
-  flex: 1.4;
+  flex: 1.4 1 0;
   min-width: 0;
 }
 
 /* biểu đồ cột chiếm phần còn lại */
 .barCol {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
 }
 
-@media (max-height: 700px) {
+/* khu vực chứa bảng và phân trang */
+.table {
+  width: 100%;
+  table-layout: fixed;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* co giãn khi màn hình laptop nhỏ */
+@media (max-width: 1200px) {
   .container {
     gap: 12px;
   }
+
+  .leftCol {
+    gap: 12px;
+  }
+
+  .rightCol {
+    width: 250px;
+    margin-right: -12px;
+  }
+
+  .chartsRow {
+    gap: 10px;
+  }
 }
 
-@media (max-width: 900px) {
+/* giữ bố cục hai cột khi màn hình vẫn đủ rộng */
+@media (max-width: 1000px) {
+  .container {
+    gap: 10px;
+  }
+
+  .rightCol {
+    width: 220px;
+    margin-right: -10px;
+  }
+
+  .leftCol {
+    gap: 10px;
+  }
+
+  .chartsRow {
+    gap: 8px;
+  }
+}
+
+/* chuyển bố cục khi màn hình quá hẹp */
+@media (max-width: 768px) {
   .container {
     flex-direction: column;
     height: auto;
     max-height: none;
+    overflow: visible;
     gap: 20px;
   }
 
   .leftCol {
+    width: 100%;
     height: auto;
     overflow: visible;
   }
 
+  .main {
+    width: 100%;
+  }
+
+  .chartsRow {
+    flex-direction: column;
+  }
+
+  .lineCol,
+  .barCol {
+    width: 100%;
+    flex: none;
+  }
+
+  .table {
+    flex: none;
+    min-height: 300px;
+  }
+
   .rightCol {
     width: 100%;
-    height: min(796px, 75vh);
+    height: auto;
+    max-height: none;
     margin-right: 0;
     align-self: stretch;
     overflow: visible;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 769px) {
+  .container {
+    height: calc(100vh - 110px);
+    max-height: calc(100vh - 110px);
+  }
+
+  .leftCol {
+    gap: 10px;
   }
 }
