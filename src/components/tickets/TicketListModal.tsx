@@ -1,5 +1,4 @@
-
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Select, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -12,26 +11,31 @@ import styles from "./TicketList.module.css";
 interface TicketListModalProps {
   filters: TicketFilter;
   refreshKey: number;
+  pageSize?: number;
 }
 
 const TicketListModal: React.FC<TicketListModalProps> = ({
   filters,
   refreshKey,
+  pageSize: initialPageSize = 10,
 }) => {
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(initialPageSize);
+
+  // Đồng bộ pageSize khi cha thay đổi
+  useEffect(() => {
+    setPageSize(initialPageSize);
+    setPage(1);
+  }, [initialPageSize]);
 
   // Lấy dữ liệu từ ticketService
   const tickets = useMemo(
     () => ticketService.search(filters),
-    [filters, refreshKey]
+    [filters, refreshKey],
   );
 
   // Tính tổng số trang
-  const totalPages = Math.max(
-    1,
-    Math.ceil(tickets.length / pageSize)
-  );
+  const totalPages = Math.max(1, Math.ceil(tickets.length / pageSize));
 
   // Lấy dữ liệu theo trang
   const pagedTickets = useMemo(() => {
@@ -87,7 +91,7 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
   ];
 
   return (
-    <>
+    <div className={styles.tableWrapper}>
       {/* Table danh sách cấp số */}
       <div className={styles.tableContainer}>
         <Table<Ticket>
@@ -98,9 +102,7 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
           pagination={false}
           scroll={{ x: 1100 }}
           rowClassName={(record) =>
-            record.status === "PROCESSING"
-              ? styles.highlightRow
-              : ""
+            record.status === "PROCESSING" ? styles.highlightRow : ""
           }
         />
       </div>
@@ -113,6 +115,7 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
           <Select
             value={pageSize}
             options={[
+              { label: "5", value: 5 },
               { label: "10", value: 10 },
               { label: "20", value: 20 },
               { label: "50", value: 50 },
@@ -147,7 +150,7 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
