@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -29,112 +29,48 @@ interface ServiceRule {
 }
 
 const initialRules: ServiceRule[] = [
-  {
-    id: 1,
-    name: "Khoa cấp cứu",
-    code: "CAP",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 2,
-    name: "Khoa sản",
-    code: "SAN",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 3,
-    name: "Khoa nhi",
-    code: "NHI",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 4,
-    name: "Khoa tim mạch",
-    code: "TIM",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 5,
-    name: "Khoa ung bướu",
-    code: "BUO",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 6,
-    name: "Khoa răng hàm mặt",
-    code: "HAM",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
-  {
-    id: 7,
-    name: "Khoa nội tiết",
-    code: "NOT",
-    prefix: "",
-    start: 999,
-    end: 999,
-  },
+  { id: 1, name: "Khoa cấp cứu", code: "CAP", prefix: "", start: 999, end: 999 },
+  { id: 2, name: "Khoa sản", code: "SAN", prefix: "", start: 999, end: 999 },
+  { id: 3, name: "Khoa nhi", code: "NHI", prefix: "", start: 999, end: 999 },
+  { id: 4, name: "Khoa tim mạch", code: "TIM", prefix: "", start: 999, end: 999 },
+  { id: 5, name: "Khoa ung bướu", code: "BUO", prefix: "", start: 999, end: 999 },
+  { id: 6, name: "Khoa răng hàm mặt", code: "HAM", prefix: "", start: 999, end: 999 },
+  { id: 7, name: "Khoa nội tiết", code: "NOT", prefix: "", start: 999, end: 999 },
 ];
 
 const TicketRulesPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [prefixMode, setPrefixMode] =
-    useState<PrefixMode>("prefix");
-
-  const [customPrefixEnabled, setCustomPrefixEnabled] =
-    useState(false);
-
+  const [prefixMode, setPrefixMode] = useState<PrefixMode>("prefix");
+  const [customPrefixEnabled, setCustomPrefixEnabled] = useState(false);
   const [customPrefix, setCustomPrefix] = useState("");
-
   const [rangeMode, setRangeMode] =
     useState<NumberRangeMode>("independent");
 
-  const [rules, setRules] =
-    useState<ServiceRule[]>(initialRules);
-
-  const [previewRule, setPreviewRule] =
-    useState<ServiceRule>(initialRules[0]);
-
+  const [rules, setRules] = useState<ServiceRule[]>(initialRules);
+  const [previewRule, setPreviewRule] = useState<ServiceRule>(initialRules[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 7;
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(rules.length / pageSize)
-  );
-
-  const pagedRules = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    return rules.slice(startIndex, startIndex + pageSize);
-  }, [rules, currentPage]);
+  // Không dùng useMemo: tính trực tiếp danh sách hiển thị
+  const totalPages = Math.max(1, Math.ceil(rules.length / pageSize));
+  const startIndex = (currentPage - 1) * pageSize;
+  const pagedRules = rules.slice(startIndex, startIndex + pageSize);
 
   const getPreviewNumber = () => {
     const prefix =
       prefixMode === "none"
         ? ""
         : prefixMode === "suffix"
-        ? ""
-        : prefixMode === "custom"
-        ? customPrefix
-        : previewRule.code;
+          ? ""
+          : prefixMode === "custom"
+            ? customPrefix
+            : customPrefixEnabled
+              ? previewRule.code
+              : previewRule.prefix || previewRule.code;
 
-    const suffix =
-      prefixMode === "suffix"
-        ? customPrefix
-        : "";
+    const suffix = prefixMode === "suffix" ? customPrefix : "";
 
     return `${prefix}${previewRule.start}${suffix}`;
   };
@@ -160,9 +96,7 @@ const TicketRulesPage: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    const invalidRule = rules.find(
-      (rule) => rule.start > rule.end
-    );
+    const invalidRule = rules.find((rule) => rule.start > rule.end);
 
     if (invalidRule) {
       message.error(
@@ -173,10 +107,8 @@ const TicketRulesPage: React.FC = () => {
 
     message.success("Xác nhận thiết lập quy tắc thành công");
 
-    const firstRule = rules[0];
-
-    if (firstRule) {
-      setPreviewRule(firstRule);
+    if (rules.length > 0) {
+      setPreviewRule(rules[0]);
     }
   };
 
@@ -208,19 +140,15 @@ const TicketRulesPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Nội dung */}
       <div className={styles.contentLayout}>
         {/* Cột thiết lập */}
         <div className={styles.settingsColumn}>
-          <h2 className={styles.sectionTitle}>
-            Thiết lập
-          </h2>
+          <h2 className={styles.sectionTitle}>Thiết lập</h2>
 
           {/* Tiền tố / hậu tố */}
           <div className={styles.settingGroup}>
             <div className={styles.settingHeading}>
               <span>Tiền tố / hậu tố</span>
-
               <Tooltip title="Thiết lập ký tự hiển thị trước hoặc sau số thứ tự">
                 <InfoCircleOutlined className={styles.infoIcon} />
               </Tooltip>
@@ -228,44 +156,32 @@ const TicketRulesPage: React.FC = () => {
 
             <Radio.Group
               value={prefixMode}
-              onChange={(event) =>
-                setPrefixMode(event.target.value)
-              }
+              onChange={(event) => setPrefixMode(event.target.value)}
               className={styles.prefixOptions}
             >
-              <Radio.Button value="none">
-                Không có
-              </Radio.Button>
-
-              <Radio.Button value="prefix">
-                Tiền tố
-              </Radio.Button>
-
-              <Radio.Button value="suffix">
-                Hậu tố
-              </Radio.Button>
-
-              <Radio.Button value="custom">
-                Tùy chỉnh
-              </Radio.Button>
+              <Radio.Button value="none">Không có</Radio.Button>
+              <Radio.Button value="prefix">Tiền tố</Radio.Button>
+              <Radio.Button value="suffix">Hậu tố</Radio.Button>
+              <Radio.Button value="custom">Tùy chỉnh</Radio.Button>
             </Radio.Group>
 
-            {prefixMode === "custom" && (
+            {(prefixMode === "custom" || prefixMode === "suffix") && (
               <div className={styles.customPrefix}>
                 <Input
                   value={customPrefix}
-                  placeholder="Nhập tiền tố tùy chỉnh"
-                  maxLength={10}
-                  onChange={(event) =>
-                    setCustomPrefix(event.target.value)
+                  placeholder={
+                    prefixMode === "suffix"
+                      ? "Nhập hậu tố"
+                      : "Nhập tiền tố tùy chỉnh"
                   }
+                  maxLength={10}
+                  onChange={(event) => setCustomPrefix(event.target.value)}
                 />
               </div>
             )}
 
             <div className={styles.customToggle}>
               <span>Mặc định sử dụng mã dịch vụ</span>
-
               <Switch
                 size="small"
                 checked={customPrefixEnabled}
@@ -278,7 +194,6 @@ const TicketRulesPage: React.FC = () => {
           <div className={styles.settingGroup}>
             <div className={styles.settingHeading}>
               <span>Dãy số cấp</span>
-
               <button
                 className={styles.resetLink}
                 onClick={() => {
@@ -297,22 +212,19 @@ const TicketRulesPage: React.FC = () => {
 
             <Radio.Group
               value={rangeMode}
-              onChange={(event) =>
-                setRangeMode(event.target.value)
-              }
+              onChange={(event) => setRangeMode(event.target.value)}
               className={styles.rangeOptions}
             >
               <Radio.Button value="independent">
                 Riêng và độc lập
               </Radio.Button>
-
               <Radio.Button value="system">
                 Chung theo hệ thống
               </Radio.Button>
             </Radio.Group>
           </div>
 
-          {/* Bảng cấu hình */}
+          {/* Bảng cấu hình dịch vụ */}
           <div className={styles.tableWrapper}>
             <table className={styles.ruleTable}>
               <thead>
@@ -356,11 +268,7 @@ const TicketRulesPage: React.FC = () => {
                         max={999999}
                         value={rule.start}
                         onChange={(value) =>
-                          handleRuleChange(
-                            rule.id,
-                            "start",
-                            value
-                          )
+                          handleRuleChange(rule.id, "start", value)
                         }
                       />
                     </td>
@@ -372,11 +280,7 @@ const TicketRulesPage: React.FC = () => {
                         max={999999}
                         value={rule.end}
                         onChange={(value) =>
-                          handleRuleChange(
-                            rule.id,
-                            "end",
-                            value
-                          )
+                          handleRuleChange(rule.id, "end", value)
                         }
                       />
                     </td>
@@ -399,9 +303,7 @@ const TicketRulesPage: React.FC = () => {
             <div className={styles.pagination}>
               <button
                 disabled={currentPage === 1}
-                onClick={() =>
-                  setCurrentPage((prev) => prev - 1)
-                }
+                onClick={() => setCurrentPage((prev) => prev - 1)}
               >
                 ‹ Trước
               </button>
@@ -417,9 +319,7 @@ const TicketRulesPage: React.FC = () => {
                       ? styles.currentPage
                       : ""
                   }
-                  onClick={() =>
-                    setCurrentPage(pageNumber)
-                  }
+                  onClick={() => setCurrentPage(pageNumber)}
                 >
                   {pageNumber}
                 </button>
@@ -427,9 +327,7 @@ const TicketRulesPage: React.FC = () => {
 
               <button
                 disabled={currentPage >= totalPages}
-                onClick={() =>
-                  setCurrentPage((prev) => prev + 1)
-                }
+                onClick={() => setCurrentPage((prev) => prev + 1)}
               >
                 Sau ›
               </button>
@@ -457,9 +355,7 @@ const TicketRulesPage: React.FC = () => {
 
         {/* Cột xem trước */}
         <aside className={styles.previewColumn}>
-          <h2 className={styles.sectionTitle}>
-            Xem trước
-          </h2>
+          <h2 className={styles.sectionTitle}>Xem trước</h2>
 
           <div className={styles.previewCard}>
             <div className={styles.previewHeading}>
@@ -490,19 +386,12 @@ const TicketRulesPage: React.FC = () => {
               Thời gian dự kiến đến lượt của quý khách là 5 phút
             </div>
 
-            {/* QR minh họa */}
             <div className={styles.qrSection}>
               <div className={styles.qrCode}>
                 <div className={styles.qrPattern}>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
+                  {Array.from({ length: 25 }, (_, index) => (
+                    <span key={index} />
+                  ))}
                 </div>
               </div>
 

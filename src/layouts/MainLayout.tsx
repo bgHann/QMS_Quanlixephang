@@ -88,20 +88,27 @@ export default function MainLayout() {
 
   const page = findPageTitle(pathname);
 
-  // Xác định trang cấp số
-  const isTicketPage =
-    pathname === ROUTES.TICKETS ||
-    pathname.startsWith(`${ROUTES.TICKETS}/`);
+// Xác định trang cấp số
+const isTicketPage =
+  pathname === ROUTES.TICKETS ||
+  pathname.startsWith(`${ROUTES.TICKETS}/`);
 
-  // Tiêu đề riêng cho trang cấp số
-  const headerTitle = isTicketPage
+// Xác định trang cài đặt quy tắc
+const isTicketRulesPage =
+  pathname === ROUTES.TICKET_RULES ||
+  pathname.startsWith(`${ROUTES.TICKET_RULES}/`);
+
+// Tiêu đề phía dưới
+const headerTitle = isTicketRulesPage
+  ? 'Quy tắc cấp số'
+  : isTicketPage
     ? 'Danh sách cấp số'
     : page?.title;
 
-  // Hiển thị "Cấp số" phía trên "Danh sách cấp số"
-  const headerParent = isTicketPage
-    ? 'Cấp số'
-    : page?.parent;
+// Tiêu đề phía trên
+const headerParent = isTicketPage
+  ? 'Cấp số'
+  : page?.parent;
 
   return (
     <Layout className={styles.layout}>

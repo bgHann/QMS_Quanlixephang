@@ -1,3 +1,4 @@
+
 import { mockTickets, mockTicketRules } from "../../mock/tickets.mock";
 import {
   Ticket,
@@ -11,33 +12,59 @@ import {
 const TICKET_KEY = "qms_tickets";
 const RULE_KEY = "qms_ticket_rules";
 
+// Đọc dữ liệu từ localStorage
 function readStorage<T>(key: string, fallback: T): T {
   try {
     const value = localStorage.getItem(key);
 
-    if (!value) {
+    if (value === null) {
       localStorage.setItem(key, JSON.stringify(fallback));
       return fallback;
     }
 
     return JSON.parse(value) as T;
   } catch {
+    localStorage.setItem(key, JSON.stringify(fallback));
     return fallback;
   }
 }
 
+// Lưu dữ liệu vào localStorage
 function saveStorage<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+// Lấy danh sách cấp số
 function getTickets(): Ticket[] {
-  return readStorage<Ticket[]>(TICKET_KEY, mockTickets);
+  const storedTickets = readStorage<unknown>(
+    TICKET_KEY,
+    mockTickets
+  );
+
+  if (!Array.isArray(storedTickets) || storedTickets.length === 0) {
+    saveStorage(TICKET_KEY, [...mockTickets]);
+    return [...mockTickets];
+  }
+
+  return storedTickets as Ticket[];
 }
 
+// Lấy quy tắc cấp số
 function getRules(): TicketRule[] {
-  return readStorage<TicketRule[]>(RULE_KEY, mockTicketRules);
+  const storedRules = readStorage<unknown>(
+    RULE_KEY,
+    mockTicketRules
+  );
+
+  if (!Array.isArray(storedRules) || storedRules.length === 0) {
+    saveStorage(RULE_KEY, [...mockTicketRules]);
+    return [...mockTicketRules] as TicketRule[];
+  }
+
+  return storedRules as TicketRule[];
 }
 
+// Kiểm tra ngày cấp số
 function matchesDate(
   ticket: Ticket,
   startDate?: string,
@@ -50,7 +77,7 @@ function matchesDate(
   if (!datePart) return true;
 
   const [day, month, year] = datePart.split("/");
-  const ticketDate = `${year}-${month}-${day}`;
+  const ticketDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 
   if (startDate && ticketDate < startDate) return false;
   if (endDate && ticketDate > endDate) return false;
@@ -59,10 +86,12 @@ function matchesDate(
 }
 
 export const ticketService = {
+  // Lấy tất cả số đã cấp
   getAll(): Ticket[] {
     return getTickets();
   },
 
+  // Thống kê số lượng
   getStatistics(): TicketStatistics {
     const tickets = getTickets();
 
@@ -74,6 +103,7 @@ export const ticketService = {
     };
   },
 
+  // Tìm kiếm và lọc danh sách
   search(filters: TicketFilter): Ticket[] {
     let result = getTickets();
 
@@ -82,7 +112,7 @@ export const ticketService = {
 
       result = result.filter(
         (ticket) =>
-          ticket.ticketNumber.toLowerCase().includes(keyword) ||
+          String(ticket.ticketNumber).toLowerCase().includes(keyword) ||
           ticket.serviceName.toLowerCase().includes(keyword) ||
           ticket.staffName.toLowerCase().includes(keyword)
       );
@@ -107,6 +137,7 @@ export const ticketService = {
     return result;
   },
 
+  // Phân trang
   getPaged(
     filters: TicketFilter,
     page: number,
@@ -123,11 +154,14 @@ export const ticketService = {
     };
   },
 
+  // Cấp số mới
   issueTicket(serviceName: string): Ticket {
     const tickets = getTickets();
     const rules = getRules();
 
-    const rule = rules.find((r) => r.serviceName === serviceName);
+    const rule = rules.find(
+      (r) => r.serviceName === serviceName
+    );
 
     if (!rule) {
       throw new Error("Không tìm thấy quy tắc cấp số của dịch vụ.");
@@ -137,10 +171,9 @@ export const ticketService = {
       throw new Error("Dải số của dịch vụ đã hết.");
     }
 
-    const number = `${rule.prefix}${String(rule.currentNumber).padStart(
-      4,
-      "0"
-    )}`;
+    const number = `${rule.prefix}${String(
+      rule.currentNumber
+    ).padStart(4, "0")}`;
 
     const now = new Date();
 
@@ -148,10 +181,11 @@ export const ticketService = {
       id: Date.now().toString(),
       ticketNumber: number,
       serviceName,
-      issueTime: now.toLocaleTimeString("vi-VN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }) +
+      issueTime:
+        now.toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }) +
         " - " +
         now.toLocaleDateString("vi-VN"),
       useTime: "-",
@@ -173,20 +207,25 @@ export const ticketService = {
     return newTicket;
   },
 
+  // Cập nhật trạng thái số
   updateStatus(id: string, status: TicketStatus): void {
     const tickets = getTickets();
 
     const updated = tickets.map((ticket) =>
-      ticket.id === id ? { ...ticket, status } : ticket
+      ticket.id === id
+        ? { ...ticket, status }
+        : ticket
     );
 
     saveStorage(TICKET_KEY, updated);
   },
 
+  // Lấy danh sách quy tắc
   getRules(): TicketRule[] {
     return getRules();
   },
 
+  // Cập nhật quy tắc
   updateRule(rule: TicketRule): void {
     const rules = getRules();
 
@@ -197,10 +236,12 @@ export const ticketService = {
     saveStorage(RULE_KEY, updated);
   },
 
+  // Không xóa lịch sử cấp số
   resetTickets(): void {
-    saveStorage(TICKET_KEY, []);
+    // Giữ nguyên dữ liệu lịch sử cấp số.
   },
 
+  // Đặt lại số tiếp theo của từng dịch vụ
   resetRange(): void {
     const rules = getRules();
 
@@ -210,5 +251,10 @@ export const ticketService = {
     }));
 
     saveStorage(RULE_KEY, updated);
+  },
+
+  // Khôi phục dữ liệu mẫu ban đầu
+  restoreMockTickets(): void {
+    saveStorage(TICKET_KEY, [...mockTickets]);
   },
 };

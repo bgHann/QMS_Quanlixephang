@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Button, Select, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -28,20 +29,23 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
     setPage(1);
   }, [initialPageSize]);
 
-  // Lấy dữ liệu từ ticketService
-  const tickets = useMemo(
-    () => ticketService.search(filters),
-    [filters, refreshKey],
-  );
+  // Đưa về trang đầu khi bộ lọc hoặc dữ liệu thay đổi
+  useEffect(() => {
+    setPage(1);
+  }, [filters, refreshKey]);
+
+  // Lấy dữ liệu trực tiếp từ ticketService
+  const tickets = ticketService.search(filters);
 
   // Tính tổng số trang
-  const totalPages = Math.max(1, Math.ceil(tickets.length / pageSize));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(tickets.length / pageSize)
+  );
 
   // Lấy dữ liệu theo trang
-  const pagedTickets = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return tickets.slice(start, start + pageSize);
-  }, [tickets, page, pageSize]);
+  const start = (page - 1) * pageSize;
+  const pagedTickets = tickets.slice(start, start + pageSize);
 
   // Các cột của bảng
   const columns: ColumnsType<Ticket> = [
@@ -102,7 +106,9 @@ const TicketListModal: React.FC<TicketListModalProps> = ({
           pagination={false}
           scroll={{ x: 1100 }}
           rowClassName={(record) =>
-            record.status === "PROCESSING" ? styles.highlightRow : ""
+            record.status === "PROCESSING"
+              ? styles.highlightRow
+              : ""
           }
         />
       </div>
