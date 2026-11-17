@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
-import { Button, Form, Input, Spin, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { roleService } from '../../../api/services/roleService';
-import { ROUTES } from '../../../constants/routes';
-import type { PermissionGroup, RoleForm } from '../../../types/role';
-import PermissionSelector from '../../../components/roles/PermissionSelector';
-import styles from './RoleFormPage.module.css';
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { Button, Form, Input, Spin, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import { roleService } from "../../../api/services/roleService";
+import { ROUTES } from "../../../constants/routes";
+import type { PermissionGroup, RoleForm } from "../../../types/role";
+import PermissionSelector from "../../../components/roles/PermissionSelector";
+import styles from "./RoleFormPage.module.css";
 
 // Đặt dấu * đỏ SAU nhãn như Figma
-const renderRequiredMark = (label: ReactNode, { required }: { required: boolean }) => (
+const renderRequiredMark = (
+  label: ReactNode,
+  { required }: { required: boolean },
+) => (
   <>
     {label}
     {required && <span className={styles.asterisk}> *</span>}
@@ -31,13 +34,15 @@ export default function RoleFormPage() {
     try {
       await roleService.create({
         roleName: values.roleName.trim(),
-        description: values.description ?? '',
+        description: values.description ?? "",
         permissions: values.permissions ?? [],
       });
-      message.success('Thêm vai trò thành công');
+      message.success("Thêm vai trò thành công");
       navigate(ROUTES.ROLES);
     } catch (error) {
-      message.error(error instanceof Error ? error.message : 'Thêm vai trò thất bại');
+      message.error(
+        error instanceof Error ? error.message : "Thêm vai trò thất bại",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -60,17 +65,28 @@ export default function RoleFormPage() {
           <Form.Item
             label="Tên vai trò"
             name="roleName"
-            rules={[{ required: true, whitespace: true, message: 'Vui lòng nhập tên vai trò' }]}
+            rules={[
+              {
+                required: true,
+                whitespace: true,
+                message: "Vui lòng nhập tên vai trò",
+              },
+            ]}
           >
             <Input placeholder="Nhập tên vai trò" />
           </Form.Item>
 
           <Form.Item label="Mô tả" name="description">
-            <Input.TextArea placeholder="Nhập mô tả" rows={8} className={styles.textArea} />
+            <Input.TextArea
+              placeholder="Nhập mô tả"
+              rows={8}
+              className={styles.textArea}
+            />
           </Form.Item>
 
           <div className={styles.note}>
-            <span className={styles.asterisk}>* </span>Là trường thông tin bắt buộc
+            <span className={styles.asterisk}>* </span>Là trường thông tin bắt
+            buộc
           </div>
         </div>
 
@@ -91,10 +107,18 @@ export default function RoleFormPage() {
 
       {/* Nút cố định ở đáy */}
       <div className={styles.footer}>
-        <Button className={styles.cancelButton} onClick={() => navigate(ROUTES.ROLES)}>
+        <Button
+          className={styles.cancelButton}
+          onClick={() => navigate(ROUTES.ROLES)}
+        >
           Hủy bỏ
         </Button>
-        <Button type="primary" htmlType="submit" loading={submitting} className={styles.submitButton}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={submitting}
+          className={styles.submitButton}
+        >
           Xác nhận
         </Button>
       </div>

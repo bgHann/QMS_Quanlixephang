@@ -1,15 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
-import type { Key } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Input, Table, message } from 'antd';
-import type { TableColumnsType } from 'antd';
-import { DeleteOutlined, EditOutlined, SearchOutlined, UserAddOutlined } from '@ant-design/icons';
-import { roleService } from '../../../api/services/roleService';
-import PaginationBar from '../../../components/common/PaginationBar';
-import ConfirmDialog from '../../../components/common/ConfirmDialog';
-import { buildRoleDetailPath, ROUTES } from '../../../constants/routes';
-import type { Role } from '../../../types/role';
-import styles from './RoleListPage.module.css';
+import { useCallback, useEffect, useState } from "react";
+import type { Key } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Input, Table, message } from "antd";
+import type { TableColumnsType } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+
+import { SquarePen, UserPlus, Trash2 } from "lucide-react";
+import { roleService } from "../../../api/services/roleService";
+import PaginationBar from "../../../components/common/PaginationBar";
+import ConfirmDialog from "../../../components/common/ConfirmDialog";
+import { buildRoleDetailPath, ROUTES } from "../../../constants/routes";
+import type { Role } from "../../../types/role";
+import styles from "./RoleListPage.module.css";
 
 export default function RoleListPage() {
   const navigate = useNavigate();
@@ -18,8 +20,8 @@ export default function RoleListPage() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchText, setSearchText] = useState('');
-  const [keyword, setKeyword] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -47,7 +49,11 @@ export default function RoleListPage() {
       setItems(res.items);
       setTotal(res.total);
     } catch (error) {
-      message.error(error instanceof Error ? error.message : 'Không thể tải danh sách vai trò');
+      message.error(
+        error instanceof Error
+          ? error.message
+          : "Không thể tải danh sách vai trò",
+      );
     } finally {
       setLoading(false);
     }
@@ -60,7 +66,7 @@ export default function RoleListPage() {
   // Xóa vai trò đã chọn
   const handleDelete = () => {
     if (selectedKeys.length === 0) {
-      message.warning('Vui lòng chọn vai trò cần xóa');
+      message.warning("Vui lòng chọn vai trò cần xóa");
       return;
     }
 
@@ -71,12 +77,12 @@ export default function RoleListPage() {
     setDeleting(true);
     try {
       await roleService.remove(selectedKeys.map(String));
-      message.success('Đã xóa vai trò');
+      message.success("Đã xóa vai trò");
       setSelectedKeys([]);
       setDeleteOpen(false);
       await fetchData();
     } catch (error) {
-      message.error(error instanceof Error ? error.message : 'Xóa thất bại');
+      message.error(error instanceof Error ? error.message : "Xóa thất bại");
     } finally {
       setDeleting(false);
     }
@@ -84,18 +90,18 @@ export default function RoleListPage() {
 
   // Cấu hình cột
   const columns: TableColumnsType<Role> = [
-    { title: 'Tên vai trò', dataIndex: 'roleName', width: '25%' },
-    { title: 'Số người dùng', dataIndex: 'userCount', width: '25%' },
-    { title: 'Mô tả', dataIndex: 'description', width: '40%', ellipsis: true },
+    { title: "Tên vai trò", dataIndex: "roleName", width: "25%" },
+    { title: "Số người dùng", dataIndex: "userCount", width: "25%" },
+    { title: "Mô tả", dataIndex: "description", width: "40%", ellipsis: true },
     {
-      title: 'Hành động',
-      align: 'right',
-      width: '10%',
+      title: "Hành động",
+      align: "right",
+      width: "10%",
       render: (_, record) => (
         <Button
           type="text"
           aria-label={`Sửa ${record.roleName}`}
-          icon={<EditOutlined />}
+          icon={<SquarePen size={18} strokeWidth={1.8} />}
           className={styles.editButton}
           onClick={() => handleEdit(record)}
         />
@@ -128,7 +134,10 @@ export default function RoleListPage() {
           dataSource={items}
           pagination={false}
           size="small"
-          rowSelection={{ selectedRowKeys: selectedKeys, onChange: setSelectedKeys }}
+          rowSelection={{
+            selectedRowKeys: selectedKeys,
+            onChange: setSelectedKeys,
+          }}
         />
       </div>
 
@@ -149,14 +158,18 @@ export default function RoleListPage() {
         <Button
           type="text"
           aria-label="Thêm vai trò"
-          icon={<UserAddOutlined className={styles.addIcon} />}
+          icon={
+            <UserPlus size={20} strokeWidth={1.8} className={styles.addIcon} />
+          }
           onClick={handleAdd}
           className={styles.addButton}
         />
         <Button
           type="text"
           aria-label="Xóa vai trò đã chọn"
-          icon={<DeleteOutlined className={styles.deleteIcon} />}
+          icon={
+            <Trash2 size={20} strokeWidth={1.8} className={styles.deleteIcon} />
+          }
           disabled={selectedKeys.length === 0}
           onClick={handleDelete}
           className={styles.deleteButton}
