@@ -1,0 +1,46 @@
+
+.page {
+  width: 100%;
+  min-height: 100%;
+  background: #fff;
+  color: #626b7a;
+  font-size: 12px;
+}
+
+.content {
+  position: relative;
+  padding: 12px 24px 20px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 25px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  background: #f0f1f4;
+  border-radius: 20px;
+}
+
+.tabs button {
+  min-width: 145px;
+  height: 25px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: #4e5665;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabs button:hover {
+  color: #ff7900;
+}
+
+.tabs button.activeTab {
+  background: #ff7900;
+  color: #fff;
+}
