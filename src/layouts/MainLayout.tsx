@@ -1,81 +1,69 @@
-import { useState } from 'react';
-import {
-  Button,
-  Layout,
-  Menu,
-} from 'antd';
+import { useState } from "react";
+import { Button, Layout, Menu } from "antd";
 
-import type { MenuProps } from 'antd';
+import type { MenuProps } from "antd";
 
-import {
-  Outlet,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import {
-  BankOutlined,
-  CommentOutlined,
-  DashboardOutlined,
-  DesktopOutlined,
-  FileTextOutlined,
-  LeftOutlined,
-  MessageOutlined,
-  RightOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
+  LayoutDashboard,
+  Monitor,
+  MessagesSquare,
+  MessageSquare,
+  Hospital,
+  FileText,
+  Settings,
+} from "lucide-react";
 
-import {
-  findPageTitle,
-  ROUTES,
-} from '../constants/routes';
+import { findPageTitle, ROUTES } from "../constants/routes";
 
-import logo from '../assets/images/Logo.png';
-import HeaderUser from '../components/common/HeaderUser';
-import styles from './MainLayout.module.css';
+import logo from "../assets/images/Logo.png";
+import HeaderUser from "../components/common/HeaderUser";
+import styles from "./MainLayout.module.css";
 
 const { Sider, Header, Content } = Layout;
 
-const menuItems: MenuProps['items'] = [
+const menuItems: MenuProps["items"] = [
   {
     key: ROUTES.DASHBOARD,
-    icon: <DashboardOutlined />,
-    label: 'Dashboard',
+    icon: <LayoutDashboard size={18} strokeWidth={1.8} />,
+    label: "Dashboard",
   },
   {
     key: ROUTES.DEVICES,
-    icon: <DesktopOutlined />,
-    label: 'Thiết bị',
+    icon: <Monitor size={18} strokeWidth={1.8} />,
+    label: "Thiết bị",
   },
   {
     key: ROUTES.SERVICES,
-    icon: <MessageOutlined />,
-    label: 'Dịch vụ',
+    icon: <MessagesSquare size={18} strokeWidth={1.8} />,
+    label: "Dịch vụ",
   },
   {
     key: ROUTES.COUNTERS,
-    icon: <BankOutlined />,
-    label: 'Quầy dịch vụ',
+    icon: <Hospital size={18} strokeWidth={1.8} />,
+    label: "Quầy dịch vụ",
   },
   {
     key: ROUTES.TICKETS,
-    icon: <FileTextOutlined />,
-    label: 'Cấp số',
+    icon: <FileText size={18} strokeWidth={1.8} />,
+    label: "Cấp số",
   },
   {
     key: ROUTES.RATINGS,
-    icon: <CommentOutlined />,
-    label: 'Đánh giá',
+    icon: <MessageSquare size={18} strokeWidth={1.8} />,
+    label: "Đánh giá",
   },
   {
-    key: 'settings',
-    icon: <SettingOutlined />,
-    label: 'Cài đặt hệ thống',
+    key: "settings",
+    icon: <Settings size={18} strokeWidth={1.8} />,
+    label: "Cài đặt hệ thống",
     children: [
-      { key: ROUTES.ROLES, label: 'Quản lý vai trò' },
-      { key: ROUTES.ACCOUNTS, label: 'Quản lý tài khoản' },
-      { key: ROUTES.LOGO, label: 'Logo' },
-
+      { key: ROUTES.ROLES, label: "Quản lý vai trò" },
+      { key: ROUTES.ACCOUNTS, label: "Quản lý tài khoản" },
+      { key: ROUTES.LOGO, label: "Logo" },
     ],
   },
 ];
@@ -90,18 +78,13 @@ export default function MainLayout() {
 
   // Xác định trang cấp số
   const isTicketPage =
-    pathname === ROUTES.TICKETS ||
-    pathname.startsWith(`${ROUTES.TICKETS}/`);
+    pathname === ROUTES.TICKETS || pathname.startsWith(`${ROUTES.TICKETS}/`);
 
   // Tiêu đề riêng cho trang cấp số
-  const headerTitle = isTicketPage
-    ? 'Danh sách cấp số'
-    : page?.title;
+  const headerTitle = isTicketPage ? "Danh sách cấp số" : page?.title;
 
   // Hiển thị "Cấp số" phía trên "Danh sách cấp số"
-  const headerParent = isTicketPage
-    ? 'Cấp số'
-    : page?.parent;
+  const headerParent = isTicketPage ? "Cấp số" : page?.parent;
 
   return (
     <Layout className={styles.layout}>
@@ -118,22 +101,14 @@ export default function MainLayout() {
           <img
             src={logo}
             alt="QMS Logo"
-            className={
-              collapsed
-                ? styles.logoCollapsed
-                : styles.logo
-            }
+            className={collapsed ? styles.logoCollapsed : styles.logo}
           />
         </div>
 
         <Button
           shape="circle"
           size="small"
-          icon={
-            collapsed
-              ? <RightOutlined />
-              : <LeftOutlined />
-          }
+          icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
           onClick={() => setCollapsed(!collapsed)}
           className={styles.toggleButton}
         />
@@ -150,11 +125,7 @@ export default function MainLayout() {
                   ? ROUTES.DEVICES
                   : pathname,
           ]}
-          defaultOpenKeys={
-            pathname.startsWith('/settings')
-              ? ['settings']
-              : []
-          }
+          defaultOpenKeys={pathname.startsWith("/settings") ? ["settings"] : []}
           onClick={({ key }) => navigate(key)}
           className={styles.menu}
         />
@@ -165,7 +136,9 @@ export default function MainLayout() {
         {/* Header */}
         <Header className={styles.header}>
           <div className={styles.headerTitleWrap}>
-            {headerParent && <div className={styles.pageParent}>{headerParent}</div>}
+            {headerParent && (
+              <div className={styles.pageParent}>{headerParent}</div>
+            )}
             <div className={styles.pageTitle}>{headerTitle}</div>
           </div>
 

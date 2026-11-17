@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker, Input, Select, Table } from "antd";
 import type { TableColumnsType } from "antd";
 
@@ -47,9 +47,14 @@ export default function ServiceHistoryTable({
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [filteredHistory, setFilteredHistory] = useState<ServiceHistory[]>([]);
+  const [paginatedHistory, setPaginatedHistory] = useState<ServiceHistory[]>(
+    [],
+  );
 
-  const filteredHistory = useMemo(() => {
-    return serviceHistoryMock.filter((item) => {
+  /* ===== LỌC LỊCH SỬ DỊCH VỤ ===== */
+  useEffect(() => {
+    const filtered = serviceHistoryMock.filter((item) => {
       const matchesService = item.serviceId === serviceId;
 
       const matchesSearch = item.ticketNumber
@@ -71,12 +76,17 @@ export default function ServiceHistoryTable({
         matchesToDate
       );
     });
+
+    setFilteredHistory(filtered);
   }, [serviceId, searchText, statusFilter, fromDate, toDate]);
 
-  const paginatedHistory = useMemo(() => {
+  /* ===== PHÂN TRANG LỊCH SỬ ===== */
+  useEffect(() => {
     const start = (page - 1) * pageSize;
 
-    return filteredHistory.slice(start, start + pageSize);
+    const paginated = filteredHistory.slice(start, start + pageSize);
+
+    setPaginatedHistory(paginated);
   }, [filteredHistory, page, pageSize]);
 
   const columns: TableColumnsType<ServiceHistory> = [
