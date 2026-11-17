@@ -1,0 +1,61 @@
+/* viết 3 cấp để thắng style mặc định của Ant Design */
+.modal:global(.ant-modal) :global(.ant-modal-content) {
+    border-radius: 16px;
+    padding: 24px 32px;
+}
+
+.title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ff7506;
+}
+
+/* Form chia 2 cột; ô nào chiếm cả hàng thì thêm class fullRow */
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+}
+
+.fullRow {
+    grid-column: 1 / -1;
+}
+
+.form .select {
+    width: 100%;
+}
+
+.asterisk {
+    color: #ff4747;
+}
+
+.hint {
+    margin-left: 4px;
+    font-size: 12px;
+    color: #7e7d88;
+}
+
+.note {
+    grid-column: 1 / -1;
+    color: #7e7d88;
+    font-size: 12px;
+}
+
+.footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.footer .cancelButton {
+    min-width: 110px;
+    border-color: #ff7506;
+    color: #ff7506;
+}
+
+.footer .submitButton {
+    min-width: 110px;
+}

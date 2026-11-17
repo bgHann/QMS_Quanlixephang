@@ -4,15 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Input, Modal, Select, Spin, Table, message } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
-import { roleService } from '../../../../api/services/roleService';
-import { accountService } from '../../../../api/services/accountService';
-import PaginationBar from '../../../../components/common/PaginationBar';
-import PermissionSummary from '../../../../components/settings/roles/PermissionSummary';
-import { ACCOUNT_STATUS, ACCOUNT_STATUS_LABEL } from '../../../../constants/enums';
-import type { AccountStatus } from '../../../../constants/enums';
-import { ROUTES } from '../../../../constants/routes';
-import type { Account } from '../../../../types/account';
-import type { PermissionGroup, Role } from '../../../../types/role';
+import { roleService } from '../../../api/services/roleService';
+import { accountService } from '../../../api/services/accountService';
+import PaginationBar from '../../../components/common/PaginationBar';
+import PermissionSummary from '../../../components/roles/PermissionSummary';
+import { ACCOUNT_STATUS, ACCOUNT_STATUS_LABEL } from '../../../constants/enums';
+import type { AccountStatus } from '../../../constants/enums';
+import { ROUTES } from '../../../constants/routes';
+import type { Account } from '../../../types/account';
+import type { PermissionGroup, Role } from '../../../types/role';
 import styles from './RoleDetailPage.module.css';
 
 function InfoRow({ label, children }: { label: string; children: ReactNode }) {

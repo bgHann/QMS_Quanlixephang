@@ -1,0 +1,153 @@
+/* ===== POPUP ÂM LƯỢNG ===== */
+
+.volumeModal :global(.ant-modal-content) {
+  width: 500px;
+  min-height: 292px;
+  padding: 40px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Nút đóng popup */
+.volumeModal :global(.ant-modal-close) {
+  top: 12px;
+  right: 12px;
+  color: #282739;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Tiêu đề */
+.title {
+  margin: 0;
+  color: #ff7605;
+  font-family: "Raleway", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 150%;
+  text-align: center;
+}
+
+/* Mô tả danh sách thiết bị */
+.description {
+  margin: -16px 0 0;
+  color: #667085;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
+}
+
+.deviceNames {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: BOLD;
+  line-height: inherit;
+  color: inherit;
+
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+
+  overflow-wrap: anywhere;
+}
+/* ===== THANH ÂM LƯỢNG ===== */
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.volumeIcon {
+  flex-shrink: 0;
+  color: #ff7605;
+}
+
+.slider {
+  flex: 1;
+  margin: 0;
+}
+
+.volumeValue {
+  min-width: 40px;
+  color: #667085;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: right;
+}
+
+/* Màu thanh âm lượng */
+.volumeModal .slider :global(.ant-slider-rail) {
+  background-color: #e5e7eb;
+  height: 6px;
+}
+
+.volumeModal .slider :global(.ant-slider-track) {
+  background-color: #ff7605;
+  height: 6px;
+}
+
+/* Nút kéo của Slider */
+.volumeModal .slider :global(.ant-slider-handle::after) {
+  box-shadow: 0 0 0 3px #ff7605;
+}
+
+.volumeModal .slider :global(.ant-slider-handle:hover::after),
+.volumeModal .slider :global(.ant-slider-handle:focus::after) {
+  box-shadow: 0 0 0 4px #ff7605;
+}
+
+/* ===== NÚT HỦY / XÁC NHẬN ===== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 140px;
+  height: 46px;
+  border-radius: 6px;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cancelButton {
+  color: #ff7605;
+  border: 1px solid #ff7605;
+  background: #ffffff;
+}
+
+.cancelButton:hover {
+  color: #ff7605 !important;
+  border-color: #ff7605 !important;
+  background: #fff6ef !important;
+}
+
+.confirmButton {
+  color: #ffffff;
+  border: 1px solid #ff7605;
+  background: #ff7605;
+}
+
+.confirmButton:hover {
+  color: #ffffff !important;
+  border-color: #ff7605 !important;
+  background: #e96b00 !important;
+}

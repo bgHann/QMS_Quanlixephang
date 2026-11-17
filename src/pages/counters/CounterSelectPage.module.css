@@ -1,0 +1,56 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.filterItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filterTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.filters .search {
+    width: 240px;
+}
+
+.filters .select {
+    width: 180px;
+}
+
+/* Vùng lưới cuộn bên trong, trang chính không cuộn */
+.gridWrap {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    align-content: start;
+}
+
+.pager {
+    padding-top: 12px;
+}

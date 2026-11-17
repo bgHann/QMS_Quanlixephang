@@ -1,0 +1,135 @@
+/* ===== POPUP ===== */
+
+.deviceInfoModal {
+  max-width: calc(100vw - 32px);
+  font-family: "Raleway", sans-serif;
+}
+
+.deviceInfoModal :global(.ant-modal-container) {
+  border-radius: 20px;
+  padding: 32px 40px;
+  overflow: hidden;
+}
+
+.deviceInfoModal :global(.ant-modal-body) {
+  padding: 0;
+}
+
+/* ===== NỘI DUNG ===== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.title {
+  margin: 0;
+  color: #ff7605;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ===== THÔNG TIN HAI CỘT ===== */
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #edf0f3;
+}
+
+.label {
+  flex-shrink: 0;
+  color: #282739;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.value {
+  min-width: 0;
+  color: #667085;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* ===== TRẠNG THÁI ===== */
+
+.statusActive {
+  color: #00a88f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.statusInactive {
+  color: #ff4d4f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ===== NÚT ĐÓNG ===== */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.closeButton {
+  width: 140px;
+  height: 44px;
+  border: 1px solid #ff7605;
+  border-radius: 6px;
+  background: #fff;
+  color: #ff7605;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.closeButton:hover {
+  border-color: #ff7605 !important;
+  color: #ff7605 !important;
+  background: #fff7f0 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .deviceInfoModal :global(.ant-modal-container) {
+    padding: 24px 20px;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .infoRow {
+    min-height: 44px;
+  }
+}

@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./RightSidebar.module.css";
 import MiniCard from "./MiniCard";
 import { Monitor, MessageSquare, Layers } from "lucide-react";
-import { ServiceRatio } from "../../../types/dashbroad";
 import ServicePieChart from "./ServicePieChart";
 import RatingBars from "./RatingBars";
 

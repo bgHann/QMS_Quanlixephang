@@ -27,6 +27,8 @@ export const rolesMock: Role[] = [
       'DASHBOARD_VIEW',
       'TICKET_VIEW',
       'TICKET_CREATE',
+      'COUNTER_OPERATE',
+      'TICKET_VIEW'
     ],
   },
   {

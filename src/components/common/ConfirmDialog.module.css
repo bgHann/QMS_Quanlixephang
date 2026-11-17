@@ -1,0 +1,55 @@
+.modal:global(.ant-modal) :global(.ant-modal-content) {
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.body {
+    display: flex;
+    gap: 16px;
+}
+
+.iconBox {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #fdeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    font-size: 20px;
+    color: #e5484d;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.content {
+    font-size: 13px;
+    color: #7e7d88;
+    line-height: 1.5;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal .footer .cancelButton {
+    min-width: 96px;
+    border-color: #e5484d;
+    color: #e5484d;
+}
+
+.modal .footer .okButton {
+    min-width: 96px;
+    background: #d92d20;
+}

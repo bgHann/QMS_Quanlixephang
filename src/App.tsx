@@ -9,6 +9,7 @@ import Login from "./pages/auth/login/Login";
 import ForgotPassword from "./pages/auth/forgot/ForgotPassword";
 import MainLayout from "./layouts/MainLayout";
 
+<<<<<<< HEAD
 import DashboardPage from "./pages/dashboard/DashboardPage";
 
 import RoleListPage from "./pages/auth/settings/roles/RoleListPage";
@@ -19,6 +20,34 @@ import RoleFormPage from "./pages/auth/settings/roles/RoleFormPage";
 import TicketListPage from "./pages/tickets/TicketListPage";
 import TicketRulePage from "./pages/tickets/TicketRulePage";
 
+=======
+import RoleListPage from "./pages/settings/roles/RoleListPage";
+import RoleDetailPage from "./pages/settings/roles/RoleDetailPage";
+import RoleFormPage from "./pages/settings/roles/RoleFormPage";
+import AccountListPage from "./pages/settings/accounts/AccountListPage";
+import LogoPage from "./pages/settings/logo/LogoPage";
+
+// Module Cấp số
+import TicketListPage from "./pages/tickets/TicketListPage";
+import TicketRulePage from "./pages/tickets/TicketRulePage";
+
+// Module Thiết bị
+import DeviceListPage from "./pages/devices/DeviceListPage";
+import DeviceDetailPage from "./pages/devices/DeviceDetailPage";
+
+// Module Dịch vụ
+import ServiceListPage from "./pages/services/ServiceListPage";
+import AddServicePage from "./pages/services/AddServicePage";
+import ServiceDetailPage from "./pages/services/ServiceDetailPage";
+
+// Module Quầy dịch vụ
+import CounterSelectPage from "./pages/counters/CounterSelectPage";
+import CounterWorkPage from "./pages/counters/CounterWorkPage";
+
+// Dashboard
+import DashboardPage from "./pages/dashboard/DashboardPage";
+
+>>>>>>> main
 import { ROUTES } from "./constants/routes";
 
 function ProtectedRoutes() {
@@ -36,27 +65,64 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to={ROUTES.LOGIN} replace />} />
+<<<<<<< HEAD
 
         <Route path={ROUTES.LOGIN} element={<Login />} />
 
+=======
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+>>>>>>> main
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route element={<ProtectedRoutes />}>
+          {/* Các trang có sidebar + header chung */}
           <Route element={<MainLayout />}>
             <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
+
+            {/* Cài đặt hệ thống */}
             <Route path={ROUTES.ROLES} element={<RoleListPage />} />
             <Route path={ROUTES.ROLE_CREATE} element={<RoleFormPage />} />
             <Route path={ROUTES.ROLE_DETAIL} element={<RoleDetailPage />} />
+<<<<<<< HEAD
 
             {/* Module Cấp số */}
             <Route path="/tickets" element={<TicketListPage />} />
             <Route path="/tickets/rules" element={<TicketRulePage />} />
 
+=======
+            <Route path={ROUTES.ACCOUNTS} element={<AccountListPage />} />
+            <Route path={ROUTES.LOGO} element={<LogoPage />} />
+
+            {/* Thiết bị */}
+            <Route path={ROUTES.DEVICES} element={<DeviceListPage />} />
+            <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
+
+            {/* Dịch vụ */}
+            <Route path={ROUTES.SERVICES} element={<ServiceListPage />} />
+            <Route path={ROUTES.SERVICE_CREATE} element={<AddServicePage />} />
+            <Route path={ROUTES.SERVICE_EDIT} element={<AddServicePage />} />
+            <Route
+              path={ROUTES.SERVICE_DETAIL}
+              element={<ServiceDetailPage />}
+            />
+
+            {/* Quầy dịch vụ: chỉ trang chọn quầy */}
+            <Route path={ROUTES.COUNTERS} element={<CounterSelectPage />} />
+
+            {/* Cấp số */}
+            <Route path={ROUTES.TICKETS} element={<TicketListPage />} />
+            <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
+
+            {/* Luôn để cuối cùng */}
+>>>>>>> main
             <Route
               path="*"
               element={<Navigate to={ROUTES.DASHBOARD} replace />}
             />
           </Route>
+
+          {/* Màn làm việc của quầy: KHÔNG dùng MainLayout */}
+          <Route path={ROUTES.COUNTER_WORK} element={<CounterWorkPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

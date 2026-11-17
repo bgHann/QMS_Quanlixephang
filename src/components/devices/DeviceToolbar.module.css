@@ -1,0 +1,75 @@
+/* ===== THANH CÔNG CỤ THIẾT BỊ ===== */
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 64px;
+  height: 192px;
+
+  padding: 0;
+  background-color: #ffffff;
+
+  border: 1px solid #e0e5ec;
+  border-radius: 6px;
+
+  box-sizing: border-box;
+}
+
+/* ===== NÚT THAO TÁC ===== */
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 64px;
+  padding: 0;
+
+  border: none;
+  background-color: transparent;
+
+  color: #ff7605;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+/* Hover */
+.toolbarButton:hover:not(:disabled) {
+  color: #ff7605;
+  background-color: #fff6ef;
+}
+
+/* Focus khi dùng bàn phím */
+.toolbarButton:focus-visible {
+  outline: 2px solid #ff7605;
+  outline-offset: -3px;
+}
+
+/* Nút bị vô hiệu hóa */
+.toolbarButton:disabled {
+  color: #ffb77a;
+  cursor: not-allowed;
+}
+
+/* Đường phân cách giữa các nút */
+.toolbarButton:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .toolbar {
+    width: 48px;
+    height: 144px;
+  }
+
+  .toolbarButton {
+    height: 48px;
+  }
+}

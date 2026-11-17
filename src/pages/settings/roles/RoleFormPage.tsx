@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Button, Form, Input, Spin, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { roleService } from '../../../../api/services/roleService';
-import { ROUTES } from '../../../../constants/routes';
-import type { PermissionGroup, RoleForm } from '../../../../types/role';
-import PermissionSelector from '../../../../components/settings/roles/PermissionSelector';
+import { roleService } from '../../../api/services/roleService';
+import { ROUTES } from '../../../constants/routes';
+import type { PermissionGroup, RoleForm } from '../../../types/role';
+import PermissionSelector from '../../../components/roles/PermissionSelector';
 import styles from './RoleFormPage.module.css';
 
 // Đặt dấu * đỏ SAU nhãn như Figma
