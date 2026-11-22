@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Table,
@@ -7,6 +8,8 @@ import {
   Tooltip,
   Modal,
   Pagination,
+  Radio,
+  Button,
   message,
 } from "antd";
 import {
@@ -14,6 +17,7 @@ import {
   CalendarOutlined,
   InfoCircleOutlined,
   MessageOutlined,
+  CalendarOutlined as CalendarIcon,
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import styles from "./ReviewList.module.css";
@@ -29,69 +33,29 @@ interface ReviewItem {
 }
 
 const initialData: ReviewItem[] = [
-  {
-    key: 1,
-    code: "2010001",
-    counter: "Khám tim mạch",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
-  {
-    key: 2,
-    code: "2010001",
-    counter: "Khám sản - Phụ Khoa",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
-  {
-    key: 3,
-    code: "2010001",
-    counter: "Khám răng hàm mặt",
-    time: "14:35 - 07/11/2021",
-    content: "Đánh giá thứ nhất: Tốt",
-  },
-  {
-    key: 4,
-    code: "2010001",
-    counter: "Khám tai mũi họng",
-    time: "14:35 - 07/11/2021",
-    content: "Dịch vụ tốt",
-  },
-  {
-    key: 5,
-    code: "2010001",
-    counter: "Khám hô hấp",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
-  {
-    key: 6,
-    code: "2010001",
-    counter: "Khám tổng quát",
-    time: "14:35 - 07/11/2021",
-    content: "Chờ lâu",
-  },
-  {
-    key: 7,
-    code: "2010001",
-    counter: "Khám tai mũi họng",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
-  {
-    key: 8,
-    code: "2010001",
-    counter: "Khám tổng quát",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
-  {
-    key: 9,
-    code: "2010001",
-    counter: "Khám tai mũi họng",
-    time: "14:35 - 07/11/2021",
-    content: "-",
-  },
+  { key: 1, code: "2010001", counter: "Khám tim mạch", time: "14:35 - 07/11/2021", content: "-" },
+  { key: 2, code: "2010001", counter: "Khám sản - Phụ Khoa", time: "14:35 - 07/11/2021", content: "-" },
+  { key: 3, code: "2010001", counter: "Khám răng hàm mặt", time: "14:35 - 07/11/2021", content: "Đánh giá thứ nhất: Tốt" },
+  { key: 4, code: "2010001", counter: "Khám tai mũi họng", time: "14:35 - 07/11/2021", content: "Dịch vụ tốt" },
+  { key: 5, code: "2010001", counter: "Khám hô hấp", time: "14:35 - 07/11/2021", content: "-" },
+  { key: 6, code: "2010001", counter: "Khám tổng quát", time: "14:35 - 07/11/2021", content: "Chờ lâu" },
+  { key: 7, code: "2010001", counter: "Khám tai mũi họng", time: "14:35 - 07/11/2021", content: "-" },
+  { key: 8, code: "2010001", counter: "Khám tổng quát", time: "14:35 - 07/11/2021", content: "-" },
+  { key: 9, code: "2010001", counter: "Khám tai mũi họng", time: "14:35 - 07/11/2021", content: "-" },
+];
+
+const ratingQuestions = [
+  "Thời gian xử lý",
+  "Thái độ nhân viên",
+  "Vật chất trang thiết bị",
+  "Mức độ hài lòng của bạn",
+];
+
+const ratingOptions = [
+  { label: "Tệ", value: "bad" },
+  { label: "Bình thường", value: "normal" },
+  { label: "Tốt", value: "good" },
+  { label: "Rất tốt", value: "veryGood" },
 ];
 
 const ReviewList = () => {
@@ -103,14 +67,20 @@ const ReviewList = () => {
   const [pageSize, setPageSize] = useState(10);
   const [detail, setDetail] = useState<ReviewItem | null>(null);
 
+  const [openReviewForm, setOpenReviewForm] = useState(false);
+  const [ratings, setRatings] = useState<Record<string, string>>({
+    "Thời gian xử lý": "normal",
+    "Thái độ nhân viên": "normal",
+    "Vật chất trang thiết bị": "normal",
+    "Mức độ hài lòng của bạn": "normal",
+  });
+
   const filteredData = data.filter((item) => {
     const matchSearch =
       item.code.toLowerCase().includes(searchText.toLowerCase()) ||
       item.counter.toLowerCase().includes(searchText.toLowerCase());
 
-    const matchCounter =
-      counter === "all" || item.counter === counter;
-
+    const matchCounter = counter === "all" || item.counter === counter;
     return matchSearch && matchCounter;
   });
 
@@ -155,6 +125,25 @@ const ReviewList = () => {
   const rowSelection = {
     selectedRowKeys,
     onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
+  };
+
+  const handleRatingChange = (question: string, value: string) => {
+    setRatings((prev) => ({
+      ...prev,
+      [question]: value,
+    }));
+  };
+
+  const handleSubmitReview = () => {
+    const completed = ratingQuestions.every((question) => ratings[question]);
+
+    if (!completed) {
+      message.warning("Vui lòng hoàn thành thông tin đánh giá");
+      return;
+    }
+
+    message.success("Gửi đánh giá thành công");
+    setOpenReviewForm(false);
   };
 
   return (
@@ -244,13 +233,140 @@ const ReviewList = () => {
       </div>
 
       <div className={styles.sideAction}>
-        <Tooltip title="Phản hồi">
-          <button onClick={() => message.info("Chức năng phản hồi")}>
+        <Tooltip title="Thông tin đánh giá">
+          <button onClick={() => setOpenReviewForm(true)}>
             <MessageOutlined />
           </button>
         </Tooltip>
       </div>
 
+      {/* Modal thông tin đánh giá */}
+      <Modal
+        open={openReviewForm}
+        onCancel={() => setOpenReviewForm(false)}
+        footer={null}
+        centered
+        width={800}
+        closable={false}
+        className={styles.reviewModal}
+      >
+        <div className={styles.reviewForm}>
+          <h2 className={styles.reviewTitle}>Thông tin đánh giá</h2>
+
+          <div className={styles.reviewContent}>
+            <div className={styles.reviewLeft}>
+              <div className={styles.reviewField}>
+                <label>
+                  Số thứ tự của bạn <span>*</span>
+                </label>
+                <Input placeholder="Nhập số thứ tự của bạn" defaultValue="2010001" />
+              </div>
+
+              <div className={styles.reviewField}>
+                <label>
+                  Ngày dịch vụ <span>*</span>
+                </label>
+                <DatePicker
+                  className={styles.reviewDate}
+                  placeholder="Chọn ngày"
+                  format="DD/MM/YYYY"
+                  suffixIcon={<CalendarIcon />}
+                />
+              </div>
+
+              <div className={styles.reviewField}>
+                <label>
+                  Quầy dịch vụ <span>*</span>
+                </label>
+                <Select
+                  mode="multiple"
+                  className={styles.reviewCounter}
+                  placeholder="Chọn quầy dịch vụ"
+                  defaultValue={[
+                    "Nội soi",
+                    "Nội soi",
+                    "Nội soi",
+                    "Nội soi",
+                    "Nội soi",
+                    "Nội soi",
+                    "Khám tổng quát",
+                    "Khám tổng quát",
+                    "Khám tổng quát",
+                  ]}
+                  options={[
+                    { label: "Nội soi", value: "Nội soi" },
+                    { label: "Khám tổng quát", value: "Khám tổng quát" },
+                    { label: "Khám tim mạch", value: "Khám tim mạch" },
+                  ]}
+                />
+              </div>
+
+              <div className={styles.handlerSection}>
+                <label>Người xử lý</label>
+                <div className={styles.handlerInfo}>
+                  <div className={styles.handlerAvatar}>NA</div>
+                  <div>
+                    <strong>Nguyễn Văn A</strong>
+                    <span>Khám tổng quát</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.reviewRight}>
+              <div className={styles.ratingHeading}>
+                Các thông tin đánh giá <span>*</span>
+              </div>
+
+              <div className={styles.ratingTable}>
+                <div className={styles.ratingHeader}>
+                  <div />
+                  {ratingOptions.map((option) => (
+                    <div key={option.value}>{option.label}</div>
+                  ))}
+                </div>
+
+                {ratingQuestions.map((question) => (
+                  <div className={styles.ratingRow} key={question}>
+                    <div className={styles.ratingQuestion}>{question}</div>
+                    <Radio.Group
+                      value={ratings[question]}
+                      onChange={(e) =>
+                        handleRatingChange(question, e.target.value)
+                      }
+                    >
+                      {ratingOptions.map((option) => (
+                        <Radio
+                          key={option.value}
+                          value={option.value}
+                        />
+                      ))}
+                    </Radio.Group>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.reviewActions}>
+            <Button
+              className={styles.cancelReview}
+              onClick={() => setOpenReviewForm(false)}
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              type="primary"
+              className={styles.submitReview}
+              onClick={handleSubmitReview}
+            >
+              Gửi đánh giá
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Modal chi tiết đánh giá hiện tại */}
       <Modal
         title="Chi tiết đánh giá"
         open={!!detail}

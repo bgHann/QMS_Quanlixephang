@@ -206,6 +206,7 @@
   right: -24px;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 
 .sideActions button {
@@ -232,4 +233,494 @@
 .sideActions .deleteButton:hover {
   background: #ff4d4f;
   color: #fff;
+}
+
+/* =========================
+   GIAO DIỆN THÊM / SỬA MẪU
+========================= */
+
+.editorPage {
+  width: 100%;
+  min-height: calc(100vh - 65px);
+  padding: 0 24px 24px;
+  background: #fff;
+  color: #626b7a;
+  font-size: 13px;
+}
+
+.editorHeading {
+  margin-bottom: 24px;
+  color: #ff7900;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.editorLayout {
+  display: grid;
+  grid-template-columns: 31% minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.basicInfo {
+  padding-right: 0;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.formField label,
+.questionHeader label {
+  color: #263248;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.formField label span,
+.questionHeader label span {
+  color: #ff4d4f;
+}
+
+.formField :global(.ant-input) {
+  height: 36px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.requiredNote {
+  margin-top: 4px;
+  color: #9aa3b2;
+  font-size: 11px;
+}
+
+.requiredNote span {
+  color: #ff4d4f;
+}
+
+.questionArea {
+  min-width: 0;
+}
+
+.questionToolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.questionCount {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 0;
+  color: #626b7a;
+  font-size: 13px;
+}
+
+.questionCount strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 27px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background: #f1f2f5;
+  color: #ff7900;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.questionCount span {
+  margin-left: -3px;
+  color: #8c94a3;
+}
+
+.outlineButton {
+  height: 34px;
+  border-color: #ff7900 !important;
+  border-radius: 5px !important;
+  color: #ff7900 !important;
+  font-size: 13px !important;
+}
+
+.outlineButton:hover {
+  background: #fff7f1 !important;
+  border-color: #e66b00 !important;
+  color: #e66b00 !important;
+}
+
+.questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100vh - 235px);
+  min-height: 300px;
+  padding-right: 4px;
+  overflow-y: auto;
+}
+
+.questionList::-webkit-scrollbar {
+  width: 5px;
+}
+
+.questionList::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #d9dce3;
+}
+
+.questionCard {
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  border: 1px solid #e7e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  flex-shrink: 0;
+  border-right: 1px solid #edf0f4;
+  color: #a2aaba;
+  cursor: grab;
+}
+
+.questionCardContent {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+}
+
+.questionHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.questionTitleField,
+.questionTypeField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.questionHeader :global(.ant-input),
+.questionHeader :global(.ant-select-selector) {
+  height: 36px !important;
+  border-radius: 5px !important;
+  font-size: 13px !important;
+}
+
+.questionHeader :global(.ant-select) {
+  width: 100%;
+}
+
+.questionHeader :global(.ant-select-selection-item) {
+  line-height: 34px !important;
+}
+
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.optionRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.optionRow :global(.ant-radio-wrapper) {
+  margin: 0;
+}
+
+.optionRow :global(.ant-radio-disabled .ant-radio-inner) {
+  background: #fff;
+  border-color: #cbd1dc;
+}
+
+.optionRow :global(.ant-input) {
+  height: 36px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.optionRow :global(.ant-input-disabled) {
+  color: #626b7a;
+  background: #f1f2f5;
+}
+
+.removeOption {
+  flex-shrink: 0;
+  width: 22px;
+  border: none;
+  background: transparent;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.removeOption:hover {
+  color: #d9363e;
+}
+
+.optionActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 5px 0 4px 10px;
+}
+
+.optionActions button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ff7900;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.optionActions button:hover {
+  color: #e65f00;
+}
+
+.optionActions span {
+  width: 1px;
+  height: 20px;
+  background: #e8eaf0;
+}
+
+.textAnswer {
+  margin-bottom: 8px;
+}
+
+.textAnswer :global(.ant-input) {
+  height: 36px;
+  border-radius: 5px;
+  background: #f1f2f5;
+  font-size: 13px;
+}
+
+.questionFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  min-height: 38px;
+  margin: 10px -12px -12px;
+  padding: 5px 12px;
+  border-top: 1px solid #edf0f4;
+}
+
+.requiredSwitch {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 10px;
+  color: #626b7a;
+  font-size: 12px;
+}
+
+.requiredSwitch :global(.ant-switch-checked) {
+  background: #ff7900;
+}
+
+.questionFooter > button {
+  width: 38px;
+  height: 28px;
+  border: none;
+  border-left: 1px solid #edf0f4;
+  background: transparent;
+  color: #ff7900;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.questionFooter > button:hover {
+  color: #e65f00;
+}
+
+.questionFooter > button:last-child {
+  color: #ff7900;
+}
+
+.emptyQuestions {
+  padding: 40px 20px;
+  border: 1px dashed #d9dce3;
+  border-radius: 8px;
+  color: #929baa;
+  text-align: center;
+}
+
+.editorFooter {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-bottom: 0;
+}
+
+.cancelButton {
+  min-width: 92px;
+  height: 38px;
+  border-color: #ff7900 !important;
+  border-radius: 5px !important;
+  color: #ff7900 !important;
+  font-size: 13px !important;
+}
+
+.cancelButton:hover {
+  background: #fff7f1 !important;
+}
+
+.confirmButton {
+  min-width: 92px;
+  height: 38px;
+  border-color: #ff7900 !important;
+  border-radius: 5px !important;
+  background: #ff7900 !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  box-shadow: none !important;
+}
+
+.confirmButton:hover {
+  border-color: #e66b00 !important;
+  background: #e66b00 !important;
+}
+
+/* =========================
+   HỘP THOẠI CÀI ĐẶT ĐÁNH GIÁ
+========================= */
+
+.settingModal {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.settingModal :global(.ant-modal-content) {
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.settingModal :global(.ant-modal-close) {
+  top: 10px;
+  right: 10px;
+}
+
+.settingContent h3 {
+  margin: 0 0 18px;
+  color: #ff7900;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.settingField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settingField > label {
+  color: #344054;
+  font-size: 13px;
+}
+
+.repeatOptions {
+  display: flex;
+  gap: 8px;
+}
+
+.repeatOptions :global(.ant-radio-button-wrapper) {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #e1e4eb;
+  border-radius: 18px !important;
+  color: #ff7900;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+.repeatOptions :global(.ant-radio-button-wrapper::before) {
+  display: none;
+}
+
+.repeatOptions :global(.ant-radio-button-wrapper-checked) {
+  border-color: #ff7900 !important;
+  background: #fff7f1 !important;
+  color: #ff7900 !important;
+  box-shadow: none !important;
+}
+
+.settingWarning {
+  margin: 12px 0;
+  color: #ff6666;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.statusSelect {
+  width: 100%;
+}
+
+.statusSelect :global(.ant-select-selector) {
+  height: 36px !important;
+  border-radius: 5px !important;
+  font-size: 13px;
+}
+
+.statusSelect :global(.ant-select-selection-item) {
+  line-height: 34px !important;
+}
+
+.settingActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .editorLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .questionList {
+    max-height: none;
+  }
+
+  .editorPage {
+    padding: 0 16px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .questionHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .questionToolbar {
+    align-items: flex-start;
+  }
+
+  .editorFooter {
+    margin-top: 18px;
+  }
 }
