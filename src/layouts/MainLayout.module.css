@@ -112,3 +112,34 @@
   display: flex;
   flex-direction: column;
 }
+
+/* ===== SIDEBAR ICONS - LUCIDE ===== */
+
+.menu :global(.ant-menu-item-icon),
+.menu :global(.ant-menu-submenu-title .ant-menu-item-icon) {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Căn giữa icon */
+
+.menu :global(.ant-menu-item),
+.menu :global(.ant-menu-submenu-title) {
+  display: flex;
+  align-items: center;
+}
+
+/* Icon khi được chọn */
+
+.menu :global(.ant-menu-item-selected .ant-menu-item-icon) {
+  color: #ff7605;
+}
+
+/* Icon khi hover */
+
+.menu :global(.ant-menu-item:hover .ant-menu-item-icon),
+.menu :global(.ant-menu-submenu-title:hover .ant-menu-item-icon) {
+  color: #ff7605;
+}
