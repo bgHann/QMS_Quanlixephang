@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -5,6 +6,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+
 import Login from "./pages/auth/login/Login";
 import ForgotPassword from "./pages/auth/forgot/ForgotPassword";
 import MainLayout from "./layouts/MainLayout";
@@ -35,6 +37,9 @@ import CounterWorkPage from "./pages/counters/CounterWorkPage";
 // Dashboard
 import DashboardPage from "./pages/dashboard/DashboardPage";
 
+// Module Đánh giá
+import ReviewListPage from "./pages/reviews/ReviewListPage";
+
 import { ROUTES } from "./constants/routes";
 
 function ProtectedRoutes() {
@@ -51,51 +56,112 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to={ROUTES.LOGIN} replace />} />
+        <Route
+          path="/"
+          element={<Navigate to={ROUTES.LOGIN} replace />}
+        />
+
         <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
 
         <Route element={<ProtectedRoutes />}>
           {/* Các trang có sidebar + header chung */}
           <Route element={<MainLayout />}>
-            <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
+            <Route
+              path={ROUTES.DASHBOARD}
+              element={<DashboardPage />}
+            />
 
             {/* Cài đặt hệ thống */}
-            <Route path={ROUTES.ROLES} element={<RoleListPage />} />
-            <Route path={ROUTES.ROLE_CREATE} element={<RoleFormPage />} />
-            <Route path={ROUTES.ROLE_DETAIL} element={<RoleDetailPage />} />
-            <Route path={ROUTES.ACCOUNTS} element={<AccountListPage />} />
-            <Route path={ROUTES.LOGO} element={<LogoPage />} />
+            <Route
+              path={ROUTES.ROLES}
+              element={<RoleListPage />}
+            />
+            <Route
+              path={ROUTES.ROLE_CREATE}
+              element={<RoleFormPage />}
+            />
+            <Route
+              path={ROUTES.ROLE_DETAIL}
+              element={<RoleDetailPage />}
+            />
+            <Route
+              path={ROUTES.ACCOUNTS}
+              element={<AccountListPage />}
+            />
+            <Route
+              path={ROUTES.LOGO}
+              element={<LogoPage />}
+            />
 
             {/* Thiết bị */}
-            <Route path={ROUTES.DEVICES} element={<DeviceListPage />} />
-            <Route path={ROUTES.DEVICE_DETAIL} element={<DeviceDetailPage />} />
+            <Route
+              path={ROUTES.DEVICES}
+              element={<DeviceListPage />}
+            />
+            <Route
+              path={ROUTES.DEVICE_DETAIL}
+              element={<DeviceDetailPage />}
+            />
 
             {/* Dịch vụ */}
-            <Route path={ROUTES.SERVICES} element={<ServiceListPage />} />
-            <Route path={ROUTES.SERVICE_CREATE} element={<AddServicePage />} />
-            <Route path={ROUTES.SERVICE_EDIT} element={<AddServicePage />} />
+            <Route
+              path={ROUTES.SERVICES}
+              element={<ServiceListPage />}
+            />
+            <Route
+              path={ROUTES.SERVICE_CREATE}
+              element={<AddServicePage />}
+            />
+            <Route
+              path={ROUTES.SERVICE_EDIT}
+              element={<AddServicePage />}
+            />
             <Route
               path={ROUTES.SERVICE_DETAIL}
               element={<ServiceDetailPage />}
             />
 
-            {/* Quầy dịch vụ: chỉ trang chọn quầy */}
-            <Route path={ROUTES.COUNTERS} element={<CounterSelectPage />} />
+            {/* Quầy dịch vụ */}
+            <Route
+              path={ROUTES.COUNTERS}
+              element={<CounterSelectPage />}
+            />
 
             {/* Cấp số */}
-            <Route path={ROUTES.TICKETS} element={<TicketListPage />} />
-            <Route path={ROUTES.TICKET_RULES} element={<TicketRulePage />} />
+            <Route
+              path={ROUTES.TICKETS}
+              element={<TicketListPage />}
+            />
+            <Route
+              path={ROUTES.TICKET_RULES}
+              element={<TicketRulePage />}
+            />
+
+            {/* Đánh giá */}
+            <Route
+              path={ROUTES.RATINGS}
+              element={<ReviewListPage />}
+            />
 
             {/* Luôn để cuối cùng */}
             <Route
               path="*"
-              element={<Navigate to={ROUTES.DASHBOARD} replace />}
+              element={
+                <Navigate to={ROUTES.DASHBOARD} replace />
+              }
             />
           </Route>
 
           {/* Màn làm việc của quầy: KHÔNG dùng MainLayout */}
-          <Route path={ROUTES.COUNTER_WORK} element={<CounterWorkPage />} />
+          <Route
+            path={ROUTES.COUNTER_WORK}
+            element={<CounterWorkPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
